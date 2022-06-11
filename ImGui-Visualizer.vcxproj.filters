@@ -16,6 +16,12 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{9f864bf1-abd4-49fe-ac75-b4d3f53cdd77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SortingAlgorithms">
+      <UniqueIdentifier>{62bc2fff-e9ec-4f90-870b-efd25ba9549d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SortingAlgorithms">
+      <UniqueIdentifier>{0982d5ce-54f9-4402-badf-5c44d62b1fec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -39,9 +45,44 @@
     <ClCompile Include="libraries\imgui\imgui-SFML.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="src\Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Program.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BubbleSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SortingAlgorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BubbleSort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
