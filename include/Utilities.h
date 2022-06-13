@@ -5,7 +5,7 @@ namespace Utilities
 {
 	namespace Random
 	{
-
+		int getNumberInBetween(int a, int b);
 	}
 
 	namespace Math

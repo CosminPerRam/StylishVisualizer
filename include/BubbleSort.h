@@ -6,8 +6,12 @@
 class BubbleSort : public SortingAlgorithm
 {
 private:
+	int i = 0, j = 0, n = 0;
 
 public:
-	void run();
+	BubbleSort(unsigned count);
+
+	void reset();
+	bool step(sf::Time diff);
 	void shuffle(unsigned count);
 };

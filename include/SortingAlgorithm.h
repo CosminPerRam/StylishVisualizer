@@ -6,8 +6,6 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
-//#include "Manager.h"
-
 class SortingAlgorithm
 {
 protected:
@@ -24,9 +22,8 @@ protected:
 	} statistics;
 
 public:
-	//SortingAlgorithm() { this->shuffle(Manager::numberOfElements); }
-
-	virtual void run() = 0;
+	virtual void reset() = 0;
+	virtual bool step(sf::Time diff) = 0;
 	virtual void shuffle(unsigned count) = 0;
 
 	bool isFinished() { return m_isFinished; }

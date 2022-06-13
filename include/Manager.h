@@ -3,6 +3,8 @@
 
 #include "SortingAlgorithm.h"
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 class Manager
 {
 private:
@@ -23,10 +25,13 @@ public:
 
 	static void initialize();
 
+	static void update(sf::RenderWindow& window, sf::Time diffTime);
+
 	static bool isRunning();
 	static bool isPaused();
 
 	static void start();
+	static void step();
 	static void stop();
 	static void pause();
 	static void shuffle();

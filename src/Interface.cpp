@@ -21,7 +21,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-	ImGui::Begin("MainWindow", 0, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize);
+	ImGui::Begin("MainWindow", 0, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse);
 
 	ImGui::PushItemWidth(128);
 	if (ImGui::Combo("Algorithm", &Manager::selectedAlgorithm, Manager::algorithmsNames, IM_ARRAYSIZE(Manager::algorithmsNames)))
@@ -53,8 +53,15 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImGui::SameLine();
 
+	ImGui::BeginDisabled(isRunning && !isPaused);
+	if (ImGui::Button("Step", { 48, 0 }))
+		Manager::step();
+	ImGui::EndDisabled();
+
+	ImGui::SameLine();
+
 	ImGui::PushItemWidth(128);
-	ImGui::SliderFloat("Delay", &Manager::delay, 0.01f, 1000.f, "%.02f ms");
+	ImGui::SliderFloat("Delay", &Manager::delay, 0.01f, 250.f, "%.02f ms");
 	ImGui::PopItemWidth();
 
 	ImGui::SameLine();
@@ -84,8 +91,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImGui::Separator();
 
-	const float values[5] = { 0.5f, 0.20f, 0.80f, 0.60f, 0.25f };
-	ImGui::PlotHistogram("##values", values, IM_ARRAYSIZE(values), 0, NULL, 0.0f, 1.0f, ImGui::GetWindowContentRegionMax());
+	ImGui::PlotHistogram("##values", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size(), 0, NULL, 0.0f, 8192.0f, ImGui::GetWindowContentRegionMax());
 
 	ImGui::End();
 	ImGui::PopStyleVar();

@@ -18,6 +18,7 @@ void Program::update(sf::RenderWindow& window) {
 	sf::Time diffTime = deltaClock.restart();
 
 	Interface::update(window, diffTime);
+	Manager::update(window, diffTime);
 }
 
 int Program::start() {
