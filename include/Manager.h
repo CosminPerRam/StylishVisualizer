@@ -4,24 +4,29 @@
 #include "SortingAlgorithm.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
 
 class Manager
 {
 private:
-	inline static bool m_isRunning = false;
-	inline static bool m_isPaused = false;
+	inline static bool m_isRunning = false, m_isPaused = false;
 
 	inline static int lastSelectedAlgorithm = 0;
 
+	inline static sf::Clock visualClock;
+	
 public:
 	inline static SortingAlgorithm *Sorter = nullptr;
 
-	inline static const char* algorithmsNames[] = { "Bubble" };
+	inline static const char* algorithmsNames[] = { "BubbleSort" };
 	inline static int selectedAlgorithm = 0;
 
 	inline static int numberOfElements = 128;
 
 	inline static float delay = 0.25f;
+
+	inline static sf::Time visualTime;
 
 	static void initialize();
 

@@ -9,6 +9,18 @@
 
 #include <iostream>
 
+void Interface::Custom::HelpMarker(const char* desc) {
+	ImGui::TextDisabled("(?)");
+	if (ImGui::IsItemHovered())
+	{
+		ImGui::BeginTooltip();
+		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+		ImGui::TextUnformatted(desc);
+		ImGui::PopTextWrapPos();
+		ImGui::EndTooltip();
+	}
+}
+
 void Interface::initialize(sf::RenderWindow& window) {
 	ImGui::SFML::Init(window);
 }
@@ -26,9 +38,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::PushItemWidth(128);
 	if (ImGui::Combo("Algorithm", &Manager::selectedAlgorithm, Manager::algorithmsNames, IM_ARRAYSIZE(Manager::algorithmsNames)))
 		Manager::changedAlgorithm();
-	ImGui::PopItemWidth();
-
-	ImGui::SameLine();
+	ImGui::PopItemWidth(); ImGui::SameLine();
 
 	bool isRunning = Manager::isRunning();
 	bool isPaused = Manager::isPaused();
@@ -38,9 +48,7 @@ void Interface::draw(sf::RenderWindow& window) {
 			Manager::stop();
 		else
 			Manager::start();
-	}
-
-	ImGui::SameLine();
+	} ImGui::SameLine();
 
 	ImGui::BeginDisabled(!isRunning);
 	if (ImGui::Button(isPaused ? "Resume" : "Pause", {48, 0})) {
@@ -49,32 +57,27 @@ void Interface::draw(sf::RenderWindow& window) {
 		else
 			Manager::pause();
 	}
-	ImGui::EndDisabled();
-
-	ImGui::SameLine();
+	ImGui::EndDisabled(); ImGui::SameLine();
 
 	ImGui::BeginDisabled(isRunning && !isPaused);
 	if (ImGui::Button("Step", { 48, 0 }))
 		Manager::step();
-	ImGui::EndDisabled();
-
-	ImGui::SameLine();
+	ImGui::EndDisabled(); ImGui::SameLine();
 
 	ImGui::PushItemWidth(128);
-	ImGui::SliderFloat("Delay", &Manager::delay, 0.01f, 250.f, "%.02f ms");
-	ImGui::PopItemWidth();
-
-	ImGui::SameLine();
+	ImGui::SliderFloat("Delay", &Manager::delay, 0.01f, 250.f, "%.2f ms", ImGuiSliderFlags_Logarithmic);
+	ImGui::PopItemWidth(); ImGui::SameLine();
 
 	ImGui::BeginDisabled(isRunning);
 	if (ImGui::Button("Shuffle"))
 		Manager::shuffle();
 	ImGui::SameLine();
 	ImGui::PushItemWidth(128);
-	ImGui::SliderInt("##nOfElements", &Manager::numberOfElements, 8, 2048, "%d elements");
+	ImGui::SliderInt("##nOfElements", &Manager::numberOfElements, 8, 2048, "%d elements", ImGuiSliderFlags_Logarithmic);
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
 
+	/*
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Audio", &Audio::enabled);
@@ -83,15 +86,39 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::PushItemWidth(128);
 	ImGui::SliderFloat("Volume", &Audio::volume, 0, 100, "%.f");
 	ImGui::PopItemWidth();
-	ImGui::EndDisabled();
-
-	ImGui::Separator();
-	ImGui::Text("dsds");
-	//ImGui::Text("Statistics: %d comparisons, %d array accesses, %.f visual time (seconds), %.f sort time (milliseconds)", Manager::currentStats.comparisons, Manager::currentStats);
+	ImGui::EndDisabled();*/
 
 	ImGui::Separator();
 
-	ImGui::PlotHistogram("##values", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size(), 0, NULL, 0.0f, 8192.0f, ImGui::GetWindowContentRegionMax());
+	if (ImGui::BeginTable("table", 6, ImGuiTableFlags_BordersInnerV)) {
+		const SortingAlgorithm::statistics& currentData = Manager::Sorter->getStatistics();
+
+		ImGui::TableNextColumn();
+		ImGui::Text("Comparisons: %u", currentData.comparisons);
+
+		ImGui::TableNextColumn();
+		ImGui::Text("Reads: %u", currentData.reads);
+
+		ImGui::TableNextColumn();
+		ImGui::Text("Writes: %u", currentData.writes);
+
+		ImGui::TableNextColumn();
+		ImGui::Text("Steps: %u", currentData.steps);
+
+		ImGui::TableNextColumn();
+		ImGui::Text("Visual time: %.2f s", Manager::visualTime.asSeconds());
+
+		ImGui::TableNextColumn();
+		ImGui::Text("Real time: %d ms", currentData.sortTime.asMilliseconds()); ImGui::SameLine();
+		Custom::HelpMarker("(An approximation)");
+
+		ImGui::EndTable();
+	}
+
+	ImGui::Separator();
+
+	ImVec2 histogramSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
+	ImGui::PlotHistogram("##values", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size(), 0, NULL, 0.0f, 4096.f, histogramSize);
 
 	ImGui::End();
 	ImGui::PopStyleVar();

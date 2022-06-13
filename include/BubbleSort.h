@@ -12,6 +12,6 @@ public:
 	BubbleSort(unsigned count);
 
 	void reset();
-	bool step(sf::Time diff);
+	bool step();
 	void shuffle(unsigned count);
 };

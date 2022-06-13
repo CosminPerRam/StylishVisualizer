@@ -14,15 +14,18 @@ void Manager::update(sf::RenderWindow& window, sf::Time diffTime) {
 	static sf::Time timeFlow = sf::Time::Zero;
 	timeFlow += diffTime;
 
-	unsigned steps = timeFlow.asMilliseconds() / delay;
-	timeFlow -= sf::milliseconds(steps * delay);
+	unsigned steps = static_cast<unsigned>(timeFlow.asMilliseconds() / delay);
+	timeFlow -= sf::milliseconds(static_cast<sf::Int32>(steps * delay));
 	
 	if (m_isRunning && !m_isPaused) {
 		for (unsigned i = 0; i < steps; i++) {
-			if (Sorter->step(diffTime))
+			if (Sorter->step())
 				m_isRunning = false;
 		}
 	}
+
+	if(m_isRunning && !m_isPaused)
+		visualTime += visualClock.restart();
 }
 
 bool Manager::isRunning() {
@@ -34,22 +37,30 @@ bool Manager::isPaused() {
 }
 
 void Manager::start() {
-	if (!m_isPaused)
+	if (!m_isPaused) {
 		Sorter->reset();
+		visualTime = sf::Time::Zero;
+	}
 
 	m_isRunning = true;
 	m_isPaused = false;
+
+	visualClock.restart();
 }
 
 void Manager::step() {
-	Sorter->step(sf::Time::Zero);
+	visualClock.restart();
+	Sorter->step();
+	visualTime += visualClock.restart();
 }
 
 void Manager::pause() {
+	visualTime += visualClock.restart();
 	m_isPaused = true;
 }
 
 void Manager::stop() {
+	visualTime += visualClock.restart();
 	m_isRunning = m_isPaused = false;
 }
 

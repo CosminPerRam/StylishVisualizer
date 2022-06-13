@@ -1,15 +1,12 @@
 # ImGui-Visualizer
-This is a program to visualize a bunch of algorithms made in SFML and ImGui.
+This is a program which visualizes a bunch of sorting algorithms, made in C++17 using SFML and ImGui.  
+The code is cross platform and single threaded!
 
-## Capabilities
-None (yet?)
-
-## Resources
-None (yet?)
+## Algorithms
+Bubble Sort
 
 ## Precompiled binaries
 Check the [releases](https://github.com/CosminPerRam/ImGui-Visualizer/releases) page.
-Although I can provide binaries only for Windows, the code is cross platform!
 
 ## Dependencies
  - [SFML](https://www.sfml-dev.org/) 2.5.1! (Using all modules except for the `network` one)

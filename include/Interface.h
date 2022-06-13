@@ -6,6 +6,10 @@
 class Interface
 {
 private:
+	struct Custom
+	{
+		static void HelpMarker(const char* desc);
+	};
 
 public:
 	static void initialize(sf::RenderWindow& window);
