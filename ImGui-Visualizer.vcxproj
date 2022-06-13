@@ -159,11 +159,12 @@
     <ClCompile Include="libraries\imgui\imgui_draw.cpp" />
     <ClCompile Include="libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="libraries\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\BubbleSort.cpp" />
     <ClCompile Include="src\Interface.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Manager.cpp" />
     <ClCompile Include="src\Program.cpp" />
-    <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,10 +172,11 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Audio.h" />
     <ClInclude Include="include\BubbleSort.h" />
     <ClInclude Include="include\Interface.h" />
+    <ClInclude Include="include\Manager.h" />
     <ClInclude Include="include\Program.h" />
-    <ClInclude Include="include\Settings.h" />
     <ClInclude Include="include\SortingAlgorithm.h" />
     <ClInclude Include="include\Utilities.h" />
   </ItemGroup>
