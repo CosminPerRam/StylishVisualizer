@@ -75,6 +75,12 @@
     <ClCompile Include="src\MergeSort.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
     </ClCompile>
+    <ClCompile Include="src\RadixSortLSD.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GravitySort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -110,6 +116,15 @@
     </ClInclude>
     <ClInclude Include="include\MergeSort.h">
       <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RadixSortLSD.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GravitySort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AllSorts.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

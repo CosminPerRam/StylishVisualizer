@@ -2,12 +2,8 @@
 #include "Manager.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <iostream>
 
-#include "BubbleSort.h"
-#include "QuickSort.h"
-#include "ShellSort.h"
-#include "MergeSort.h"
+#include "AllSorts.h"
 
 void Manager::initialize() {
 	Sorter = new BubbleSort(numberOfElements);
@@ -85,6 +81,9 @@ void Manager::changedAlgorithm() {
 		break;
 	case 3:
 		Sorter = new MergeSort(numberOfElements);
+		break;
+	case 4:
+		Sorter = new RadixSortLSD(numberOfElements);
 		break;
 	default:
 		break;

@@ -171,6 +171,7 @@
     <ClCompile Include="src\MergeSort.cpp" />
     <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\QuickSort.cpp" />
+    <ClCompile Include="src\RadixSortLSD.cpp" />
     <ClCompile Include="src\ShellSort.cpp" />
     <ClCompile Include="src\SortingAlgorithm.cpp" />
     <ClCompile Include="src\Utilities.cpp" />
@@ -180,6 +181,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AllSorts.h" />
     <ClInclude Include="include\Audio.h" />
     <ClInclude Include="include\BubbleSort.h" />
     <ClInclude Include="include\Interface.h" />
@@ -187,6 +189,7 @@
     <ClInclude Include="include\MergeSort.h" />
     <ClInclude Include="include\Program.h" />
     <ClInclude Include="include\QuickSort.h" />
+    <ClInclude Include="include\RadixSortLSD.h" />
     <ClInclude Include="include\ShellSort.h" />
     <ClInclude Include="include\SortingAlgorithm.h" />
     <ClInclude Include="include\Utilities.h" />
