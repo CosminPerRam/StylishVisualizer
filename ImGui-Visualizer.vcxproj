@@ -168,6 +168,7 @@
     <ClCompile Include="src\Interface.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Manager.cpp" />
+    <ClCompile Include="src\MergeSort.cpp" />
     <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\QuickSort.cpp" />
     <ClCompile Include="src\ShellSort.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="include\BubbleSort.h" />
     <ClInclude Include="include\Interface.h" />
     <ClInclude Include="include\Manager.h" />
+    <ClInclude Include="include\MergeSort.h" />
     <ClInclude Include="include\Program.h" />
     <ClInclude Include="include\QuickSort.h" />
     <ClInclude Include="include\ShellSort.h" />

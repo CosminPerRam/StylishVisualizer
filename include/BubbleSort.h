@@ -6,11 +6,8 @@
 class BubbleSort : public SortingAlgorithm
 {
 private:
-	int i = 0, j = 0, n = 0;
+	void sorter();
 
 public:
 	BubbleSort(unsigned count);
-
-	void reset();
-	bool step();
 };

@@ -3,32 +3,30 @@
 
 BubbleSort::BubbleSort(unsigned count) {
 	shuffle(count);
-	reset();
 }
 
-void BubbleSort::reset() {
-	i = j = 0;
-	n = numbers.size();
+void BubbleSort::sorter() {
+    int n = numbers.size();
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            stats.addComparison();
+            if (numbers[j] > numbers[j + 1]) {
+                std::swap(numbers[j], numbers[j + 1]);
 
-	stats.reset();
-}
+                stats.addSwap();
+                ++stats.steps;
 
-bool BubbleSort::step() {
-	theClock.restart();
-	for (; i < n - 1; i++) {
-		for (; j < n - i - 1; j++) {
-			stats.addComparison();
-			if (numbers[j] > numbers[j + 1]) {
-				std::swap(numbers[j], numbers[j + 1]);
-				stats.sortTime += theClock.restart();
-				stats.addSwap();
-				stats.steps++;
-				return false;
-			}
-		}
+                bool goContinue = false;
+                while (!goContinue) {
+                    stepState state = this->checkStep();
+                    if (state == stepState::EXITED)
+                        return;
+                    else if (state != stepState::PAUSED)
+                        goContinue = true;
+                }
+            }
+        }
+    }
 
-		j = 0;
-	}
-	
-	return true;
+    m_isFinished = true;
 }

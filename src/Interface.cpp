@@ -59,13 +59,15 @@ void Interface::draw(sf::RenderWindow& window) {
 	}
 	ImGui::EndDisabled(); ImGui::SameLine();
 
-	ImGui::BeginDisabled(isRunning && !isPaused);
+	ImGui::BeginDisabled(!(isRunning && isPaused));
 	if (ImGui::Button("Step", { 48, 0 }))
 		Manager::step();
 	ImGui::EndDisabled(); ImGui::SameLine();
 
 	ImGui::PushItemWidth(128);
-	ImGui::SliderFloat("Delay", &Manager::delay, 0.01f, 250.f, "%.2f ms", ImGuiSliderFlags_Logarithmic);
+	float delay = Manager::delay;
+	if (ImGui::SliderFloat("Delay", &delay, 1.f, 250.f, "%.2f ms", ImGuiSliderFlags_Logarithmic))
+		Manager::delay = delay;
 	ImGui::PopItemWidth(); ImGui::SameLine();
 
 	ImGui::BeginDisabled(isRunning);
@@ -76,7 +78,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SliderInt("##nOfElements", &Manager::numberOfElements, 8, 2048, "%d elements", ImGuiSliderFlags_Logarithmic);
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
-
+	/*
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Audio", &Audio::enabled);
@@ -86,7 +88,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SliderFloat("Volume", &Audio::volume, 0, 100, "%.f");
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
-
+	*/
 	ImGui::Separator();
 
 	if (ImGui::BeginTable("table", 6, ImGuiTableFlags_BordersInnerV)) {

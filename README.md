@@ -1,6 +1,6 @@
 # ImGui-Visualizer
 This is a program which visualizes a bunch of sorting algorithms, made in C++17 using SFML and ImGui.  
-The code is cross platform and single threaded!
+The code is cross platform.
 
 ## Algorithms
 Bubble Sort
@@ -30,6 +30,6 @@ Check the [releases](https://github.com/CosminPerRam/ImGui-Visualizer/releases) 
 11. Select the desired configuration (`Debug`/`Release`) and build!  
 *. Note: `openal32.dll` (from SFML's `bin` folder) is needed to be in the Debug/Release folder.
 
-### Linux/MacOS - CMake
+~~### Linux/MacOS - CMake
 *. You need to do the steps `3`, `7`, `8` and `9` from above.  
-Clone the repo and check out the cmake script.
+Clone the repo and check out the cmake script.~~

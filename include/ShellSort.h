@@ -6,11 +6,8 @@
 class ShellSort : public SortingAlgorithm
 {
 private:
-	int i = 0, j = 0, gap = 0, n = 0;
+	void sorter();
 
 public:
 	ShellSort(unsigned count);
-
-	void reset();
-	bool step();
 };

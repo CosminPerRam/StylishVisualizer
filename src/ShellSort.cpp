@@ -1,47 +1,41 @@
 
 #include "ShellSort.h"
 
-#include <iostream>
-
 ShellSort::ShellSort(unsigned count) {
-	shuffle(count);
-	reset();
+    shuffle(count);
 }
 
-void ShellSort::reset() {
-	n = numbers.size();
-	gap = n / 2;
-	i = gap;
-	j = i;
-
-	stats.reset();
-}
-
-bool ShellSort::step() {
-    while(gap > 0)
+void ShellSort::sorter() {
+    int n = numbers.size();
+    for (int gap = n / 2; gap > 0; gap /= 2)
     {
-        while(i < n)
+        for (int i = gap; i < n; i += 1)
         {
             float temp = numbers[i];
-            ++stats.reads;
+            stats.addAssigment();
 
-            while(j >= gap && numbers[j - gap] > temp)
-            {
+            int j;
+            for (j = i; j >= gap && numbers[j - gap] > temp; j -= gap) {
                 numbers[j] = numbers[j - gap];
-                stats.reads += 2; ++stats.writes; ++stats.steps;
-                j -= gap;
-                return false;
+
+                stats.addComparison();
+                stats.addAssigment();
+                ++stats.steps;
+
+                bool goContinue = false;
+                while (!goContinue) {
+                    stepState state = this->checkStep();
+                    if (state == stepState::EXITED)
+                        return;
+                    else if (state != stepState::PAUSED)
+                        goContinue = true;
+                }
             }
+
             numbers[j] = temp;
-            ++stats.writes;
-
-            j = i;
-            i++;
+            stats.addAssigment();
         }
-
-        gap /= 2;
-        i = gap;
     }
 
-	return true;
+    m_isFinished = true;
 }

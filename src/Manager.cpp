@@ -5,28 +5,20 @@
 #include <iostream>
 
 #include "BubbleSort.h"
-#include "ShellSort.h"
 #include "QuickSort.h"
+#include "ShellSort.h"
+#include "MergeSort.h"
 
 void Manager::initialize() {
 	Sorter = new BubbleSort(numberOfElements);
 }
 
 void Manager::update(sf::RenderWindow& window, sf::Time diffTime) {
-	static sf::Time timeFlow = sf::Time::Zero;
-	timeFlow += diffTime;
+	bool sorterFinished = Sorter->isFinished();
+	if(sorterFinished)
+		m_isRunning = m_isPaused = false;
 
-	unsigned steps = static_cast<unsigned>(timeFlow.asMilliseconds() / delay);
-	timeFlow -= sf::milliseconds(static_cast<sf::Int32>(steps * delay));
-	
-	if (m_isRunning && !m_isPaused) {
-		for (unsigned i = 0; i < steps; i++) {
-			if (Sorter->step())
-				m_isRunning = false;
-		}
-	}
-
-	if(m_isRunning && !m_isPaused)
+	if (m_isRunning && !m_isPaused)
 		visualTime += visualClock.restart();
 }
 
@@ -40,9 +32,11 @@ bool Manager::isPaused() {
 
 void Manager::start() {
 	if (!m_isPaused) {
-		Sorter->reset();
 		visualTime = sf::Time::Zero;
+		Sorter->start();
 	}
+	else
+		Sorter->resume();
 
 	m_isRunning = true;
 	m_isPaused = false;
@@ -52,18 +46,20 @@ void Manager::start() {
 
 void Manager::step() {
 	visualClock.restart();
-	Sorter->step();
+	Sorter->doStep();
 	visualTime += visualClock.restart();
 }
 
 void Manager::pause() {
 	visualTime += visualClock.restart();
+	Sorter->pause();
 	m_isPaused = true;
 }
 
 void Manager::stop() {
 	visualTime += visualClock.restart();
 	m_isRunning = m_isPaused = false;
+	Sorter->stop();
 }
 
 void Manager::shuffle() {
@@ -74,6 +70,7 @@ void Manager::changedAlgorithm() {
 	if (lastSelectedAlgorithm == selectedAlgorithm)
 		return;
 
+	Manager::stop();
 	delete Sorter;
 
 	switch (selectedAlgorithm) {
@@ -81,10 +78,13 @@ void Manager::changedAlgorithm() {
 		Sorter = new BubbleSort(numberOfElements);
 		break;
 	case 1:
-		Sorter = new ShellSort(numberOfElements);
+		Sorter = new QuickSort(numberOfElements);
 		break;
 	case 2:
-		Sorter = new QuickSort(numberOfElements);
+		Sorter = new ShellSort(numberOfElements);
+		break;
+	case 3:
+		Sorter = new MergeSort(numberOfElements);
 		break;
 	default:
 		break;

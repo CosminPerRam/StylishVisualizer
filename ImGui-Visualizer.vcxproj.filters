@@ -63,13 +63,16 @@
     <ClCompile Include="src\Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\QuickSort.cpp">
-      <Filter>Source Files\SortingAlgorithms</Filter>
-    </ClCompile>
     <ClCompile Include="src\SortingAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\QuickSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
     <ClCompile Include="src\ShellSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MergeSort.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
     </ClCompile>
   </ItemGroup>
@@ -103,6 +106,9 @@
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
     <ClInclude Include="include\ShellSort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MergeSort.h">
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
   </ItemGroup>

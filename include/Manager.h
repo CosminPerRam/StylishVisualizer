@@ -3,6 +3,8 @@
 
 #include "SortingAlgorithm.h"
 
+#include <atomic>
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
@@ -19,12 +21,12 @@ private:
 public:
 	inline static SortingAlgorithm *Sorter = nullptr;
 
-	inline static const char* algorithmsNames[] = { "BubbleSort", "ShellSort", "QuickSort"};
+	inline static const char* algorithmsNames[] = { "BubbleSort", "QuickSort", "ShellSort", "MergeSort" };
 	inline static int selectedAlgorithm = 0;
 
 	inline static int numberOfElements = 128;
 
-	inline static float delay = 0.25f;
+	inline static std::atomic<float> delay = 10.f;
 
 	inline static sf::Time visualTime;
 
