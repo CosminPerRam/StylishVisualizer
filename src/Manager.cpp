@@ -5,6 +5,8 @@
 #include <iostream>
 
 #include "BubbleSort.h"
+#include "ShellSort.h"
+#include "QuickSort.h"
 
 void Manager::initialize() {
 	Sorter = new BubbleSort(numberOfElements);
@@ -69,8 +71,24 @@ void Manager::shuffle() {
 }
 
 void Manager::changedAlgorithm() {
-	if (lastSelectedAlgorithm != selectedAlgorithm) {
-		lastSelectedAlgorithm = selectedAlgorithm;
-		std::cout << "Changed to " << algorithmsNames[selectedAlgorithm] << std::endl;
+	if (lastSelectedAlgorithm == selectedAlgorithm)
+		return;
+
+	delete Sorter;
+
+	switch (selectedAlgorithm) {
+	case 0:
+		Sorter = new BubbleSort(numberOfElements);
+		break;
+	case 1:
+		Sorter = new ShellSort(numberOfElements);
+		break;
+	case 2:
+		Sorter = new QuickSort(numberOfElements);
+		break;
+	default:
+		break;
 	}
+
+	lastSelectedAlgorithm = selectedAlgorithm;
 }

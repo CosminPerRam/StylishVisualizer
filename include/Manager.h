@@ -19,7 +19,7 @@ private:
 public:
 	inline static SortingAlgorithm *Sorter = nullptr;
 
-	inline static const char* algorithmsNames[] = { "BubbleSort" };
+	inline static const char* algorithmsNames[] = { "BubbleSort", "ShellSort", "QuickSort"};
 	inline static int selectedAlgorithm = 0;
 
 	inline static int numberOfElements = 128;

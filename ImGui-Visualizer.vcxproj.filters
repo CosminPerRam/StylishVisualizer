@@ -63,6 +63,15 @@
     <ClCompile Include="src\Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\QuickSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SortingAlgorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShellSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -89,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="include\Audio.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\QuickSort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ShellSort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,10 +1,6 @@
 
 #include "BubbleSort.h"
 
-#include "Utilities.h"
-
-#include <iostream>
-
 BubbleSort::BubbleSort(unsigned count) {
 	shuffle(count);
 	reset();
@@ -35,13 +31,4 @@ bool BubbleSort::step() {
 	}
 	
 	return true;
-}
-
-void BubbleSort::shuffle(unsigned count) {
-	numbers.resize(count);
-
-	for (unsigned i = 0; i < count; i++)
-		numbers[i] = static_cast<float>(Utilities::Random::getNumberInBetween(0, 4096));
-
-	reset();
 }

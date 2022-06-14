@@ -77,7 +77,6 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
 
-	/*
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Audio", &Audio::enabled);
@@ -86,7 +85,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::PushItemWidth(128);
 	ImGui::SliderFloat("Volume", &Audio::volume, 0, 100, "%.f");
 	ImGui::PopItemWidth();
-	ImGui::EndDisabled();*/
+	ImGui::EndDisabled();
 
 	ImGui::Separator();
 

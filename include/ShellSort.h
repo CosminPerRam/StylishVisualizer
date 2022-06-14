@@ -3,13 +3,13 @@
 
 #include "SortingAlgorithm.h"
 
-class BubbleSort : public SortingAlgorithm
+class ShellSort : public SortingAlgorithm
 {
 private:
-	int i = 0, j = 0, n = 0;
+	int i = 0, j = 0, gap = 0, n = 0;
 
 public:
-	BubbleSort(unsigned count);
+	ShellSort(unsigned count);
 
 	void reset();
 	bool step();

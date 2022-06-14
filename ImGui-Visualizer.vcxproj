@@ -169,6 +169,9 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Manager.cpp" />
     <ClCompile Include="src\Program.cpp" />
+    <ClCompile Include="src\QuickSort.cpp" />
+    <ClCompile Include="src\ShellSort.cpp" />
+    <ClCompile Include="src\SortingAlgorithm.cpp" />
     <ClCompile Include="src\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +184,8 @@
     <ClInclude Include="include\Interface.h" />
     <ClInclude Include="include\Manager.h" />
     <ClInclude Include="include\Program.h" />
+    <ClInclude Include="include\QuickSort.h" />
+    <ClInclude Include="include\ShellSort.h" />
     <ClInclude Include="include\SortingAlgorithm.h" />
     <ClInclude Include="include\Utilities.h" />
   </ItemGroup>
