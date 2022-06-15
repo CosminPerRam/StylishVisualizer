@@ -6,6 +6,7 @@
 #include "Utilities.h"
 #include "Manager.h"
 #include "Settings.h"
+#include "Audio.h"
 
 void SortingAlgorithm::statistics::reset() {
 	sortTimeMs = 0.f;

@@ -84,7 +84,7 @@ void Interface::draw(sf::RenderWindow& window) {
 		Settings::CURSOR_LINE_WIDTH = Settings::calculateCursorLineWidth();
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
-	/*
+	
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Audio", &Audio::enabled);
@@ -94,7 +94,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SliderFloat("Volume", &Audio::volume, 0, 100, "%.f");
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
-	*/
+	
 	ImGui::Separator();
 
 	const SortingAlgorithm::statistics& currentData = Manager::Sorter->getStatistics();
@@ -152,4 +152,7 @@ void Interface::pollEvent(sf::RenderWindow& window, sf::Event& theEvent) {
 
 void Interface::update(sf::RenderWindow& window, sf::Time diffTime) {
 	ImGui::SFML::Update(window, diffTime);
+
+	if(Manager::isRunning())
+		Audio::play(Manager::Sorter->getStatistics().cursorValue);
 }
