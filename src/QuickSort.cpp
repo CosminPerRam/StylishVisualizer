@@ -1,12 +1,10 @@
 
 #include "QuickSort.h"
 
-QuickSort::QuickSort(unsigned count) {
-    shuffle(count);
-}
-
 void QuickSort::sorter()
 {
+    DO_STARTED;
+
     int l = 0, h = numbers.size() - 1;
     std::vector<int> stack(numbers.size(), 0);
 
@@ -30,7 +28,7 @@ void QuickSort::sorter()
                 std::swap(numbers[i], numbers[j]);
 
                 stats.addSwap();
-                DO_CHECKSTEP_INSTRUCTIONS; ++stats.steps;
+                DO_PROGRESSIVE_CHECKSTEP;
             }
         }
         std::swap(numbers[i + 1], numbers[h]);
@@ -50,5 +48,5 @@ void QuickSort::sorter()
         }
     }
 
-    m_isFinished = true;
+    DO_FINISHED;
 }

@@ -8,10 +8,6 @@
 
 #define RADIX 256
 
-RadixSortMSD::RadixSortMSD(unsigned count) {
-    shuffle(count);
-}
-
 int digit_at(int x, int d)
 {
     return (x / Utilities::Math::pow(10, d - 1)) % 10;
@@ -41,7 +37,7 @@ void RadixSortMSD::MSDRadixSort(std::vector<int>& tabAux, int low, int high, int
     for (int i = low; i < high; ++i) {
         numbers[i] = tabAux[i - low];
         stats.addAssigment();
-        DO_CHECKSTEP_INSTRUCTIONS;
+        DO_CHECKSTEP;
     }
 
     for (int r = 0; r < RADIX + 1; ++r) {
@@ -49,12 +45,14 @@ void RadixSortMSD::MSDRadixSort(std::vector<int>& tabAux, int low, int high, int
             MSDRadixSort(tabAux, low + counter[r], low + counter[r + 1], digit + 1);
     }
 
-    DO_CHECKSTEP_INSTRUCTIONS; ++stats.steps;
+    DO_PROGRESSIVE_CHECKSTEP;
 }
 
 void RadixSortMSD::sorter() {
+    DO_STARTED;
+
     std::vector<int> tabAux(numbers.size());
     MSDRadixSort(tabAux, 0, numbers.size(), 0);
 
-    m_isFinished = true;
+    DO_FINISHED;
 }

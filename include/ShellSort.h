@@ -7,7 +7,4 @@ class ShellSort : public SortingAlgorithm
 {
 private:
 	void sorter();
-
-public:
-	ShellSort(unsigned count);
 };

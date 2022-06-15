@@ -9,7 +9,7 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
-#define DO_CHECKSTEP_INSTRUCTIONS bool goContinue = false; \
+#define DO_CHECKSTEP bool goContinue = false; \
 					while (!goContinue) { \
 						stepState state = this->checkStep(); \
 						if (state == stepState::EXITED) \
@@ -17,6 +17,9 @@
 						else if (state != stepState::PAUSED) \
 							goContinue = true; \
 					}
+#define DO_PROGRESSIVE_CHECKSTEP ++stats.steps; DO_CHECKSTEP;
+#define DO_STARTED this->reset();
+#define DO_FINISHED m_isFinished = true;
 
 class SortingAlgorithm
 {
@@ -52,6 +55,7 @@ protected:
 	stepState checkStep();
 
 public:
+	SortingAlgorithm();
 
 	void start();
 	void stop();
@@ -59,7 +63,7 @@ public:
 	void resume();
 	bool doStep();
 
-	void shuffle(unsigned count);
+	void shuffle();
 
 	bool isFinished();
 	const std::vector<float>& getNumbers();

@@ -6,7 +6,7 @@
 #include "AllSorts.h"
 
 void Manager::initialize() {
-	Sorter = new BubbleSort(numberOfElements);
+	Sorter = new BubbleSort();
 }
 
 void Manager::update(sf::RenderWindow& window, sf::Time diffTime) {
@@ -59,7 +59,7 @@ void Manager::stop() {
 }
 
 void Manager::shuffle() {
-	Sorter->shuffle(numberOfElements);
+	Sorter->shuffle();
 }
 
 void Manager::changedAlgorithm() {
@@ -71,22 +71,22 @@ void Manager::changedAlgorithm() {
 
 	switch (selectedAlgorithm) {
 	case 0:
-		Sorter = new BubbleSort(numberOfElements);
+		Sorter = new BubbleSort();
 		break;
 	case 1:
-		Sorter = new QuickSort(numberOfElements);
+		Sorter = new QuickSort();
 		break;
 	case 2:
-		Sorter = new ShellSort(numberOfElements);
+		Sorter = new ShellSort();
 		break;
 	case 3:
-		Sorter = new MergeSort(numberOfElements);
+		Sorter = new MergeSort();
 		break;
 	case 4:
-		Sorter = new RadixSortLSD(numberOfElements);
+		Sorter = new RadixSortLSD();
 		break;
 	case 5:
-		Sorter = new RadixSortMSD(numberOfElements);
+		Sorter = new RadixSortMSD();
 		break;
 	default:
 		break;

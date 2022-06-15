@@ -24,9 +24,7 @@ public:
 	inline static const char* algorithmsNames[] = { "BubbleSort", "QuickSort", "ShellSort", "MergeSort", "RadixSort (LSD)", "RadixSort (MSD)" };
 	inline static int selectedAlgorithm = 0;
 
-	inline static int numberOfElements = 128;
-
-	inline static std::atomic<float> delay = 10.f;
+	inline static std::atomic<float> delayMs = 10.f;
 
 	inline static sf::Time visualTime;
 

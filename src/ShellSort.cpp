@@ -1,11 +1,9 @@
 
 #include "ShellSort.h"
 
-ShellSort::ShellSort(unsigned count) {
-    shuffle(count);
-}
-
 void ShellSort::sorter() {
+    DO_STARTED;
+
     int n = numbers.size();
     for (int gap = n / 2; gap > 0; gap /= 2)
     {
@@ -21,7 +19,7 @@ void ShellSort::sorter() {
                 stats.addComparison();
                 stats.addAssigment();
 
-                DO_CHECKSTEP_INSTRUCTIONS; ++stats.steps;
+                DO_PROGRESSIVE_CHECKSTEP;
             }
 
             numbers[j] = temp;
@@ -29,5 +27,5 @@ void ShellSort::sorter() {
         }
     }
 
-    m_isFinished = true;
+    DO_FINISHED;
 }

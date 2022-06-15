@@ -7,7 +7,4 @@ class RadixSortLSD : public SortingAlgorithm
 {
 private:
 	void sorter();
-
-public:
-	RadixSortLSD(unsigned count);
 };

@@ -5,8 +5,7 @@
 
 #include "Utilities.h"
 #include "Manager.h"
-
-#define PAUSE_SLEEP_TIME 10
+#include "Settings.h"
 
 void SortingAlgorithm::statistics::reset() {
 	sortTimeMs = 0.f;
@@ -28,6 +27,10 @@ void SortingAlgorithm::statistics::addSwap() {
 	writes += 3;
 }
 
+SortingAlgorithm::SortingAlgorithm() {
+	this->shuffle();
+}
+
 void SortingAlgorithm::reset() {
 	stats.reset();
 	m_pause = false; m_exit = false; m_isFinished = false; m_doStep = false;
@@ -40,11 +43,11 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	else if (m_doStep) {
 		m_pause = true;
 		m_doStep = false;
-		std::this_thread::sleep_for(std::chrono::milliseconds(Manager::delay));
+		sf::sleep(sf::seconds(Manager::delayMs / 1000));
 		return stepState::STEP;
 	}
 	else if (m_pause) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(PAUSE_SLEEP_TIME));
+		sf::sleep(sf::milliseconds(Settings::PAUSE_SLEEPms));
 		theClock.restart();
 		return stepState::PAUSED;
 	}
@@ -52,7 +55,7 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	//else
 	stats.sortTimeMs += theClock.getElapsedTime().asSeconds() * 1000;
 
-	sf::sleep(sf::milliseconds(static_cast<sf::Int32>(Manager::delay)));
+	sf::sleep(sf::seconds(Manager::delayMs / 1000));
 	theClock.restart();
 
 	return stepState::NONE;
@@ -60,7 +63,6 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 
 void SortingAlgorithm::start() {
 	this->stop();
-	this->reset();
 	theThread = std::thread(&SortingAlgorithm::sorter, this);
 }
 
@@ -99,11 +101,11 @@ const SortingAlgorithm::statistics& SortingAlgorithm::getStatistics() {
 	return stats; 
 }
 
-void SortingAlgorithm::shuffle(unsigned count) {
-	stop();
+void SortingAlgorithm::shuffle() {
+	this->reset();
 
-	numbers.resize(count);
+	numbers.resize(Settings::SHUFFLE_CURRENT_COUNT);
 
-	for (unsigned i = 0; i < count; i++)
-		numbers[i] = static_cast<float>(Utilities::Random::getNumberInBetween(0, 4096));
+	for (unsigned i = 0; i < Settings::SHUFFLE_CURRENT_COUNT; i++)
+		numbers[i] = static_cast<float>(Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE));
 }

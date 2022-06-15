@@ -5,11 +5,9 @@
 
 #include "Utilities.h"
 
-RadixSortLSD::RadixSortLSD(unsigned count) {
-    shuffle(count);
-}
-
 void RadixSortLSD::sorter() {
+    DO_STARTED;
+
     int maxDigits = 4, n = numbers.size();
     std::list<int> pocket[10];
 
@@ -31,10 +29,10 @@ void RadixSortLSD::sorter() {
                 pocket[j].erase(pocket[j].begin());
                 count++;
 
-                DO_CHECKSTEP_INSTRUCTIONS; ++stats.steps;
+                DO_PROGRESSIVE_CHECKSTEP;
             }
         }
     }
 
-    m_isFinished = true;
+    DO_FINISHED;
 }

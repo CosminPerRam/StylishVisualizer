@@ -6,6 +6,7 @@
 
 #include "Manager.h"
 #include "Audio.h"
+#include "Settings.h"
 
 void Interface::Custom::HelpMarker(const char* desc) {
 	ImGui::TextDisabled("(?)");
@@ -63,9 +64,9 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::EndDisabled(); ImGui::SameLine();
 
 	ImGui::PushItemWidth(128);
-	float delay = Manager::delay;
-	if (ImGui::SliderFloat("Delay", &delay, 1.f, 250.f, "%.f ms", ImGuiSliderFlags_Logarithmic))
-		Manager::delay = delay;
+	float delay = Manager::delayMs;
+	if (ImGui::SliderFloat("Delay", &delay, 0.1f, 250.f, "%.2f ms", ImGuiSliderFlags_Logarithmic))
+		Manager::delayMs = delay;
 	ImGui::PopItemWidth(); ImGui::SameLine();
 
 	ImGui::BeginDisabled(isRunning);
@@ -73,7 +74,7 @@ void Interface::draw(sf::RenderWindow& window) {
 		Manager::shuffle();
 	ImGui::SameLine();
 	ImGui::PushItemWidth(128);
-	ImGui::SliderInt("##nOfElements", &Manager::numberOfElements, 8, 2048, "%d elements", ImGuiSliderFlags_Logarithmic);
+	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
 	/*
@@ -117,7 +118,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::Separator();
 
 	ImVec2 histogramSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
-	ImGui::PlotHistogram("##values", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size(), 0, NULL, 0.0f, 4096.f, histogramSize);
+	ImGui::PlotHistogram("##values", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size(), 0, NULL, 0.0f, Settings::SHUFFLE_MAX_VALUE, histogramSize);
 
 	ImGui::End();
 	ImGui::PopStyleVar();

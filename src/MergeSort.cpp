@@ -1,10 +1,6 @@
 
 #include "MergeSort.h"
 
-MergeSort::MergeSort(unsigned count) {
-    shuffle(count);
-}
-
 void MergeSort::merge(int l, int m, int r)
 {
     int n1 = m - l + 1;
@@ -38,7 +34,7 @@ void MergeSort::merge(int l, int m, int r)
 
         k++;
 
-        DO_CHECKSTEP_INSTRUCTIONS;
+        DO_CHECKSTEP;
     }
 
     while (i < n1) {
@@ -47,7 +43,7 @@ void MergeSort::merge(int l, int m, int r)
         i++;
         k++;
 
-        DO_CHECKSTEP_INSTRUCTIONS;
+        DO_CHECKSTEP;
     }
 
     while (j < n2) {
@@ -56,10 +52,10 @@ void MergeSort::merge(int l, int m, int r)
         j++;
         k++;
 
-        DO_CHECKSTEP_INSTRUCTIONS;
+        DO_CHECKSTEP;
     }
 
-    DO_CHECKSTEP_INSTRUCTIONS; ++stats.steps;
+    DO_PROGRESSIVE_CHECKSTEP;
 }
 
 void MergeSort::mergeSort(int l, int r)
@@ -74,7 +70,9 @@ void MergeSort::mergeSort(int l, int r)
 }
 
 void MergeSort::sorter() {
+    DO_STARTED;
+
     mergeSort(0, numbers.size() - 1);
 
-    m_isFinished = true;
+    DO_FINISHED;
 }

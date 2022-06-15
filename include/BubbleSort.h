@@ -7,7 +7,4 @@ class BubbleSort : public SortingAlgorithm
 {
 private:
 	void sorter();
-
-public:
-	BubbleSort(unsigned count);
 };

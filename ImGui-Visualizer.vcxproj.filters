@@ -126,5 +126,8 @@
     <ClInclude Include="include\RadixSortMSD.h">
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
+    <ClInclude Include="include\Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

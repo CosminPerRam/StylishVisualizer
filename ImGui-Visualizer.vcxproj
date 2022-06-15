@@ -192,6 +192,7 @@
     <ClInclude Include="include\QuickSort.h" />
     <ClInclude Include="include\RadixSortLSD.h" />
     <ClInclude Include="include\RadixSortMSD.h" />
+    <ClInclude Include="include\Settings.h" />
     <ClInclude Include="include\ShellSort.h" />
     <ClInclude Include="include\SortingAlgorithm.h" />
     <ClInclude Include="include\Utilities.h" />
