@@ -21,7 +21,7 @@ private:
 public:
 	inline static SortingAlgorithm *Sorter = nullptr;
 
-	inline static const char* algorithmsNames[] = { "BubbleSort", "QuickSort", "ShellSort", "MergeSort", "RadixSort (LSD)" };
+	inline static const char* algorithmsNames[] = { "BubbleSort", "QuickSort", "ShellSort", "MergeSort", "RadixSort (LSD)", "RadixSort (MSD)" };
 	inline static int selectedAlgorithm = 0;
 
 	inline static int numberOfElements = 128;

@@ -172,6 +172,7 @@
     <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\QuickSort.cpp" />
     <ClCompile Include="src\RadixSortLSD.cpp" />
+    <ClCompile Include="src\RadixSortMSD.cpp" />
     <ClCompile Include="src\ShellSort.cpp" />
     <ClCompile Include="src\SortingAlgorithm.cpp" />
     <ClCompile Include="src\Utilities.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="include\Program.h" />
     <ClInclude Include="include\QuickSort.h" />
     <ClInclude Include="include\RadixSortLSD.h" />
+    <ClInclude Include="include\RadixSortMSD.h" />
     <ClInclude Include="include\ShellSort.h" />
     <ClInclude Include="include\SortingAlgorithm.h" />
     <ClInclude Include="include\Utilities.h" />

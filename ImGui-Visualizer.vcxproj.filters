@@ -78,7 +78,7 @@
     <ClCompile Include="src\RadixSortLSD.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
     </ClCompile>
-    <ClCompile Include="src\GravitySort.cpp">
+    <ClCompile Include="src\RadixSortMSD.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
     </ClCompile>
   </ItemGroup>
@@ -120,11 +120,11 @@
     <ClInclude Include="include\RadixSortLSD.h">
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
-    <ClInclude Include="include\GravitySort.h">
-      <Filter>Header Files\SortingAlgorithms</Filter>
-    </ClInclude>
     <ClInclude Include="include\AllSorts.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RadixSortMSD.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

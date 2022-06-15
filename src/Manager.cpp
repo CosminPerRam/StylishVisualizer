@@ -85,6 +85,9 @@ void Manager::changedAlgorithm() {
 	case 4:
 		Sorter = new RadixSortLSD(numberOfElements);
 		break;
+	case 5:
+		Sorter = new RadixSortMSD(numberOfElements);
+		break;
 	default:
 		break;
 	}
