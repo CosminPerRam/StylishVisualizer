@@ -34,6 +34,14 @@ SortingAlgorithm::SortingAlgorithm() {
 	this->shuffle();
 }
 
+void SortingAlgorithm::doFinisherLoop() {
+	float finisherSleep = Utilities::Math::map(numbers.size(), 0, Settings::SHUFFLE_MAX_COUNT, 50, 1) * (1 / log(numbers.size()));
+	for (unsigned i = 0; i < numbers.size(); i++) {
+		this->putCursorAt(i);
+		sf::sleep(sf::seconds(finisherSleep / 1000));
+	}
+}
+
 void SortingAlgorithm::putCursorAt(unsigned position) {
 	stats.cursorPosition = position;
 	stats.cursorValue = numbers[position];

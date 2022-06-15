@@ -19,7 +19,7 @@
 					}
 #define DO_PROGRESSIVE_CHECKSTEP ++stats.steps; DO_CHECKSTEP;
 #define DO_STARTED this->reset();
-#define DO_FINISHED m_isFinished = true;
+#define DO_FINISHED this->doFinisherLoop(); m_isFinished = true;
 #define DO_PUT_CURSOR_AT(position) this->putCursorAt(position);
 
 class SortingAlgorithm
@@ -54,6 +54,7 @@ protected:
 
 	virtual void sorter() = 0;
 
+	void doFinisherLoop();
 	void putCursorAt(unsigned position);
 	void reset();
 	stepState checkStep();
