@@ -25,18 +25,20 @@ void MergeSort::merge(int l, int m, int r)
 
     while (i < n1 && j < n2) {
         stats.addComparison();
+        stats.addAssigment();
+
         if (L[i] <= R[j]) {
             numbers[k] = L[i];
-            stats.addAssigment();
             i++;
         }
         else {
             numbers[k] = R[j];
-            stats.addAssigment();
             j++;
         }
 
         k++;
+
+        DO_CHECKSTEP_INSTRUCTIONS;
     }
 
     while (i < n1) {
@@ -44,6 +46,8 @@ void MergeSort::merge(int l, int m, int r)
         stats.addAssigment();
         i++;
         k++;
+
+        DO_CHECKSTEP_INSTRUCTIONS;
     }
 
     while (j < n2) {
@@ -51,18 +55,11 @@ void MergeSort::merge(int l, int m, int r)
         stats.addAssigment();
         j++;
         k++;
+
+        DO_CHECKSTEP_INSTRUCTIONS;
     }
 
-    ++stats.steps;
-
-    bool goContinue = false;
-    while (!goContinue) {
-        stepState state = this->checkStep();
-        if (state == stepState::EXITED)
-            return;
-        else if (state != stepState::PAUSED)
-            goContinue = true;
-    }
+    DO_CHECKSTEP_INSTRUCTIONS; ++stats.steps;
 }
 
 void MergeSort::mergeSort(int l, int r)

@@ -1,14 +1,15 @@
 
 #include "SortingAlgorithm.h"
 
+#include <SFML/System/Sleep.hpp>
+
 #include "Utilities.h"
 #include "Manager.h"
 
 #define PAUSE_SLEEP_TIME 10
 
 void SortingAlgorithm::statistics::reset() {
-	sortTime = sf::Time::Zero;
-
+	sortTimeMs = 0.f;
 	comparisons = reads = writes = steps = 0;
 }
 
@@ -49,8 +50,10 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	}
 
 	//else
-	std::this_thread::sleep_for(std::chrono::milliseconds(Manager::delay));
-	stats.sortTime += theClock.restart() - sf::milliseconds(Manager::delay);
+	stats.sortTimeMs += theClock.getElapsedTime().asSeconds() * 1000;
+
+	sf::sleep(sf::milliseconds(static_cast<sf::Int32>(Manager::delay)));
+	theClock.restart();
 
 	return stepState::NONE;
 }

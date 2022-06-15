@@ -20,16 +20,8 @@ void ShellSort::sorter() {
 
                 stats.addComparison();
                 stats.addAssigment();
-                ++stats.steps;
 
-                bool goContinue = false;
-                while (!goContinue) {
-                    stepState state = this->checkStep();
-                    if (state == stepState::EXITED)
-                        return;
-                    else if (state != stepState::PAUSED)
-                        goContinue = true;
-                }
+                DO_CHECKSTEP_INSTRUCTIONS; ++stats.steps;
             }
 
             numbers[j] = temp;

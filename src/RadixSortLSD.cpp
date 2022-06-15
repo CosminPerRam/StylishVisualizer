@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include "Utilities.h"
+
 RadixSortLSD::RadixSortLSD(unsigned count) {
     shuffle(count);
 }
@@ -12,7 +14,7 @@ void RadixSortLSD::sorter() {
     std::list<int> pocket[10];
 
     for (int i = 0; i < maxDigits; i++) {
-        int m = pow(10, i + 1), p = m / 10;
+        int m = Utilities::Math::pow(10, i + 1), p = m / 10;
 
         for (int j = 0; j < n; j++) {
             int temp = (int)numbers[j] % m;
@@ -24,21 +26,12 @@ void RadixSortLSD::sorter() {
         int count = 0;
         for (int j = 0; j < 10; j++) {
             while (!pocket[j].empty()) {
-                numbers[count] = *(pocket[j].begin());
+                numbers[count] = static_cast<float>(*(pocket[j].begin()));
                 stats.addAssigment();
                 pocket[j].erase(pocket[j].begin());
                 count++;
 
-                ++stats.steps;
-
-                bool goContinue = false;
-                while (!goContinue) {
-                    stepState state = this->checkStep();
-                    if (state == stepState::EXITED)
-                        return;
-                    else if (state != stepState::PAUSED)
-                        goContinue = true;
-                }
+                DO_CHECKSTEP_INSTRUCTIONS; ++stats.steps;
             }
         }
     }

@@ -13,3 +13,12 @@ namespace Utilities::Random {
 		return distr(gen);
 	}
 }
+
+namespace Utilities::Math {
+	int pow(int base, int power) {
+		if (power == 0)
+			return 1;
+
+		return base * pow(base, power - 1);
+	}
+}

@@ -10,7 +10,7 @@ namespace Utilities
 
 	namespace Math
 	{
-
+		int pow(int base, int power);
 	}
 
 	namespace Platform

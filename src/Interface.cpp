@@ -64,7 +64,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImGui::PushItemWidth(128);
 	float delay = Manager::delay;
-	if (ImGui::SliderFloat("Delay", &delay, 1.f, 250.f, "%.2f ms", ImGuiSliderFlags_Logarithmic))
+	if (ImGui::SliderFloat("Delay", &delay, 1.f, 250.f, "%.f ms", ImGuiSliderFlags_Logarithmic))
 		Manager::delay = delay;
 	ImGui::PopItemWidth(); ImGui::SameLine();
 
@@ -108,7 +108,7 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImGui::Text("Visual time: %.2f s", Manager::visualTime.asSeconds());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Real time: %d ms", currentData.sortTime.asMilliseconds()); ImGui::SameLine();
+		ImGui::Text("Real time: %.f ms", currentData.sortTimeMs); ImGui::SameLine();
 		Custom::HelpMarker("(An approximation)");
 
 		ImGui::EndTable();

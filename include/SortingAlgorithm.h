@@ -9,12 +9,21 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
+#define DO_CHECKSTEP_INSTRUCTIONS bool goContinue = false; \
+					while (!goContinue) { \
+						stepState state = this->checkStep(); \
+						if (state == stepState::EXITED) \
+							return; \
+						else if (state != stepState::PAUSED) \
+							goContinue = true; \
+					}
+
 class SortingAlgorithm
 {
 public:
 	struct statistics
 	{
-		sf::Time sortTime;
+		float sortTimeMs = 0.f;
 		unsigned comparisons = 0, reads = 0, writes = 0, steps = 0;
 
 		void reset();
