@@ -76,12 +76,13 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::PopItemWidth(); ImGui::SameLine();
 
 	ImGui::BeginDisabled(isRunning);
-	if (ImGui::Button("Shuffle"))
+	if (ImGui::Button("Shuffle")) {
 		Manager::shuffle();
+		Settings::CURSOR_LINE_WIDTH = Settings::calculateCursorLineWidth();
+	}
 	ImGui::SameLine();
 	ImGui::PushItemWidth(128);
-	if (ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic))
-		Settings::CURSOR_LINE_WIDTH = Settings::calculateCursorLineWidth();
+	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
 	
@@ -153,6 +154,12 @@ void Interface::pollEvent(sf::RenderWindow& window, sf::Event& theEvent) {
 void Interface::update(sf::RenderWindow& window, sf::Time diffTime) {
 	ImGui::SFML::Update(window, diffTime);
 
-	if(Manager::isRunning())
-		Audio::play(Manager::Sorter->getStatistics().cursorValue);
+	auto& stats = Manager::Sorter->getStatistics();
+
+	static int oldVal = 0, oldPos = 0;
+	if (Manager::isRunning() && (oldVal != stats.cursorValue || oldPos != stats.cursorPosition)) {
+		oldVal = stats.cursorValue;
+		oldPos = stats.cursorPosition;
+		Audio::play(oldVal);
+	}
 }
