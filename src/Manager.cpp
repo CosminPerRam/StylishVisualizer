@@ -88,6 +88,9 @@ void Manager::changedAlgorithm() {
 	case 5:
 		Sorter = new RadixSortMSD();
 		break;
+	case 6:
+		Sorter = new CocktailSort();
+		break;
 	default:
 		break;
 	}

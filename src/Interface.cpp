@@ -126,10 +126,12 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
 	if (ImPlot::BeginPlot("##Histogram", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
-		ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_NoGridLines, ImPlotAxisFlags_NoGridLines);
-		ImPlot::SetupAxesLimits(0, Manager::Sorter->getNumbers().size(), 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
+		const std::vector<float>& numbers = Manager::Sorter->getNumbers(); int numbersSize = numbers.size();
 
-		ImPlot::PlotBars("##Numbers", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size());
+		ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_NoGridLines, ImPlotAxisFlags_NoGridLines);
+		ImPlot::SetupAxesLimits(0, numbersSize, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
+
+		ImPlot::PlotBars("##Numbers", &numbers[0], numbersSize);
 
 		ImPlot::PushStyleColor(ImPlotCol_Fill, { 255, 0, 0, 255 });
 		ImPlot::PlotBars("##Cursor", &currentData.cursorPosition, &currentData.cursorValue, 1, Settings::CURSOR_LINE_WIDTH);

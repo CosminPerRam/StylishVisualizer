@@ -93,6 +93,9 @@
     <ClCompile Include="libraries\implot\implot_items.cpp">
       <Filter>Source Files\implot</Filter>
     </ClCompile>
+    <ClCompile Include="src\CocktailSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="include\Settings.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CocktailSort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
