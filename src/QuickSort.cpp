@@ -17,6 +17,7 @@ void QuickSort::sorter()
         h = stack[top--];
         l = stack[top--];
 
+        DO_PUT_CURSOR_AT(h);
         float x = numbers[h];
         stats.addAssigment();
         int i = (l - 1);
@@ -30,6 +31,8 @@ void QuickSort::sorter()
                 stats.addSwap();
                 DO_PROGRESSIVE_CHECKSTEP;
             }
+
+            DO_PUT_CURSOR_AT(j);
         }
         std::swap(numbers[i + 1], numbers[h]);
 

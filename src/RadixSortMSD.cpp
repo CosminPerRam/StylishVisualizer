@@ -24,6 +24,7 @@ void RadixSortMSD::MSDRadixSort(std::vector<int>& tabAux, int low, int high, int
     for (int i = low; i < high; ++i) {
         counter[getByte(numbers[i], digit) + 2]++;
         ++stats.reads;
+        DO_PUT_CURSOR_AT(i);
     }
 
     for (int r = 0; r < RADIX + 1; ++r)
@@ -32,12 +33,13 @@ void RadixSortMSD::MSDRadixSort(std::vector<int>& tabAux, int low, int high, int
     for (int i = low; i < high; ++i) {
         tabAux[counter[getByte(numbers[i], digit) + 1]++] = numbers[i];
         ++stats.reads; ++stats.reads;
+        DO_PUT_CURSOR_AT(i);
     }
 
     for (int i = low; i < high; ++i) {
         numbers[i] = tabAux[i - low];
         stats.addAssigment();
-        DO_CHECKSTEP;
+        DO_CHECKSTEP; DO_PUT_CURSOR_AT(i);
     }
 
     for (int r = 0; r < RADIX + 1; ++r) {

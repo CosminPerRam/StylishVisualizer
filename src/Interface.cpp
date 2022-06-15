@@ -8,6 +8,7 @@
 #include "Manager.h"
 #include "Audio.h"
 #include "Settings.h"
+#include "Utilities.h"
 
 void Interface::Custom::HelpMarker(const char* desc) {
 	ImGui::TextDisabled("(?)");
@@ -79,7 +80,8 @@ void Interface::draw(sf::RenderWindow& window) {
 		Manager::shuffle();
 	ImGui::SameLine();
 	ImGui::PushItemWidth(128);
-	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
+	if (ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic))
+		Settings::CURSOR_LINE_WIDTH = Settings::calculateCursorLineWidth();
 	ImGui::PopItemWidth();
 	ImGui::EndDisabled();
 	/*
@@ -95,9 +97,9 @@ void Interface::draw(sf::RenderWindow& window) {
 	*/
 	ImGui::Separator();
 
-	if (ImGui::BeginTable("table", 6, ImGuiTableFlags_BordersInnerV)) {
-		const SortingAlgorithm::statistics& currentData = Manager::Sorter->getStatistics();
+	const SortingAlgorithm::statistics& currentData = Manager::Sorter->getStatistics();
 
+	if (ImGui::BeginTable("table", 6, ImGuiTableFlags_BordersInnerV)) {
 		ImGui::TableNextColumn();
 		ImGui::Text("Comparisons: %u", currentData.comparisons);
 
@@ -123,13 +125,16 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::Separator();
 
 	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
-	if (ImPlot::BeginPlot("##Histogram", plotSize)) {
-		int p[1] = { 50 };
-		int c[1] = { Manager::Sorter->getNumbers()[p[0]]};
-		ImPlot::PushStyleColor(ImPlotCol_Fill, { 0, 0, 255, 100 });
-		ImPlot::PlotBars("##Cursor", p, c, 1, 0.5);
+	if (ImPlot::BeginPlot("##Histogram", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
+		ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_NoGridLines, ImPlotAxisFlags_NoGridLines);
+		ImPlot::SetupAxesLimits(0, Manager::Sorter->getNumbers().size(), 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
+
+		ImPlot::PlotBars("##Numbers", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size());
+
+		ImPlot::PushStyleColor(ImPlotCol_Fill, { 255, 0, 0, 255 });
+		ImPlot::PlotBars("##Cursor", &currentData.cursorPosition, &currentData.cursorValue, 1, Settings::CURSOR_LINE_WIDTH);
 		ImPlot::PopStyleColor();
-		ImPlot::PlotBars("##Numbers", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size(), 1.f / Manager::Sorter->getNumbers().size());
+
 		ImPlot::EndPlot();
 	}
 

@@ -9,7 +9,9 @@
 
 void SortingAlgorithm::statistics::reset() {
 	sortTimeMs = 0.f;
-	comparisons = reads = writes = steps = 0;
+	comparisons = 0; reads = 0; writes = 0; steps = 0;
+
+	cursorPosition = 0; cursorValue = 0;
 }
 
 void SortingAlgorithm::statistics::addComparison() {
@@ -29,6 +31,11 @@ void SortingAlgorithm::statistics::addSwap() {
 
 SortingAlgorithm::SortingAlgorithm() {
 	this->shuffle();
+}
+
+void SortingAlgorithm::putCursorAt(unsigned position) {
+	stats.cursorPosition = position;
+	stats.cursorValue = numbers[position];
 }
 
 void SortingAlgorithm::reset() {
@@ -106,6 +113,6 @@ void SortingAlgorithm::shuffle() {
 
 	numbers.resize(Settings::SHUFFLE_CURRENT_COUNT);
 
-	for (unsigned i = 0; i < Settings::SHUFFLE_CURRENT_COUNT; i++)
+	for (int i = 0; i < Settings::SHUFFLE_CURRENT_COUNT; i++)
 		numbers[i] = static_cast<float>(Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE));
 }

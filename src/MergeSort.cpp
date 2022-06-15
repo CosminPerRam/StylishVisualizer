@@ -9,10 +9,12 @@ void MergeSort::merge(int l, int m, int r)
     std::vector<float> L(n1, 0), R(n2, 0);
 
     for (int i = 0; i < n1; i++) {
+        DO_PUT_CURSOR_AT(i);
         L[i] = numbers[l + i];
         stats.addAssigment();
     }
     for (int j = 0; j < n2; j++) {
+        DO_PUT_CURSOR_AT(j);
         R[j] = numbers[m + 1 + j];
         stats.addAssigment();
     }
@@ -31,6 +33,7 @@ void MergeSort::merge(int l, int m, int r)
             numbers[k] = R[j];
             j++;
         }
+        DO_PUT_CURSOR_AT(k);
 
         k++;
 
@@ -39,6 +42,7 @@ void MergeSort::merge(int l, int m, int r)
 
     while (i < n1) {
         numbers[k] = L[i];
+        DO_PUT_CURSOR_AT(k);
         stats.addAssigment();
         i++;
         k++;
@@ -48,6 +52,7 @@ void MergeSort::merge(int l, int m, int r)
 
     while (j < n2) {
         numbers[k] = R[j];
+        DO_PUT_CURSOR_AT(k);
         stats.addAssigment();
         j++;
         k++;

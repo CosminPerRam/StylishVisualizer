@@ -20,6 +20,7 @@
 #define DO_PROGRESSIVE_CHECKSTEP ++stats.steps; DO_CHECKSTEP;
 #define DO_STARTED this->reset();
 #define DO_FINISHED m_isFinished = true;
+#define DO_PUT_CURSOR_AT(position) this->putCursorAt(position);
 
 class SortingAlgorithm
 {
@@ -28,6 +29,8 @@ public:
 	{
 		float sortTimeMs = 0.f;
 		unsigned comparisons = 0, reads = 0, writes = 0, steps = 0;
+
+		unsigned cursorPosition = 0, cursorValue = 0;
 
 		void reset();
 
@@ -51,6 +54,7 @@ protected:
 
 	virtual void sorter() = 0;
 
+	void putCursorAt(unsigned position);
 	void reset();
 	stepState checkStep();
 
