@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\SFML-2.5.1\include;$(SolutionDir)libraries\implot</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -163,6 +163,9 @@
     <ClCompile Include="libraries\imgui\imgui_draw.cpp" />
     <ClCompile Include="libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="libraries\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="libraries\implot\implot.cpp" />
+    <ClCompile Include="libraries\implot\implot_demo.cpp" />
+    <ClCompile Include="libraries\implot\implot_items.cpp" />
     <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\BubbleSort.cpp" />
     <ClCompile Include="src\Interface.cpp" />

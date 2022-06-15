@@ -12,6 +12,7 @@ Check the [releases](https://github.com/CosminPerRam/ImGui-Visualizer/releases) 
  - [SFML](https://www.sfml-dev.org/) 2.5.1! (Using all modules except for the `network` one)
  - [imgui](https://github.com/ocornut/imgui) 1.87
  - [imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 2.5
+ - [implot](https://github.com/epezent/implot) 0.13
 
 ## Building the game
 ### Windows - Visual Studio
@@ -26,10 +27,11 @@ Check the [releases](https://github.com/CosminPerRam/ImGui-Visualizer/releases) 
 8. Download `imgui-sfml` (from [here](https://github.com/eliasdaler/imgui-sfml)), unzip it and extract all .cpp and .h files into the `imgui` folder
 9. Inside `imconfig.h` add `#include "imconfig-SFML.h"` at the top of the file  
 ([this video](https://www.youtube.com/watch?v=2YS5WJTeKpI) is a good tutorial for doing the last 3 steps)
-10. Open `ImGui-Visualizer.sln`
-11. Select the desired configuration (`Debug`/`Release`) and build!  
+10. Download `implot` (from [here](https://github.com/ocornut/imgui)), unzip it, rename the folder to `implot` and place it into the `libraries` folder
+11. Open `ImGui-Visualizer.sln`
+12. Select the desired configuration (`Debug`/`Release`) and build!  
 *. Note: `openal32.dll` (from SFML's `bin` folder) is needed to be in the Debug/Release folder.
 
 ~~### Linux/MacOS - CMake
-*. You need to do the steps `3`, `7`, `8` and `9` from above.  
+*. You need to do the steps `3`, `7`, `8`, `9` and `10` from above.  
 Clone the repo and check out the cmake script.~~

@@ -22,6 +22,9 @@
     <Filter Include="Source Files\SortingAlgorithms">
       <UniqueIdentifier>{0982d5ce-54f9-4402-badf-5c44d62b1fec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\implot">
+      <UniqueIdentifier>{c1859ef9-982d-4540-a737-ef8599977d95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -80,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="src\RadixSortMSD.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="libraries\implot\implot.cpp">
+      <Filter>Source Files\implot</Filter>
+    </ClCompile>
+    <ClCompile Include="libraries\implot\implot_demo.cpp">
+      <Filter>Source Files\implot</Filter>
+    </ClCompile>
+    <ClCompile Include="libraries\implot\implot_items.cpp">
+      <Filter>Source Files\implot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

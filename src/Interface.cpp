@@ -3,6 +3,7 @@
 
 #include "imgui-SFML.h"
 #include "imgui.h"
+#include "implot.h"
 
 #include "Manager.h"
 #include "Audio.h"
@@ -22,10 +23,14 @@ void Interface::Custom::HelpMarker(const char* desc) {
 
 void Interface::initialize(sf::RenderWindow& window) {
 	ImGui::SFML::Init(window);
+	ImGui::CreateContext();
+	ImPlot::CreateContext();
 }
 
 void Interface::shutdown() {
-	ImGui::SFML::Shutdown();
+	//ImGui::SFML::Shutdown();
+	ImPlot::DestroyContext();
+	ImGui::DestroyContext();
 }
 
 void Interface::draw(sf::RenderWindow& window) {
@@ -117,8 +122,16 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImGui::Separator();
 
-	ImVec2 histogramSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
-	ImGui::PlotHistogram("##values", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size(), 0, NULL, 0.0f, Settings::SHUFFLE_MAX_VALUE, histogramSize);
+	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
+	if (ImPlot::BeginPlot("##Histogram", plotSize)) {
+		int p[1] = { 50 };
+		int c[1] = { Manager::Sorter->getNumbers()[p[0]]};
+		ImPlot::PushStyleColor(ImPlotCol_Fill, { 0, 0, 255, 100 });
+		ImPlot::PlotBars("##Cursor", p, c, 1, 0.5);
+		ImPlot::PopStyleColor();
+		ImPlot::PlotBars("##Numbers", &Manager::Sorter->getNumbers()[0], Manager::Sorter->getNumbers().size(), 1.f / Manager::Sorter->getNumbers().size());
+		ImPlot::EndPlot();
+	}
 
 	ImGui::End();
 	ImGui::PopStyleVar();
