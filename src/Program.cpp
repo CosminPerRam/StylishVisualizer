@@ -5,6 +5,7 @@
 
 #include "Interface.h"
 #include "Manager.h"
+#include "Audio.h"
 
 void Program::draw(sf::RenderWindow& window) {
 	Interface::draw(window);
@@ -27,6 +28,7 @@ int Program::start() {
 
 	Interface::initialize(window);
 	Manager::initialize();
+	Audio::initialize();
 
 	while (window.isOpen()) {
 		sf::Event theEvent;

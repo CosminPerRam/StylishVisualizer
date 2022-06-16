@@ -92,8 +92,31 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SameLine();
 	ImGui::BeginDisabled(!Audio::enabled);
 	ImGui::PushItemWidth(128);
-	ImGui::SliderFloat("Volume", &Audio::volume, 0, 100, "%.f");
+	if (ImGui::SliderFloat("Volume", &Audio::volume, 0, 100, "%.f"))
+		Audio::volumeChanged();
 	ImGui::PopItemWidth();
+
+	ImGui::SameLine();
+
+	if(ImGui::Button("SFX", { 48, 0 }))
+		ImGui::OpenPopup("AudioOptions");
+
+	if (ImGui::BeginPopup("AudioOptions"))
+	{
+		ImGui::Text("Pitch");
+		ImGui::SliderFloat("Min##Pitch", &Settings::AUDIO_MIN_PITCH, 0.5f, 8.f);
+		ImGui::SliderFloat("Max##Pitch", &Settings::AUDIO_MAX_PITCH, 0.5f, 8.f);
+		ImGui::Text("Amp");
+		ImGui::SliderFloat("Min##Amp", &Settings::AUDIO_MIN_AMP, 0.4f, 1.6f);
+		ImGui::SliderFloat("Max##Amp", &Settings::AUDIO_MAX_AMP, 0.4f, 1.6f);
+		ImGui::Text("Frequency");
+		ImGui::SliderFloat("Min##Frequency", &Settings::AUDIO_MIN_FREQUENCY, 100.f, 1000.f);
+		ImGui::SliderFloat("Max##Frequency", &Settings::AUDIO_MAX_FREQUENCY, 100.f, 1000.f);
+
+		ImGui::EndPopup();
+	}
+
+	
 	ImGui::EndDisabled();
 	
 	ImGui::Separator();
