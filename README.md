@@ -1,7 +1,7 @@
 # ImGui-Visualizer
 This is a program which visualizes a bunch of [sorting algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm).  
 Made in C++17 using SFML, ImGui and ImPlot (the code is cross platform).  
-~~See a video of this program in action [here]().~~
+See a video of the program in action [here](https://www.youtube.com/watch?v=IISj6aj4E6o).
 
 ## Capabilities
 Has the following sorting algorithms:
