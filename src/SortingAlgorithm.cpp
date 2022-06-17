@@ -66,6 +66,8 @@ void SortingAlgorithm::reset() {
 SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	if (m_exit)
 		return stepState::EXITED;
+	else if (m_doStep)
+		m_pause = true;
 	else if (m_pause) {
 		sf::sleep(sf::milliseconds(Settings::PAUSE_SLEEPms));
 		theClock.restart();
@@ -78,7 +80,6 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	theClock.restart();
 
 	if (m_doStep) {
-		m_pause = true;
 		m_doStep = false;
 		return stepState::STEP;
 	}

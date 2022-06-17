@@ -3,7 +3,7 @@
 
 #include "Utilities.h"
 
-namespace Settings
+struct Settings
 {
 	inline static const int SHUFFLE_MAX_VALUE = 8192;
 	inline static const int SHUFFLE_MAX_COUNT = 4096;
@@ -35,6 +35,6 @@ namespace Settings
 
 	inline static bool PLOT_DO_AFTERCHECK = true;
 	inline static bool PLOT_SHUFFLE_ON_ALGO_CHANGE = false;
-	
+
 	inline static const int PAUSE_SLEEPms = 8;
-}
+};
