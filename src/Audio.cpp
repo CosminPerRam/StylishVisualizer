@@ -32,9 +32,9 @@ short SineWave(double time, double freq, double amplitude) {
 	return sin(rad) * (32767 * amplitude);
 }
 
-short SquareWave(double time, double freq, double amplitude) {
+short SquareWave(unsigned time, unsigned freq, unsigned amplitude) {
 	int tpc = 44100 / freq; // ticks per cycle
-	int cyclepart = int(time) % tpc;
+	int cyclepart = time % tpc;
 	int halfcycle = tpc / 2;
 	if (cyclepart < halfcycle)
 		return 32767 * amplitude;
@@ -50,7 +50,7 @@ void Audio::play(unsigned value) {
 	float amp = Utilities::Math::map(static_cast<float>(value), 0, Settings::SHUFFLE_MAX_VALUE, Settings::AUDIO_MIN_AMP, Settings::AUDIO_MAX_AMP);
 	float pitch = Utilities::Math::map(static_cast<float>(value), 0, Settings::SHUFFLE_MAX_VALUE, Settings::AUDIO_MIN_PITCH, Settings::AUDIO_MAX_PITCH);
 
-	for (int i = 0; i < 44100; i++) {
+	for (unsigned i = 0; i < 44100; i++) {
 		if(Settings::AUDIO_WAVE_TYPE == 0)
 			samples[i] = SineWave(i, freq, amp);
 		else

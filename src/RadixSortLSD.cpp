@@ -9,7 +9,7 @@ void RadixSortLSD::sorter() {
     DO_STARTED;
 
     int maxDigits = 4, n = numbers.size();
-    std::list<int> pocket[10];
+    std::list<unsigned> pocket[10];
 
     for (int i = 0; i < maxDigits; i++) {
         int m = Utilities::Math::pow(10, i + 1), p = m / 10;
@@ -25,7 +25,7 @@ void RadixSortLSD::sorter() {
         int count = 0;
         for (int j = 0; j < 10; j++) {
             while (!pocket[j].empty()) {
-                numbers[count] = static_cast<float>(*(pocket[j].begin()));
+                numbers[count] = *(pocket[j].begin());
                 DO_PUT_CURSOR_AT(count);
                 stats.addAssigment();
                 pocket[j].erase(pocket[j].begin());

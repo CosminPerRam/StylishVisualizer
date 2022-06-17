@@ -18,8 +18,8 @@ short int getByte(unsigned int elem, unsigned int i) {
     else return -1;
 }
 
-void RadixSortMSD::MSDRadixSort(std::vector<int>& tabAux, int low, int high, int digit) {
-    std::vector<int> counter(RADIX + 2);
+void RadixSortMSD::MSDRadixSort(std::vector<unsigned>& tabAux, int low, int high, int digit) {
+    std::vector<unsigned> counter(RADIX + 2);
 
     for (int i = low; i < high; ++i) {
         counter[getByte(numbers[i], digit) + 2]++;
@@ -53,7 +53,7 @@ void RadixSortMSD::MSDRadixSort(std::vector<int>& tabAux, int low, int high, int
 void RadixSortMSD::sorter() {
     DO_STARTED;
 
-    std::vector<int> tabAux(numbers.size());
+    std::vector<unsigned> tabAux(numbers.size());
     MSDRadixSort(tabAux, 0, numbers.size(), 0);
 
     DO_FINISHED;

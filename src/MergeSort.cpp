@@ -1,12 +1,12 @@
 
 #include "MergeSort.h"
 
-void MergeSort::merge(int l, int m, int r)
+void MergeSort::merge(const int l, const int m, const int r)
 {
-    int n1 = m - l + 1;
-    int n2 = r - m;
+    const int n1 = m - l + 1;
+    const int n2 = r - m;
 
-    std::vector<float> L(n1, 0), R(n2, 0);
+    std::vector<unsigned> L(n1), R(n2);
 
     for (int i = 0; i < n1; i++) {
         DO_PUT_CURSOR_AT(i);
@@ -67,7 +67,7 @@ void MergeSort::mergeSort(int l, int r)
 {
     if (l < r)
     {
-        int m = l + (r - l) / 2;
+        const int m = l + (r - l) / 2;
         mergeSort(l, m);
         mergeSort(m + 1, r);
         merge(l, m, r);

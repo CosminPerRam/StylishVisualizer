@@ -9,7 +9,7 @@ void ShellSort::sorter() {
     {
         for (int i = gap; i < n; i += 1)
         {
-            float temp = numbers[i];
+            unsigned temp = numbers[i];
             stats.addAssigment();
 
             int j;

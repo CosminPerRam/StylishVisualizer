@@ -6,7 +6,7 @@
 namespace Settings
 {
 	inline static const int SHUFFLE_MAX_VALUE = 8192;
-	inline static const int SHUFFLE_MAX_COUNT = 8192;
+	inline static const int SHUFFLE_MAX_COUNT = 4096;
 
 	inline extern int SHUFFLE_CURRENT_COUNT = 128;
 
@@ -29,7 +29,7 @@ namespace Settings
 	inline extern bool PLOT_LINES = false;
 	inline extern bool PLOT_FILLED_LINES = false;
 	inline extern bool PLOT_CURSOR_SHOW = true;
-	inline extern bool PLOT_CURSOR_DOT = true;
+	inline extern bool PLOT_CURSOR_DOT = false;
 	
 	inline static const int PAUSE_SLEEPms = 8;
 }

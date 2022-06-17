@@ -18,7 +18,7 @@ void QuickSort::sorter()
         l = stack[top--];
 
         DO_PUT_CURSOR_AT(h);
-        float x = numbers[h];
+        unsigned x = numbers[h];
         stats.addAssigment();
         int i = (l - 1);
 

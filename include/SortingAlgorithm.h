@@ -4,7 +4,6 @@
 #include <vector>
 #include <thread>
 #include <atomic>
-#include <mutex>
 
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
@@ -21,6 +20,7 @@
 #define DO_STARTED this->reset();
 #define DO_FINISHED this->doFinisherLoop(); m_isFinished = true;
 #define DO_PUT_CURSOR_AT(position) this->putCursorAt(position);
+#define DO_PUT_CURSOR_AT_WITH_BACKWARDS(position) this->putCursorAt(position, true);
 
 class SortingAlgorithm
 {
@@ -40,11 +40,9 @@ public:
 	};
 
 protected:
-	//std::mutex variablesMutex;
-
 	statistics stats;
 
-	std::vector<float> numbers;
+	std::vector<unsigned> numbers;
 
 	sf::Clock theClock;
 
@@ -55,7 +53,7 @@ protected:
 	virtual void sorter() = 0;
 
 	void doFinisherLoop();
-	void putCursorAt(unsigned position);
+	void putCursorAt(unsigned position, bool withOneBackwards = false);
 	void reset();
 	stepState checkStep();
 
@@ -71,6 +69,6 @@ public:
 	void shuffle();
 
 	bool isFinished();
-	const std::vector<float>& getNumbers();
+	const std::vector<unsigned>& getNumbers();
 	const statistics& getStatistics();
 };

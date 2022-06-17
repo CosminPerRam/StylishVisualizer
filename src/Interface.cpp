@@ -209,7 +209,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
 	if (ImPlot::BeginPlot("##Histogram", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
-		const std::vector<float>& numbers = Manager::Sorter->getNumbers(); int numbersSize = numbers.size();
+		const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); int numbersSize = numbers.size();
 
 		ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_NoGridLines, ImPlotAxisFlags_NoGridLines);
 		ImPlot::SetupAxesLimits(0, numbersSize, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
@@ -244,7 +244,7 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImPlot::EndPlot();
 	}
 
-	ImPlot::ShowDemoWindow();
+	//ImPlot::ShowDemoWindow();
 
 	ImGui::End();
 

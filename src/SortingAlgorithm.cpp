@@ -42,9 +42,13 @@ void SortingAlgorithm::doFinisherLoop() {
 	}
 }
 
-void SortingAlgorithm::putCursorAt(unsigned position) {
+void SortingAlgorithm::putCursorAt(unsigned position, bool withOneBackwards) {
 	stats.cursorPosition = position;
-	stats.cursorValue = numbers[position];
+
+	if(withOneBackwards)
+		stats.cursorValue = numbers[position - 1];
+	else
+		stats.cursorValue = numbers[position];
 }
 
 void SortingAlgorithm::reset() {
@@ -109,7 +113,7 @@ bool SortingAlgorithm::isFinished() {
 	return m_isFinished; 
 }
 
-const std::vector<float>& SortingAlgorithm::getNumbers() {
+const std::vector<unsigned>& SortingAlgorithm::getNumbers() {
 	return numbers; 
 }
 
@@ -123,5 +127,5 @@ void SortingAlgorithm::shuffle() {
 	numbers.resize(Settings::SHUFFLE_CURRENT_COUNT);
 
 	for (int i = 0; i < Settings::SHUFFLE_CURRENT_COUNT; i++)
-		numbers[i] = static_cast<float>(Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE));
+		numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
 }
