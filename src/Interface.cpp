@@ -44,8 +44,8 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImGui::Begin("MainWindow", 0, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse);
 
-	ImGui::PushItemWidth(128);
-	if (ImGui::Combo("Algorithm", &Manager::selectedAlgorithm, Manager::algorithmsNames, IM_ARRAYSIZE(Manager::algorithmsNames)))
+	ImGui::PushItemWidth(130);
+	if (ImGui::Combo("##Algorithm", &Manager::selectedAlgorithm, Manager::algorithmsNames, IM_ARRAYSIZE(Manager::algorithmsNames)))
 		Manager::changedAlgorithm();
 	ImGui::PopItemWidth(); ImGui::SameLine();
 
@@ -76,6 +76,15 @@ void Interface::draw(sf::RenderWindow& window) {
 	static bool noDelay = false;
 	static float oldDelay = 0.f;
 
+	ImGui::BeginDisabled(noDelay);
+	ImGui::PushItemWidth(128);
+	ImGui::Text("Delay"); ImGui::SameLine();
+	float delay = Manager::delayMs;
+	if (ImGui::SliderFloat("##Delay", &delay, 1.f, 500.f, "%.2f ms", ImGuiSliderFlags_Logarithmic))
+		Manager::delayMs = delay;
+	ImGui::PopItemWidth(); 
+	ImGui::EndDisabled(); ImGui::SameLine();
+
 	if (ImGui::Checkbox("No delay", &noDelay)) {
 		if (noDelay) {
 			oldDelay = Manager::delayMs;
@@ -86,23 +95,15 @@ void Interface::draw(sf::RenderWindow& window) {
 	} ImGui::SameLine();
 	Custom::HelpMarker("For those extra-slow algorithms."); ImGui::SameLine();
 
-	ImGui::BeginDisabled(noDelay);
-	ImGui::PushItemWidth(128);
-	float delay = Manager::delayMs;
-	if (ImGui::SliderFloat("Delay", &delay, 1.f, 500.f, "%.2f ms", ImGuiSliderFlags_Logarithmic))
-		Manager::delayMs = delay;
-	ImGui::PopItemWidth(); 
-	ImGui::EndDisabled(); ImGui::SameLine();
-
 	ImGui::BeginDisabled(isRunning);
+	ImGui::PushItemWidth(128);
+	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
 	if (ImGui::Button("Shuffle", { 64, 0 })) {
 		Manager::shuffle();
 		Settings::CURSOR_LINE_WIDTH = Settings::calculateCursorLineWidth();
 	}
-	ImGui::SameLine();
-	ImGui::PushItemWidth(128);
-	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
-	ImGui::PopItemWidth();
 	ImGui::EndDisabled(); ImGui::SameLine();
 
 	ImGui::Checkbox("Audio", &Audio::enabled); ImGui::SameLine();
@@ -136,8 +137,6 @@ void Interface::draw(sf::RenderWindow& window) {
 	if (ImGui::Button("Styling", { 64, 0 }))
 		ImGui::OpenPopup("StylingPopup");
 
-	static bool showImGuiStyling = false, showImPlotStyling = false;
-
 	if (ImGui::BeginPopup("StylingPopup"))
 	{
 		if (ImGui::Button("Plot", { 64, 0 }))
@@ -145,7 +144,19 @@ void Interface::draw(sf::RenderWindow& window) {
 
 		if (ImGui::BeginPopup("PlotStyling"))
 		{
+			static bool idxWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
+			if (idxWarning) {
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1, 0, 0, 1));
+				ImGui::Text("Warning! (hover over me)");
+				ImGui::PopStyleColor();
+				if (ImGui::IsItemHovered()) {
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1, 0, 0, 1));
+					ImGui::SetTooltip("ImDrawIdx is 16-bits and ImGuiBackendFlags_RendererHasVtxOffset is false.\nEnabling too many plot types at high counts might end up in a crash due\nto producing too many vertices, see the README for more informations.");
+					ImGui::PopStyleColor();
+				}
+			}
 			ImGui::Checkbox("Bars", &Settings::PLOT_BARS);
+			ImGui::Checkbox("Stems", &Settings::PLOT_STEMS);
 			ImGui::Checkbox("Lines", &Settings::PLOT_LINES);
 			ImGui::BeginDisabled(!Settings::PLOT_LINES);
 			ImGui::Checkbox("Filled lines", &Settings::PLOT_FILLED_LINES);
@@ -154,6 +165,8 @@ void Interface::draw(sf::RenderWindow& window) {
 			ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
 			ImGui::Checkbox("Dot cursor", &Settings::PLOT_CURSOR_DOT);
 			ImGui::EndDisabled();
+			ImGui::Checkbox("Show scale", &Settings::PLOT_SHOW_SCALE);
+
 			ImGui::EndPopup();
 		}
 
@@ -174,6 +187,20 @@ void Interface::draw(sf::RenderWindow& window) {
 			ImPlot::ShowStyleEditor();
 			ImGui::EndPopup();
 		}
+
+		ImGui::EndPopup();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Options", { 64, 0 }))
+		ImGui::OpenPopup("OptionsPopup");
+
+	if (ImGui::BeginPopup("OptionsPopup"))
+	{
+		ImGui::Checkbox("Shuffle on change", &Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE);
+		ImGui::SameLine(); Custom::HelpMarker("Shuffle the numbers when\nchanging the algorithm.");
+		ImGui::Checkbox("Reiterate when done", &Settings::PLOT_DO_AFTERCHECK);
+		ImGui::SameLine(); Custom::HelpMarker("Iterates the data one more time\nafter the algorithm finishes.");
 
 		ImGui::EndPopup();
 	}
@@ -208,23 +235,30 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::Separator();
 
 	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
-	if (ImPlot::BeginPlot("##Histogram", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
+	if (ImPlot::BeginPlot("##MainPlot", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
 		const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); int numbersSize = numbers.size();
 
-		ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_NoGridLines, ImPlotAxisFlags_NoGridLines);
+		ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
+
+		if (!Settings::PLOT_SHOW_SCALE)
+			axisFlags += ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
+
+		ImPlot::SetupAxes(NULL, NULL, axisFlags, axisFlags);
 		ImPlot::SetupAxesLimits(0, numbersSize, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
 
 		if(Settings::PLOT_BARS)
-			ImPlot::PlotBars("##Numbers_bars", &numbers[0], numbersSize);
-		if (Settings::PLOT_LINES) {
-			ImPlot::PlotLine("##Numbers2", &numbers[0], numbersSize);
+			ImPlot::PlotBars("##NumbersBars", &numbers[0], numbersSize);
+		if(Settings::PLOT_LINES) {
+			ImPlot::PlotLine("##NumbersLines", &numbers[0], numbersSize);
 
 			if (Settings::PLOT_FILLED_LINES) {
 				ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.25f);
-				ImPlot::PlotShaded("##Numbers2", &numbers[0], numbersSize);
+				ImPlot::PlotShaded("##NumbersLinesFilled", &numbers[0], numbersSize);
 				ImPlot::PopStyleVar();
 			}
 		}
+		if(Settings::PLOT_STEMS)
+			ImPlot::PlotStems("##NumbersStems", &numbers[0], numbersSize);
 
 		if (Settings::PLOT_CURSOR_SHOW) {
 			ImPlot::PushStyleColor(ImPlotCol_Fill, { 255, 0, 0, 255 });
@@ -244,7 +278,7 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImPlot::EndPlot();
 	}
 
-	//ImPlot::ShowDemoWindow();
+	ImPlot::ShowDemoWindow();
 
 	ImGui::End();
 

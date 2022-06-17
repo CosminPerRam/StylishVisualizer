@@ -31,10 +31,14 @@ void SortingAlgorithm::statistics::addSwap() {
 }
 
 SortingAlgorithm::SortingAlgorithm() {
-	this->shuffle();
+	if(Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE)
+		this->shuffle();
 }
 
 void SortingAlgorithm::doFinisherLoop() {
+	if (!Settings::PLOT_DO_AFTERCHECK)
+		return;
+
 	float finisherSleep = Utilities::Math::map(numbers.size(), 0, Settings::SHUFFLE_MAX_COUNT, 50, 1) * (1 / log(numbers.size()));
 	for (unsigned i = 0; i < numbers.size(); i++) {
 		this->putCursorAt(i);
@@ -42,11 +46,11 @@ void SortingAlgorithm::doFinisherLoop() {
 	}
 }
 
-void SortingAlgorithm::putCursorAt(unsigned position, bool withOneBackwards) {
+void SortingAlgorithm::putCursorAt(unsigned position, int withOffset) {
 	stats.cursorPosition = position;
 
-	if(withOneBackwards)
-		stats.cursorValue = numbers[position - 1];
+	if(withOffset)
+		stats.cursorValue = numbers[position + withOffset];
 	else
 		stats.cursorValue = numbers[position];
 }

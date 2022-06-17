@@ -20,7 +20,8 @@
 #define DO_STARTED this->reset();
 #define DO_FINISHED this->doFinisherLoop(); m_isFinished = true;
 #define DO_PUT_CURSOR_AT(position) this->putCursorAt(position);
-#define DO_PUT_CURSOR_AT_WITH_BACKWARDS(position) this->putCursorAt(position, true);
+#define DO_PUT_CURSOR_AT_WITH_BACKWARDS(position) this->putCursorAt(position, -1);
+#define DO_PUT_CURSOR_AT_WITH_FORWARDS(position) this->putCursorAt(position, +1);
 
 class SortingAlgorithm
 {
@@ -42,7 +43,7 @@ public:
 protected:
 	statistics stats;
 
-	std::vector<unsigned> numbers;
+	inline static std::vector<unsigned> numbers;
 
 	sf::Clock theClock;
 
@@ -53,7 +54,7 @@ protected:
 	virtual void sorter() = 0;
 
 	void doFinisherLoop();
-	void putCursorAt(unsigned position, bool withOneBackwards = false);
+	void putCursorAt(unsigned position, int withOffset = 0);
 	void reset();
 	stepState checkStep();
 

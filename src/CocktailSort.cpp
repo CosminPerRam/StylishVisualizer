@@ -35,7 +35,7 @@ void CocktailSort::sorter() {
 
         for (int i = end - 1; i >= start; --i)
         {
-            DO_PUT_CURSOR_AT_WITH_BACKWARDS(i + 1);
+            DO_PUT_CURSOR_AT_WITH_FORWARDS(i);
             stats.addComparison();
             if (numbers[i] > numbers[i + 1]) {
                 std::swap(numbers[i], numbers[i + 1]);

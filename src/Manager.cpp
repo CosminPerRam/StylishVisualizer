@@ -7,6 +7,7 @@
 
 void Manager::initialize() {
 	Sorter = new BubbleSort();
+	Sorter->shuffle();
 }
 
 void Manager::update(sf::RenderWindow& window, sf::Time diffTime) {

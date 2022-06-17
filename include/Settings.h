@@ -27,9 +27,14 @@ namespace Settings
 
 	inline extern bool PLOT_BARS = true;
 	inline extern bool PLOT_LINES = false;
+	inline extern bool PLOT_STEMS = false;
 	inline extern bool PLOT_FILLED_LINES = false;
 	inline extern bool PLOT_CURSOR_SHOW = true;
 	inline extern bool PLOT_CURSOR_DOT = false;
+	inline extern bool PLOT_SHOW_SCALE = true;
+
+	inline extern bool PLOT_DO_AFTERCHECK = true;
+	inline extern bool PLOT_SHUFFLE_ON_ALGO_CHANGE = false;
 	
 	inline static const int PAUSE_SLEEPms = 8;
 }
