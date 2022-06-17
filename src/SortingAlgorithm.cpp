@@ -59,7 +59,7 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	else if (m_doStep) {
 		m_pause = true;
 		m_doStep = false;
-		sf::sleep(sf::seconds(Manager::delayMs / 1000));
+		sf::sleep(sf::microseconds(Manager::delayMs * 1000));
 		return stepState::STEP;
 	}
 	else if (m_pause) {
@@ -71,7 +71,7 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	//else
 	stats.sortTimeMs += theClock.getElapsedTime().asSeconds() * 1000;
 
-	sf::sleep(sf::seconds(Manager::delayMs / 1000));
+	sf::sleep(sf::microseconds(Manager::delayMs * 1000));
 	theClock.restart();
 
 	return stepState::NONE;

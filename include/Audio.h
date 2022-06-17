@@ -10,8 +10,7 @@ private:
 	static sf::Sound& sound();
 	static sf::SoundBuffer& buffer();
 
-	inline static std::vector<sf::Int16> samples = std::vector<sf::Int16>(44100, 0);
-	static short SineWave(double time, double freq, double amp);
+	inline static sf::Int16 samples[44100];
 
 public:
 	inline static bool enabled = true;

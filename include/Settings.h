@@ -6,7 +6,7 @@
 namespace Settings
 {
 	inline static const int SHUFFLE_MAX_VALUE = 8192;
-	inline static const int SHUFFLE_MAX_COUNT = 4096;
+	inline static const int SHUFFLE_MAX_COUNT = 8192;
 
 	inline extern int SHUFFLE_CURRENT_COUNT = 128;
 
@@ -20,9 +20,10 @@ namespace Settings
 	inline extern float AUDIO_MIN_FREQUENCY = 200.f;
 	inline extern float AUDIO_MAX_FREQUENCY = 400.f;
 	inline extern float AUDIO_MIN_AMP = 0.5f;
-	inline extern float AUDIO_MAX_AMP = 1.5f;
+	inline extern float AUDIO_MAX_AMP = 1.f;
 	inline extern float AUDIO_MIN_PITCH = 2.f;
 	inline extern float AUDIO_MAX_PITCH = 4.f;
+	inline extern int AUDIO_WAVE_TYPE = 0;
 	
-	inline static const int PAUSE_SLEEPms = 10;
+	inline static const int PAUSE_SLEEPms = 8;
 }
