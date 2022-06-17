@@ -1,6 +1,8 @@
 
 #include "SortingAlgorithm.h"
 
+#include <math.h>
+
 #include <SFML/System/Sleep.hpp>
 
 #include "Utilities.h"
@@ -64,23 +66,22 @@ void SortingAlgorithm::reset() {
 SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	if (m_exit)
 		return stepState::EXITED;
-	else if (m_doStep) {
-		m_pause = true;
-		m_doStep = false;
-		sf::sleep(sf::microseconds(Manager::delayMs * 1000));
-		return stepState::STEP;
-	}
 	else if (m_pause) {
 		sf::sleep(sf::milliseconds(Settings::PAUSE_SLEEPms));
 		theClock.restart();
 		return stepState::PAUSED;
 	}
-
 	//else
 	stats.sortTimeMs += theClock.getElapsedTime().asSeconds() * 1000;
 
 	sf::sleep(sf::microseconds(Manager::delayMs * 1000));
 	theClock.restart();
+
+	if (m_doStep) {
+		m_pause = true;
+		m_doStep = false;
+		return stepState::STEP;
+	}
 
 	return stepState::NONE;
 }

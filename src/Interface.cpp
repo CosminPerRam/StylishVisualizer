@@ -146,15 +146,14 @@ void Interface::draw(sf::RenderWindow& window) {
 		{
 			static bool idxWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
 			if (idxWarning) {
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1, 0, 0, 1));
-				ImGui::Text("Warning! (hover over me)");
-				ImGui::PopStyleColor();
+				ImGui::TextColored({1, 0, 0, 1}, "Warning! (hover over me)");
 				if (ImGui::IsItemHovered()) {
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1, 0, 0, 1));
-					ImGui::SetTooltip("ImDrawIdx is 16-bits and ImGuiBackendFlags_RendererHasVtxOffset is false.\nEnabling too many plot types at high counts might end up in a crash due\nto producing too many vertices, see the README for more informations.");
+					ImGui::SetTooltip("ImDrawIdx is 16-bits and ImGuiBackendFlags_RendererHasVtxOffset is false.\nEnabling too many plot types at high element counts might end up in a crash\ndue to producing too many vertices, see the README for more informations.");
 					ImGui::PopStyleColor();
 				}
 			}
+
 			ImGui::Checkbox("Bars", &Settings::PLOT_BARS);
 			ImGui::Checkbox("Stems", &Settings::PLOT_STEMS);
 			ImGui::Checkbox("Lines", &Settings::PLOT_LINES);
@@ -277,8 +276,6 @@ void Interface::draw(sf::RenderWindow& window) {
 
 		ImPlot::EndPlot();
 	}
-
-	ImPlot::ShowDemoWindow();
 
 	ImGui::End();
 

@@ -1,10 +1,12 @@
 
 #include "Audio.h"
 
+#include <math.h>
+
 #include "Utilities.h"
 #include "Settings.h"
 
-#define TWOPI 6.283185307
+constexpr auto TWOPI = 6.283185307f;
 
 sf::Sound& Audio::sound() {
 	static sf::Sound theSound;

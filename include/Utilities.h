@@ -13,14 +13,4 @@ namespace Utilities
 		int pow(int base, int power);
 		float map(float x, float in_min, float in_max, float out_min, float out_max);
 	}
-
-	namespace Platform
-	{
-
-	}
-
-	namespace Files
-	{
-
-	}
 }

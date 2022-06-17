@@ -1,20 +1,38 @@
 # ImGui-Visualizer
-This is a program which visualizes a bunch of sorting algorithms, made in C++17 using SFML and ImGui.  
-The code is cross platform.
+This is a program which visualizes a bunch of [sorting algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm).  
+Made in C++17 using SFML, ImGui and ImPlot (the code is cross platform).  
+~~See a video of this program in action [here]().~~
 
-## Algorithms
-Bubble Sort
+## Capabilities
+Has the following sorting algorithms:
+- [Bubble Sort](https://en.wikipedia.org/wiki/Bubble_sort)
+- [Cocktail Sort](https://en.wikipedia.org/wiki/Cocktail_shaker_sort)
+- [Merge Sort](https://en.wikipedia.org/wiki/Merge_sort)
+- [Quick Sort](https://en.wikipedia.org/wiki/Quicksort)
+- [Radix Sort (Least And Most Significant Digit)](https://en.wikipedia.org/wiki/Radix_sort)
+- [Shell Sort](https://en.wikipedia.org/wiki/Shellsort)  
+
+And you can:
+- Stop, pause and step through sorting
+- Change the delay (or have none, *boo BubbleSort, boooo*)
+- Change the volume of the audio representation and tweak its effects
+- Change the plot or the ui's styling
+
+## Warning
+As also stated in [ImPlot's github repository](https://github.com/epezent/implot): `Dear ImGui uses 16-bit indexing by default [...]`, this is a potential problem that might also occur in this program when you select a high amount of elements and multiple plot types at the same time, I strongly suggest enabling [32-bit](https://www.youtube.com/watch?v=wcq3UjVUdRA) indices by uncommenting `#define ImDrawIdx unsigned int` in the `imconfig.h` file.  
+The precompiled binaries come with 32-bit indices (go crazy).
 
 ## Precompiled binaries
 Check the [releases](https://github.com/CosminPerRam/ImGui-Visualizer/releases) page.
 
-## Dependencies
- - [SFML](https://www.sfml-dev.org/) 2.5.1! (Using all modules except for the `network` one)
+## Building the game
+
+### Dependencies
+ - [SFML](https://www.sfml-dev.org/) 2.5.1
  - [imgui](https://github.com/ocornut/imgui) 1.87
  - [imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 2.5
  - [implot](https://github.com/epezent/implot) 0.13
 
-## Building the game
 ### Windows - Visual Studio
 1. Clone/download the repo
 2. Enter the repo directory
@@ -26,12 +44,13 @@ Check the [releases](https://github.com/CosminPerRam/ImGui-Visualizer/releases) 
 7. Download `imgui` (from [here](https://github.com/ocornut/imgui)), unzip it and extract all .cpp and .h files into the `imgui` folder
 8. Download `imgui-sfml` (from [here](https://github.com/eliasdaler/imgui-sfml)), unzip it and extract all .cpp and .h files into the `imgui` folder
 9. Inside `imconfig.h` add `#include "imconfig-SFML.h"` at the top of the file  
-([this video](https://www.youtube.com/watch?v=2YS5WJTeKpI) is a good tutorial for doing the last 3 steps)
+([this video](https://www.youtube.com/watch?v=2YS5WJTeKpI) is a good tutorial for doing the last 3 steps)  
+*. (Optional, recommended) Uncomment the line containing (or add it) `#define ImDrawIdx unsigned int` in `imconfig.h`
 10. Download `implot` (from [here](https://github.com/ocornut/imgui)), unzip it, rename the folder to `implot` and place it into the `libraries` folder
 11. Open `ImGui-Visualizer.sln`
 12. Select the desired configuration (`Debug`/`Release`) and build!  
 *. Note: `openal32.dll` (from SFML's `bin` folder) is needed to be in the Debug/Release folder.
 
-~~### Linux/MacOS - CMake
+### Linux/MacOS - CMake
 *. You need to do the steps `3`, `7`, `8`, `9` and `10` from above.  
-Clone the repo and check out the cmake script.~~
+Clone the repo and check out the cmake script.
