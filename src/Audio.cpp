@@ -25,14 +25,14 @@ void Audio::volumeChanged() {
 	sound().setVolume(volume);
 }
 
-short SineWave(double time, double freq, double amplitude) {
-	double tpc = 44100 / freq;
-	double cycles = time / tpc;
-	double rad = TWOPI * cycles;
+short SineWave(unsigned time, float freq, float amplitude) {
+	float tpc = 44100.f / freq;
+	float cycles = time / tpc;
+	float rad = TWOPI * cycles;
 	return sin(rad) * (32767 * amplitude);
 }
 
-short SquareWave(unsigned time, unsigned freq, unsigned amplitude) {
+short SquareWave(unsigned time, float freq, float amplitude) {
 	int tpc = 44100 / freq; // ticks per cycle
 	int cyclepart = time % tpc;
 	int halfcycle = tpc / 2;
