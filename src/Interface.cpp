@@ -24,12 +24,16 @@ void Interface::Custom::HelpMarker(const char* desc) {
 
 void Interface::initialize(sf::RenderWindow& window) {
 	ImGui::SFML::Init(window);
+
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
+
+	ImPlot::GetStyle().AntiAliasedLines = true;
+	ImGui::GetStyle().AntiAliasedFill = true;
+	ImGui::GetStyle().AntiAliasedLines = true;
 }
 
 void Interface::shutdown() {
-	//ImGui::SFML::Shutdown();
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 }
@@ -37,7 +41,7 @@ void Interface::shutdown() {
 void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+
 	ImGui::Begin("MainWindow", 0, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse);
 
 	ImGui::PushItemWidth(128);
@@ -136,7 +140,24 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	if (ImGui::BeginPopup("StylingPopup"))
 	{
-		if (ImGui::Button("ImGui", { 48, 0 }))
+		if (ImGui::Button("Plot", { 64, 0 }))
+			ImGui::OpenPopup("PlotStyling");
+
+		if (ImGui::BeginPopup("PlotStyling"))
+		{
+			ImGui::Checkbox("Bars", &Settings::PLOT_BARS);
+			ImGui::Checkbox("Lines", &Settings::PLOT_LINES);
+			ImGui::BeginDisabled(!Settings::PLOT_LINES);
+			ImGui::Checkbox("Filled lines", &Settings::PLOT_FILLED_LINES);
+			ImGui::EndDisabled();
+			ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW);
+			ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
+			ImGui::Checkbox("Dot cursor", &Settings::PLOT_CURSOR_DOT);
+			ImGui::EndDisabled();
+			ImGui::EndPopup();
+		}
+
+		if (ImGui::Button("ImGui", { 64, 0 }))
 			ImGui::OpenPopup("ImGuiStyling");
 
 		if (ImGui::BeginPopup("ImGuiStyling"))
@@ -145,7 +166,7 @@ void Interface::draw(sf::RenderWindow& window) {
 			ImGui::EndPopup();
 		}
 
-		if (ImGui::Button("ImPlot", { 48, 0 }))
+		if (ImGui::Button("ImPlot", { 64, 0 }))
 			ImGui::OpenPopup("ImPlotStyling");
 
 		if (ImGui::BeginPopup("ImPlotStyling"))
@@ -193,15 +214,32 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_NoGridLines, ImPlotAxisFlags_NoGridLines);
 		ImPlot::SetupAxesLimits(0, numbersSize, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
 
-		ImPlot::PlotBars("##Numbers", &numbers[0], numbersSize);
-		//ImPlot::PlotLine("##Numbers2", &numbers[0], numbersSize);
-		//ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.25f);
-		//ImPlot::PlotShaded("##Numbers2", &numbers[0], numbersSize);
-		//ImPlot::PopStyleVar();
+		if(Settings::PLOT_BARS)
+			ImPlot::PlotBars("##Numbers_bars", &numbers[0], numbersSize);
+		if (Settings::PLOT_LINES) {
+			ImPlot::PlotLine("##Numbers2", &numbers[0], numbersSize);
 
-		ImPlot::PushStyleColor(ImPlotCol_Fill, { 255, 0, 0, 255 });
-		ImPlot::PlotBars("##Cursor", &currentData.cursorPosition, &currentData.cursorValue, 1, Settings::CURSOR_LINE_WIDTH);
-		ImPlot::PopStyleColor();
+			if (Settings::PLOT_FILLED_LINES) {
+				ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.25f);
+				ImPlot::PlotShaded("##Numbers2", &numbers[0], numbersSize);
+				ImPlot::PopStyleVar();
+			}
+		}
+
+		if (Settings::PLOT_CURSOR_SHOW) {
+			ImPlot::PushStyleColor(ImPlotCol_Fill, { 255, 0, 0, 255 });
+			
+			if (Settings::PLOT_CURSOR_DOT) {
+				ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
+				ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, Settings::CURSOR_LINE_WIDTH);
+				ImPlot::PlotLine("##Cursor", &currentData.cursorPosition, &currentData.cursorValue, 1);
+				ImPlot::PopStyleVar();
+			}
+			else
+				ImPlot::PlotBars("##Cursor", &currentData.cursorPosition, &currentData.cursorValue, 1, Settings::CURSOR_LINE_WIDTH);
+
+			ImPlot::PopStyleColor();
+		}
 
 		ImPlot::EndPlot();
 	}
@@ -209,7 +247,6 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImPlot::ShowDemoWindow();
 
 	ImGui::End();
-	ImGui::PopStyleVar();
 
 	ImGui::SFML::Render(window);
 }

@@ -24,6 +24,12 @@ namespace Settings
 	inline extern float AUDIO_MIN_PITCH = 2.f;
 	inline extern float AUDIO_MAX_PITCH = 4.f;
 	inline extern int AUDIO_WAVE_TYPE = 0;
+
+	inline extern bool PLOT_BARS = true;
+	inline extern bool PLOT_LINES = false;
+	inline extern bool PLOT_FILLED_LINES = false;
+	inline extern bool PLOT_CURSOR_SHOW = true;
+	inline extern bool PLOT_CURSOR_DOT = true;
 	
 	inline static const int PAUSE_SLEEPms = 8;
 }
