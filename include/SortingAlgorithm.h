@@ -72,4 +72,5 @@ public:
 	bool isFinished();
 	const std::vector<unsigned>& getNumbers();
 	const statistics& getStatistics();
+	virtual const char* getDescription() = 0;
 };

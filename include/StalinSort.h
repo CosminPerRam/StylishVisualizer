@@ -7,4 +7,7 @@ class StalinSort : public SortingAlgorithm
 {
 private:
 	void sorter();
+
+public:
+	const char* getDescription();
 };

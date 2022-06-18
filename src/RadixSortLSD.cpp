@@ -38,3 +38,7 @@ void RadixSortLSD::sorter() {
 
     DO_FINISHED;
 }
+
+const char* RadixSortLSD::getDescription() {
+    return "Radix sort LSD does digit by digit sort starting from least significant digit to most significant digit. Radix sort uses counting sort as a subroutine to sort.";
+}

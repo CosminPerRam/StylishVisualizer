@@ -48,6 +48,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	if (ImGui::Combo("##Algorithm", &Manager::selectedAlgorithm, Manager::algorithmsNames, IM_ARRAYSIZE(Manager::algorithmsNames)))
 		Manager::changedAlgorithm();
 	ImGui::PopItemWidth(); ImGui::SameLine();
+	Custom::HelpMarker(Manager::Sorter->getDescription()); ImGui::SameLine();
 
 	bool isRunning = Manager::isRunning();
 	bool isPaused = Manager::isPaused();
@@ -77,8 +78,8 @@ void Interface::draw(sf::RenderWindow& window) {
 	static float oldDelay = 0.f;
 
 	ImGui::BeginDisabled(noDelay);
-	ImGui::PushItemWidth(128);
 	ImGui::Text("Delay"); ImGui::SameLine();
+	ImGui::PushItemWidth(128);
 	float delay = Manager::delayMs;
 	if (ImGui::SliderFloat("##Delay", &delay, 1.f, 500.f, "%.2f ms", ImGuiSliderFlags_Logarithmic))
 		Manager::delayMs = delay;

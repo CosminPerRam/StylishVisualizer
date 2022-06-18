@@ -30,3 +30,7 @@ void ShellSort::sorter() {
 
     DO_FINISHED;
 }
+
+const char* ShellSort::getDescription() {
+    return "First sorts elements that are far apart from each other and successively reduces the interval between the elements to be sorted. The interval between the elements is reduced based on the sequence used.";
+}

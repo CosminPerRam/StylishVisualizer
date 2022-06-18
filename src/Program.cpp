@@ -24,7 +24,7 @@ void Program::update(sf::RenderWindow& window) {
 }
 
 int Program::start() {
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "ImGui-Visualizer");
+	sf::RenderWindow window(sf::VideoMode(1290, 720), "ImGui-Visualizer");
 	window.setVerticalSyncEnabled(true);
 
 	Interface::initialize(window);

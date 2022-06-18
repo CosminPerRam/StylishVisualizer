@@ -44,3 +44,7 @@ void HeapSort::sorter() {
 
     DO_FINISHED;
 }
+
+const char* HeapSort::getDescription() {
+    return "It is similar to selection sort where we first find the minimum element and place the minimum element at the beginning. We repeat the same process for the remaining elements.";
+}

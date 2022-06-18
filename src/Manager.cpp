@@ -84,52 +84,34 @@ void Manager::changedAlgorithm() {
 	Manager::stop();
 	delete Sorter;
 
-	switch (selectedAlgorithm) {
-	case 0:
+	if (selectedAlgorithm == 0)
 		Sorter = new BubbleSort();
-		break;
-	case 1:
+	else if (selectedAlgorithm == 1)
 		Sorter = new QuickSort();
-		break;
-	case 2:
+	else if (selectedAlgorithm == 2)
 		Sorter = new ShellSort();
-		break;
-	case 3:
+	else if (selectedAlgorithm == 3)
 		Sorter = new MergeSort();
-		break;
-	case 4:
+	else if (selectedAlgorithm == 4)
 		Sorter = new RadixSortLSD();
-		break;
-	case 5:
+	else if (selectedAlgorithm == 5)
 		Sorter = new RadixSortMSD();
-		break;
-	case 6:
+	else if (selectedAlgorithm == 6)
 		Sorter = new CocktailSort();
-		break;
-	case 7:
+	else if (selectedAlgorithm == 7)
 		Sorter = new StalinSort();
-		break;
-	case 8:
+	else if (selectedAlgorithm == 8)
 		Sorter = new BogoSort();
-		break;
-	case 9:
+	else if (selectedAlgorithm == 9)
 		Sorter = new CombSort();
-		break;
-	case 10:
+	else if (selectedAlgorithm == 10)
 		Sorter = new InsertionSort();
-		break;
-	case 11:
+	else if (selectedAlgorithm == 11)
 		Sorter = new SelectionSort();
-		break;
-	case 12:
+	else if (selectedAlgorithm == 12)
 		Sorter = new GnomeSort();
-		break;
-	case 13:
+	else if (selectedAlgorithm == 13)
 		Sorter = new HeapSort();
-		break;
-	default:
-		break;
-	}
 
 	lastSelectedAlgorithm = selectedAlgorithm;
 }

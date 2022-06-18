@@ -24,3 +24,7 @@ void SelectionSort::sorter() {
 
     DO_FINISHED;
 }
+
+const char* SelectionSort::getDescription() {
+    return "The selection sort algorithm sorts an array by repeatedly finding the minimum element (considering ascending order) from unsorted part and putting it at the beginning.";
+}

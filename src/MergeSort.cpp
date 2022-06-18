@@ -81,3 +81,7 @@ void MergeSort::sorter() {
 
     DO_FINISHED;
 }
+
+const char* MergeSort::getDescription() {
+    return "It divides the input array into two halves, calls itself for the two halves, and then it merges the two sorted halves.";
+}

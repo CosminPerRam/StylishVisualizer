@@ -34,3 +34,7 @@ void CombSort::sorter() {
 
     DO_FINISHED;
 }
+
+const char* CombSort::getDescription() {
+    return "Comb sort improves the bubble sort by using a gap of size more than 1. The gap in the comb sort starts with the larger value and then shrinks by a factor of 1.3. It means that after the completion of each phase, the gap is divided by the shrink factor 1.3. The iteration continues until the gap is 1.";
+}

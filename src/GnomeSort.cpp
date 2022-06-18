@@ -24,3 +24,7 @@ void GnomeSort::sorter() {
 
     DO_FINISHED;
 }
+
+const char* GnomeSort::getDescription() {
+    return "Gnome sort works by building a sorted list one element at a time, getting each item to the proper place in a series of swaps.";
+}

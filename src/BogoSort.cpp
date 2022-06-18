@@ -14,7 +14,7 @@ void BogoSort::sorter() {
 
     do {
         for (unsigned i = 0; i < n; i++) {
-            numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
+            std::swap(numbers[i], numbers[Utilities::Random::getNumberInBetween(0, n)]);
             ++stats.writes;
         }
 
@@ -32,4 +32,8 @@ void BogoSort::sorter() {
     DO_PUT_CURSOR_AT(n - 1);
 
     DO_FINISHED;
+}
+
+const char* BogoSort::getDescription() {
+    return "Randomly generates permutations (possibly one already generated) of its input until it finds one that is sorted.";
 }

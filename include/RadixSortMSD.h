@@ -6,7 +6,11 @@
 class RadixSortMSD : public SortingAlgorithm
 {
 private:
+	std::vector<unsigned> tabAux;
+	void MSDRadixSort(int low, int high, int digit);
+
 	void sorter();
 
-	void MSDRadixSort(std::vector<unsigned>& tabAux, int low, int high, int digit);
+public:
+	const char* getDescription();
 };

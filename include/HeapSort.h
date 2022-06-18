@@ -9,4 +9,7 @@ private:
 	void heapify(int n, int i);
 
 	void sorter();
+
+public:
+	const char* getDescription();
 };

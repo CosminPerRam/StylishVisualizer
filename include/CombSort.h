@@ -7,4 +7,7 @@ class CombSort : public SortingAlgorithm
 {
 private:
 	void sorter();
+
+public:
+	const char* getDescription();
 };

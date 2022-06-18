@@ -21,3 +21,7 @@ void BubbleSort::sorter() {
 
     DO_FINISHED;
 }
+
+const char* BubbleSort::getDescription() {
+    return "Compares two adjacent elements and swaps them until they are not in the intended order. Be careful, don't pop the bubble.";
+}

@@ -51,3 +51,7 @@ void CocktailSort::sorter() {
 
     DO_FINISHED;
 }
+
+const char* CocktailSort::getDescription() {
+    return "Traverses elements from left to right until they are placed in the last viable position.";
+}

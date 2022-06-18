@@ -18,7 +18,7 @@ short int getByte(unsigned int elem, unsigned int i) {
     else return -1;
 }
 
-void RadixSortMSD::MSDRadixSort(std::vector<unsigned>& tabAux, int low, int high, int digit) {
+void RadixSortMSD::MSDRadixSort(int low, int high, int digit) {
     std::vector<unsigned> counter(RADIX + 2);
 
     for (int i = low; i < high; ++i) {
@@ -44,7 +44,7 @@ void RadixSortMSD::MSDRadixSort(std::vector<unsigned>& tabAux, int low, int high
 
     for (int r = 0; r < RADIX + 1; ++r) {
         if (counter[r] < counter[r + 1])
-            MSDRadixSort(tabAux, low + counter[r], low + counter[r + 1], digit + 1);
+            MSDRadixSort(low + counter[r], low + counter[r + 1], digit + 1);
     }
 
     DO_PROGRESSIVE_CHECKSTEP;
@@ -53,8 +53,12 @@ void RadixSortMSD::MSDRadixSort(std::vector<unsigned>& tabAux, int low, int high
 void RadixSortMSD::sorter() {
     DO_STARTED;
 
-    std::vector<unsigned> tabAux(numbers.size());
-    MSDRadixSort(tabAux, 0, numbers.size(), 0);
+    tabAux.resize(numbers.size());
+    MSDRadixSort(0, numbers.size(), 0);
 
     DO_FINISHED;
+}
+
+const char* RadixSortMSD::getDescription() {
+    return "Radix sort MSD does digit by digit sort starting from most significant digit to least significant digit. Radix sort uses counting sort as a subroutine to sort.";
 }

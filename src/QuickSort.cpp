@@ -53,3 +53,7 @@ void QuickSort::sorter()
 
     DO_FINISHED;
 }
+
+const char* QuickSort::getDescription() {
+    return "Picks an element as pivot and partitions the given array around the picked pivot.";
+}
