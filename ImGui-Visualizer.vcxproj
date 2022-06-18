@@ -167,6 +167,7 @@
     <ClCompile Include="libraries\implot\implot_demo.cpp" />
     <ClCompile Include="libraries\implot\implot_items.cpp" />
     <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\BogoSort.cpp" />
     <ClCompile Include="src\BubbleSort.cpp" />
     <ClCompile Include="src\CocktailSort.cpp" />
     <ClCompile Include="src\Interface.cpp" />
@@ -190,6 +191,7 @@
   <ItemGroup>
     <ClInclude Include="include\AllSorts.h" />
     <ClInclude Include="include\Audio.h" />
+    <ClInclude Include="include\BogoSort.h" />
     <ClInclude Include="include\BubbleSort.h" />
     <ClInclude Include="include\CocktailSort.h" />
     <ClInclude Include="include\Interface.h" />

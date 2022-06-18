@@ -9,3 +9,4 @@
 #include "RadixSortMSD.h"
 #include "CocktailSort.h"
 #include "StalinSort.h"
+#include "BogoSort.h"

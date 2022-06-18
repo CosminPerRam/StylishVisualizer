@@ -210,16 +210,16 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	if (ImGui::BeginTable("table", 6, ImGuiTableFlags_BordersInnerV)) {
 		ImGui::TableNextColumn();
-		ImGui::Text("Comparisons: %u", currentData.comparisons);
+		ImGui::Text("Comparisons: %llu", currentData.comparisons);
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Reads: %u", currentData.reads);
+		ImGui::Text("Reads: %llu", currentData.reads);
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Writes: %u", currentData.writes);
+		ImGui::Text("Writes: %llu", currentData.writes);
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Steps: %u", currentData.steps);
+		ImGui::Text("Steps: %llu", currentData.steps);
 
 		ImGui::TableNextColumn();
 		ImGui::Text("Visual time: %.2f s", Manager::visualTime.asSeconds());

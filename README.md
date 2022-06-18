@@ -11,6 +11,8 @@ Has the following sorting algorithms:
 - [Quick Sort](https://en.wikipedia.org/wiki/Quicksort)
 - [Radix Sort (Least And Most Significant Digit)](https://en.wikipedia.org/wiki/Radix_sort)
 - [Shell Sort](https://en.wikipedia.org/wiki/Shellsort)  
+- [Stalin Sort](https://www.quora.com/What-is-Stalin-sort)
+- [Bogo Sort](https://en.wikipedia.org/wiki/Bogosort)
 
 And you can:
 - Stop, pause and step through sorting

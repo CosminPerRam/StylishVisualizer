@@ -29,7 +29,7 @@ public:
 	struct statistics
 	{
 		float sortTimeMs = 0.f;
-		unsigned comparisons = 0, reads = 0, writes = 0, steps = 0;
+		unsigned long long comparisons = 0, reads = 0, writes = 0, steps = 0;
 
 		unsigned cursorPosition = 0, cursorValue = 0;
 
