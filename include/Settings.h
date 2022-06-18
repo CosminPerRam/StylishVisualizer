@@ -5,6 +5,8 @@
 
 struct Settings
 {
+	static void initialize();
+
 	inline static const int SHUFFLE_MAX_VALUE = 8192;
 	inline static const int SHUFFLE_MAX_COUNT = 4096;
 
@@ -12,10 +14,9 @@ struct Settings
 
 	inline static const float CURSOR_LINE_MIN_WIDTH = 0.25f;
 	inline static const float CURSOR_LINE_MAX_WIDTH = 8.f;
-	static float calculateCursorLineWidth() {
-		return Utilities::Math::map(static_cast<float>(SHUFFLE_CURRENT_COUNT), 0, SHUFFLE_MAX_COUNT, CURSOR_LINE_MIN_WIDTH, CURSOR_LINE_MAX_WIDTH);
-	}
-	inline static float CURSOR_LINE_WIDTH = calculateCursorLineWidth();
+	inline static float CURSOR_LINE_WIDTH = 0.67f;
+	static void updateCursorLineWidth();
+	static void updateCursorLineWidthDynamically(unsigned count);
 
 	inline static float AUDIO_MIN_FREQUENCY = 200.f;
 	inline static float AUDIO_MAX_FREQUENCY = 400.f;

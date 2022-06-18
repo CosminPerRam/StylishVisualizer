@@ -177,8 +177,10 @@
     <ClCompile Include="src\QuickSort.cpp" />
     <ClCompile Include="src\RadixSortLSD.cpp" />
     <ClCompile Include="src\RadixSortMSD.cpp" />
+    <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\ShellSort.cpp" />
     <ClCompile Include="src\SortingAlgorithm.cpp" />
+    <ClCompile Include="src\StalinSort.cpp" />
     <ClCompile Include="src\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,7 +202,11 @@
     <ClInclude Include="include\Settings.h" />
     <ClInclude Include="include\ShellSort.h" />
     <ClInclude Include="include\SortingAlgorithm.h" />
+    <ClInclude Include="include\StalinSort.h" />
     <ClInclude Include="include\Utilities.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

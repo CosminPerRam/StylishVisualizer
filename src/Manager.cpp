@@ -92,6 +92,9 @@ void Manager::changedAlgorithm() {
 	case 6:
 		Sorter = new CocktailSort();
 		break;
+	case 7:
+		Sorter = new StalinSort();
+		break;
 	default:
 		break;
 	}

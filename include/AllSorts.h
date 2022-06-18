@@ -8,3 +8,4 @@
 #include "RadixSortLSD.h"
 #include "RadixSortMSD.h"
 #include "CocktailSort.h"
+#include "StalinSort.h"

@@ -102,7 +102,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SameLine();
 	if (ImGui::Button("Shuffle", { 64, 0 })) {
 		Manager::shuffle();
-		Settings::CURSOR_LINE_WIDTH = Settings::calculateCursorLineWidth();
+		Settings::updateCursorLineWidth();
 	}
 	ImGui::EndDisabled(); ImGui::SameLine();
 

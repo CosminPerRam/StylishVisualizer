@@ -96,6 +96,12 @@
     <ClCompile Include="src\CocktailSort.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
     </ClCompile>
+    <ClCompile Include="src\StalinSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -147,5 +153,11 @@
     <ClInclude Include="include\CocktailSort.h">
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
+    <ClInclude Include="include\StalinSort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
 </Project>
