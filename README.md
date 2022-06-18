@@ -16,6 +16,7 @@ Has the following sorting algorithms:
 - [Comb Sort](https://en.wikipedia.org/wiki/Comb_sort)
 - [Insertion Sort](https://en.wikipedia.org/wiki/Insertion_sort)
 - [Selection Sort](https://en.wikipedia.org/wiki/Selection_sort)
+- [Gnome Sort](https://en.wikipedia.org/wiki/Gnome_sort)
 
 And you can:
 - Stop, pause and step through sorting

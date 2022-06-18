@@ -171,6 +171,7 @@
     <ClCompile Include="src\BubbleSort.cpp" />
     <ClCompile Include="src\CocktailSort.cpp" />
     <ClCompile Include="src\CombSort.cpp" />
+    <ClCompile Include="src\GnomeSort.cpp" />
     <ClCompile Include="src\InsertionSort.cpp" />
     <ClCompile Include="src\Interface.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="include\BubbleSort.h" />
     <ClInclude Include="include\CocktailSort.h" />
     <ClInclude Include="include\CombSort.h" />
+    <ClInclude Include="include\GnomeSort.h" />
     <ClInclude Include="include\InsertionSort.h" />
     <ClInclude Include="include\Interface.h" />
     <ClInclude Include="include\Manager.h" />

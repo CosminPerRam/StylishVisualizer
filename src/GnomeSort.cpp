@@ -1,0 +1,26 @@
+
+#include "GnomeSort.h"
+
+void GnomeSort::sorter() {
+    DO_STARTED;
+
+    int n = numbers.size(), index = 0;
+    while (index < n) {
+        if (index == 0)
+            index++;
+
+        stats.addComparison();
+        if (numbers[index] >= numbers[index - 1])
+            index++;
+        else {
+            stats.addSwap();
+            std::swap(numbers[index], numbers[index - 1]);
+            index--;
+        }
+
+        DO_PUT_CURSOR_AT(index);
+        DO_PROGRESSIVE_CHECKSTEP;
+    }
+
+    DO_FINISHED;
+}

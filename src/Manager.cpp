@@ -121,6 +121,9 @@ void Manager::changedAlgorithm() {
 	case 11:
 		Sorter = new SelectionSort();
 		break;
+	case 12:
+		Sorter = new GnomeSort();
+		break;
 	default:
 		break;
 	}

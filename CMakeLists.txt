@@ -28,6 +28,7 @@ add_executable(blockudokuplusplus
     src/CombSort.cpp
     src/InsertionSort.cpp
     src/SelectionSort.cpp
+    src/GnomeSort.cpp
     libraries/imgui/imgui.cpp
     libraries/imgui/imgui_demo.cpp
     libraries/imgui/imgui_draw.cpp
