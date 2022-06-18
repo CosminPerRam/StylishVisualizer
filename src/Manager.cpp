@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "AllSorts.h"
+#include "Audio.h"
 
 void Manager::initialize() {
 	Sorter = new BubbleSort();
@@ -17,6 +18,19 @@ void Manager::update(sf::RenderWindow& window, sf::Time diffTime) {
 
 	if (m_isRunning && !m_isPaused)
 		visualTime += visualClock.restart();
+
+	if (!sorterFinished) {
+		auto& stats = Manager::Sorter->getStatistics();
+
+		static int oldVal = 0, oldPos = 0;
+		if (oldVal != stats.cursorValue || oldPos != stats.cursorPosition) {
+			oldVal = stats.cursorValue;
+			oldPos = stats.cursorPosition;
+			Audio::play(oldVal);
+		}
+	}
+
+	visualClock.restart();
 }
 
 bool Manager::isRunning() {
@@ -94,6 +108,9 @@ void Manager::changedAlgorithm() {
 		break;
 	case 7:
 		Sorter = new StalinSort();
+		break;
+	case 8:
+		Sorter = new BogoSort();
 		break;
 	default:
 		break;

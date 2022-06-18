@@ -22,12 +22,10 @@ void BogoSort::sorter() {
         DO_PROGRESSIVE_CHECKSTEP;
 
         sorted = true;
-        for (unsigned i = 0; i < n - 1; i++) {
+        for (unsigned i = 0; i < n - 1 && sorted; i++) {
             stats.addComparison();
-            if (numbers[i] > numbers[i + 1]) {
+            if (numbers[i] > numbers[i + 1])
                 sorted = false;
-                continue;
-            }
         }
     } while (!sorted);
 

@@ -24,6 +24,7 @@ add_executable(blockudokuplusplus
     src/Utilities.cpp
     src/StalinSort.cpp
     src/BogoSort.cpp
+    src/Settings.cpp
     libraries/imgui/imgui.cpp
     libraries/imgui/imgui_demo.cpp
     libraries/imgui/imgui_draw.cpp

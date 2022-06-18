@@ -243,7 +243,7 @@ void Interface::draw(sf::RenderWindow& window) {
 			axisFlags += ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
 
 		ImPlot::SetupAxes(NULL, NULL, axisFlags, axisFlags);
-		ImPlot::SetupAxesLimits(0, numbersSize, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
+		ImPlot::SetupAxesLimits(-0.5, numbersSize - 0.5, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
 
 		if(Settings::PLOT_BARS)
 			ImPlot::PlotBars("##NumbersBars", &numbers[0], numbersSize);
@@ -288,13 +288,4 @@ void Interface::pollEvent(sf::RenderWindow& window, sf::Event& theEvent) {
 
 void Interface::update(sf::RenderWindow& window, sf::Time diffTime) {
 	ImGui::SFML::Update(window, diffTime);
-
-	auto& stats = Manager::Sorter->getStatistics();
-
-	static int oldVal = 0, oldPos = 0;
-	if (Manager::isRunning() && (oldVal != stats.cursorValue || oldPos != stats.cursorPosition)) {
-		oldVal = stats.cursorValue;
-		oldPos = stats.cursorPosition;
-		Audio::play(oldVal);
-	}
 }
