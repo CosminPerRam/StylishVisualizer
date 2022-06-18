@@ -13,6 +13,8 @@ Has the following sorting algorithms:
 - [Shell Sort](https://en.wikipedia.org/wiki/Shellsort)  
 - [Stalin Sort](https://www.quora.com/What-is-Stalin-sort)
 - [Bogo Sort](https://en.wikipedia.org/wiki/Bogosort)
+- [Comb Sort](https://en.wikipedia.org/wiki/Comb_sort)
+- [Insertion Sort](https://en.wikipedia.org/wiki/Insertion_sort)
 
 And you can:
 - Stop, pause and step through sorting

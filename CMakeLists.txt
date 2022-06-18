@@ -26,6 +26,7 @@ add_executable(blockudokuplusplus
     src/BogoSort.cpp
     src/Settings.cpp
     src/CombSort.cpp
+    src/InsertionSort.cpp
     libraries/imgui/imgui.cpp
     libraries/imgui/imgui_demo.cpp
     libraries/imgui/imgui_draw.cpp

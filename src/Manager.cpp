@@ -115,6 +115,9 @@ void Manager::changedAlgorithm() {
 	case 9:
 		Sorter = new CombSort();
 		break;
+	case 10:
+		Sorter = new InsertionSort();
+		break;
 	default:
 		break;
 	}

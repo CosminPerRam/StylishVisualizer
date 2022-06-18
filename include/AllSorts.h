@@ -11,3 +11,4 @@
 #include "StalinSort.h"
 #include "BogoSort.h"
 #include "CombSort.h"
+#include "InsertionSort.h"
