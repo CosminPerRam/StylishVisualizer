@@ -124,6 +124,9 @@ void Manager::changedAlgorithm() {
 	case 12:
 		Sorter = new GnomeSort();
 		break;
+	case 13:
+		Sorter = new HeapSort();
+		break;
 	default:
 		break;
 	}

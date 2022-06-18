@@ -14,3 +14,4 @@
 #include "InsertionSort.h"
 #include "SelectionSort.h"
 #include "GnomeSort.h"
+#include "HeapSort.h"
