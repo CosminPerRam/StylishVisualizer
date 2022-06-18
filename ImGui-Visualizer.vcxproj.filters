@@ -105,6 +105,9 @@
     <ClCompile Include="src\BogoSort.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
     </ClCompile>
+    <ClCompile Include="src\CombSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -160,6 +163,9 @@
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
     <ClInclude Include="include\BogoSort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CombSort.h">
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
   </ItemGroup>

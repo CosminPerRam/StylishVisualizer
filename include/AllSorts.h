@@ -10,3 +10,4 @@
 #include "CocktailSort.h"
 #include "StalinSort.h"
 #include "BogoSort.h"
+#include "CombSort.h"

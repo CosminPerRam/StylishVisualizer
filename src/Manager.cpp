@@ -112,6 +112,9 @@ void Manager::changedAlgorithm() {
 	case 8:
 		Sorter = new BogoSort();
 		break;
+	case 9:
+		Sorter = new CombSort();
+		break;
 	default:
 		break;
 	}
