@@ -12,3 +12,4 @@
 #include "BogoSort.h"
 #include "CombSort.h"
 #include "InsertionSort.h"
+#include "SelectionSort.h"

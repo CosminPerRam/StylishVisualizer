@@ -118,6 +118,9 @@ void Manager::changedAlgorithm() {
 	case 10:
 		Sorter = new InsertionSort();
 		break;
+	case 11:
+		Sorter = new SelectionSort();
+		break;
 	default:
 		break;
 	}

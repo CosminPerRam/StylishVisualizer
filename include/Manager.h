@@ -22,7 +22,7 @@ public:
 	inline static SortingAlgorithm *Sorter = nullptr;
 
 	inline static const char* algorithmsNames[] = { "BubbleSort", "QuickSort", "ShellSort", "MergeSort", "RadixSort (LSD)", "RadixSort (MSD)", 
-		"CocktailSort", "StalinSort", "BogoSort", "CombSort", "InsertionSort"};
+		"CocktailSort", "StalinSort", "BogoSort", "CombSort", "InsertionSort", "SelectionSort"};
 	inline static int selectedAlgorithm = 0;
 
 	inline static std::atomic<float> delayMs = 10.f;

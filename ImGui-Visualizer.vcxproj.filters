@@ -111,6 +111,9 @@
     <ClCompile Include="src\InsertionSort.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
     </ClCompile>
+    <ClCompile Include="src\SelectionSort.cpp">
+      <Filter>Source Files\SortingAlgorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -172,6 +175,9 @@
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
     <ClInclude Include="include\InsertionSort.h">
+      <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SelectionSort.h">
       <Filter>Header Files\SortingAlgorithms</Filter>
     </ClInclude>
   </ItemGroup>
