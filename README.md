@@ -17,7 +17,8 @@ Has the following sorting algorithms:
 - [Insertion Sort](https://en.wikipedia.org/wiki/Insertion_sort)
 - [Selection Sort](https://en.wikipedia.org/wiki/Selection_sort)
 - [Gnome Sort](https://en.wikipedia.org/wiki/Gnome_sort)
-- [Heap Sort](https://www.geeksforgeeks.org/heap-sort/)
+- [Heap Sort](https://www.geeksforgeeks.org/heap-sort)
+- [Bitonic Sort](https://en.wikipedia.org/wiki/Bitonic_sorter)
 
 And you can:
 - Stop, pause and step through sorting

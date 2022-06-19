@@ -15,3 +15,4 @@
 #include "SelectionSort.h"
 #include "GnomeSort.h"
 #include "HeapSort.h"
+#include "BitonicSort.h"

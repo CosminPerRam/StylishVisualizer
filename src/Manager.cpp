@@ -112,6 +112,8 @@ void Manager::changedAlgorithm() {
 		Sorter = new GnomeSort();
 	else if (selectedAlgorithm == 13)
 		Sorter = new HeapSort();
+	else if (selectedAlgorithm == 14)
+		Sorter = new BitonicSort();
 
 	lastSelectedAlgorithm = selectedAlgorithm;
 }
