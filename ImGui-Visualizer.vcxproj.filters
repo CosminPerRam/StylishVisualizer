@@ -123,6 +123,9 @@
     <ClCompile Include="src\BitonicSort.cpp">
       <Filter>Source Files\SortingAlgorithms</Filter>
     </ClCompile>
+    <ClCompile Include="src\SortingStatistics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -197,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="include\BitonicSort.h">
       <Filter>Header Files\SortingAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SortingStatistics.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

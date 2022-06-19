@@ -19,16 +19,16 @@ void QuickSort::sorter()
 
         DO_PUT_CURSOR_AT(h);
         unsigned x = numbers[h];
-        stats.addAssigment();
+        stats.addAssigments();
         int i = (l - 1);
 
         for (int j = l; j <= h - 1; j++) {
-            stats.addComparison();
+            stats.addComparisons();
             if (numbers[j] <= x) {
                 i++;
                 std::swap(numbers[i], numbers[j]);
 
-                stats.addSwap();
+                stats.addSwaps();
                 DO_PROGRESSIVE_CHECKSTEP;
             }
 
@@ -36,9 +36,9 @@ void QuickSort::sorter()
         }
         std::swap(numbers[i + 1], numbers[h]);
 
-        stats.addSwap();
+        stats.addSwaps();
 
-        int p = i + 1;
+        const int p = i + 1;
 
         if (p - 1 > l) {
             stack[++top] = l;

@@ -6,16 +6,16 @@ void HeapSort::heapify(int n, int i)
     int largest = i;
     int l = 2 * i + 1, r = 2 * i + 2;
 
-    stats.addComparison();
     if (l < n && numbers[l] > numbers[largest])
         largest = l;
 
-    stats.addComparison();
     if (r < n && numbers[r] > numbers[largest])
         largest = r;
 
+    stats.addComparisons(2);
+
     if (largest != i) {
-        stats.addSwap();
+        stats.addSwaps();
         std::swap(numbers[i], numbers[largest]);
 
         DO_PUT_CURSOR_AT(i);
@@ -33,7 +33,7 @@ void HeapSort::sorter() {
         heapify(n, i);
 
     for (int i = n - 1; i > 0; i--) {
-        stats.addSwap();
+        stats.addSwaps();
         std::swap(numbers[0], numbers[i]);
 
         DO_PUT_CURSOR_AT(i);

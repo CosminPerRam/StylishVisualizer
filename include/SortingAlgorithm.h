@@ -8,6 +8,8 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
+#include "SortingStatistics.h"
+
 #define DO_CHECKSTEP bool goContinue = false; \
 					while (!goContinue) { \
 						stepState state = this->checkStep(); \
@@ -25,23 +27,8 @@
 
 class SortingAlgorithm
 {
-public:
-	struct statistics
-	{
-		float sortTimeMs = 0.f;
-		unsigned long long comparisons = 0, reads = 0, writes = 0, steps = 0;
-
-		unsigned cursorPosition = 0, cursorValue = 0;
-
-		void reset();
-
-		void addComparison();
-		void addAssigment();
-		void addSwap();
-	};
-
 protected:
-	statistics stats;
+	SortingStatistics stats;
 
 	inline static std::vector<unsigned> numbers;
 
@@ -71,6 +58,6 @@ public:
 
 	bool isFinished();
 	const std::vector<unsigned>& getNumbers();
-	const statistics& getStatistics();
+	const SortingStatistics& getStatistics();
 	virtual const char* getDescription() = 0;
 };

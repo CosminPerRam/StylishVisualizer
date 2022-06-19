@@ -8,20 +8,19 @@ void InsertionSort::sorter() {
     unsigned key;
     for (int i = 1; i < n; i++)
     {
-        ++stats.reads;
         key = numbers[i];
         j = i - 1;
 
-        ++stats.reads;
+        stats.addReads(2);
         while (j >= 0 && numbers[j] > key)
         {
-            stats.addAssigment();
+            stats.addAssigments();
             numbers[j + 1] = numbers[j];
             DO_PUT_CURSOR_AT(j + 1);
-            j = j - 1;
             DO_PROGRESSIVE_CHECKSTEP;
+            j = j - 1;
         }
-        stats.addAssigment();
+        stats.addAssigments();
         numbers[j + 1] = key;
     }
 

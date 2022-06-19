@@ -31,6 +31,7 @@ add_executable(blockudokuplusplus
     src/GnomeSort.cpp
     src/HeapSort.cpp
     src/BitonicSort.cpp
+    src/SortingStatistics.cpp
     libraries/imgui/imgui.cpp
     libraries/imgui/imgui_demo.cpp
     libraries/imgui/imgui_draw.cpp

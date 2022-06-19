@@ -5,11 +5,11 @@ void BitonicSort::bitonicMerge(int low, int cnt, int dir)
 {
     if (cnt > 1)
     {
-        int k = cnt / 2;
+        const int k = cnt / 2;
         for (int i = low; i < low + k; i++) {
-            stats.addComparison();
+            stats.addComparisons();
             if (dir == (numbers[i] > numbers[i + k])) {
-                stats.addSwap();
+                stats.addSwaps();
                 std::swap(numbers[i], numbers[i + k]);
 
                 DO_PUT_CURSOR_AT(i + k);

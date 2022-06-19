@@ -23,23 +23,26 @@ void RadixSortMSD::MSDRadixSort(int low, int high, int digit) {
 
     for (int i = low; i < high; ++i) {
         counter[getByte(numbers[i], digit) + 2]++;
-        ++stats.reads;
         DO_PUT_CURSOR_AT(i);
     }
+    if(high > low)
+        stats.addReads(high - low);
 
     for (int r = 0; r < RADIX + 1; ++r)
         counter[r + 1] += counter[r];
 
     for (int i = low; i < high; ++i) {
         tabAux[counter[getByte(numbers[i], digit) + 1]++] = numbers[i];
-        ++stats.reads; ++stats.reads;
         DO_PUT_CURSOR_AT(i);
     }
+    if (high > low)
+        stats.addReads((high - low) * 2);
 
     for (int i = low; i < high; ++i) {
         numbers[i] = tabAux[i - low];
-        stats.addAssigment();
-        DO_CHECKSTEP; DO_PUT_CURSOR_AT(i);
+        stats.addAssigments();
+        DO_PUT_CURSOR_AT(i);
+        DO_CHECKSTEP;
     }
 
     for (int r = 0; r < RADIX + 1; ++r) {

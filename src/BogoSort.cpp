@@ -13,20 +13,20 @@ void BogoSort::sorter() {
     bool sorted = false;
 
     do {
-        for (unsigned i = 0; i < n; i++) {
-            stats.addSwap();
+        for (unsigned i = 0; i < n; i++)
             std::swap(numbers[i], numbers[Utilities::Random::getNumberInBetween(0, n - 1)]);
+        stats.addSwaps(n);
+
+        sorted = true;
+        for (unsigned i = 0; i < n - 1 && sorted; i++) {
+            if (numbers[i] > numbers[i + 1]) {
+                sorted = false;
+                stats.addComparisons(i);
+            }
         }
 
         DO_PUT_CURSOR_AT(Utilities::Random::getNumberInBetween(0, n - 1));
         DO_PROGRESSIVE_CHECKSTEP;
-
-        sorted = true;
-        for (unsigned i = 0; i < n - 1 && sorted; i++) {
-            stats.addComparison();
-            if (numbers[i] > numbers[i + 1])
-                sorted = false;
-        }
     } while (!sorted);
 
     DO_FINISHED;

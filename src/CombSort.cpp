@@ -20,10 +20,10 @@ void CombSort::sorter() {
         for (int i = 0; i < n - gap; i++)
         {
             DO_PUT_CURSOR_AT_WITH_BACKWARDS(i + 1);
-            stats.addComparison();
+            stats.addComparisons();
             if (numbers[i] > numbers[i + gap])
             {
-                stats.addSwap();
+                stats.addSwaps();
                 std::swap(numbers[i], numbers[i + gap]);
                 swapped = true;
 

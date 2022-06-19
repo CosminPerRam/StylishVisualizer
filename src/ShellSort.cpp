@@ -10,21 +10,21 @@ void ShellSort::sorter() {
         for (int i = gap; i < n; i += 1)
         {
             unsigned temp = numbers[i];
-            stats.addAssigment();
+            stats.addAssigments();
 
             int j;
             for (j = i; j >= gap && numbers[j - gap] > temp; j -= gap) {
                 numbers[j] = numbers[j - gap];
                 DO_PUT_CURSOR_AT(j);
 
-                stats.addComparison();
-                stats.addAssigment();
+                stats.addComparisons();
+                stats.addAssigments();
                 
                 DO_PROGRESSIVE_CHECKSTEP;
             }
 
             numbers[j] = temp;
-            stats.addAssigment();
+            stats.addAssigments();
         }
     }
 

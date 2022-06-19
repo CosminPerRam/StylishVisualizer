@@ -9,6 +9,7 @@ void StalinSort::sorter() {
     for (unsigned i = 0; i < numbers.size() - 1; ) {
         DO_PUT_CURSOR_AT(i);
 
+        stats.addComparisons();
         if (numbers[i] < numbers[i + 1])
             i++;
         else {

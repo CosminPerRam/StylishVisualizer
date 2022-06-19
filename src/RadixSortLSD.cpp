@@ -17,17 +17,17 @@ void RadixSortLSD::sorter() {
         for (int j = 0; j < n; j++) {
             DO_PUT_CURSOR_AT(j);
             int temp = (int)numbers[j] % m;
-            stats.addAssigment();
             int index = temp / p;
             pocket[index].push_back(numbers[j]);
         }
+        stats.addAssigments(n);
 
         int count = 0;
         for (int j = 0; j < 10; j++) {
             while (!pocket[j].empty()) {
                 numbers[count] = *(pocket[j].begin());
                 DO_PUT_CURSOR_AT(count);
-                stats.addAssigment();
+                stats.addAssigments();
                 pocket[j].erase(pocket[j].begin());
                 count++;
 

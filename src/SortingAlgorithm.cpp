@@ -10,28 +10,6 @@
 #include "Settings.h"
 #include "Audio.h"
 
-void SortingAlgorithm::statistics::reset() {
-	sortTimeMs = 0.f;
-	comparisons = 0; reads = 0; writes = 0; steps = 0;
-
-	cursorPosition = 0; cursorValue = 0;
-}
-
-void SortingAlgorithm::statistics::addComparison() {
-	++comparisons;
-	reads += 2;
-}
-
-void SortingAlgorithm::statistics::addAssigment() {
-	++reads;
-	++writes;
-}
-
-void SortingAlgorithm::statistics::addSwap() {
-	reads += 3;
-	writes += 3;
-}
-
 SortingAlgorithm::SortingAlgorithm() {
 	if(Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE)
 		this->shuffle();
@@ -123,7 +101,7 @@ const std::vector<unsigned>& SortingAlgorithm::getNumbers() {
 	return numbers; 
 }
 
-const SortingAlgorithm::statistics& SortingAlgorithm::getStatistics() {
+const SortingStatistics& SortingAlgorithm::getStatistics() {
 	return stats; 
 }
 

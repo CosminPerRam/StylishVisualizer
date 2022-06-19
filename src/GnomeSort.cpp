@@ -9,11 +9,11 @@ void GnomeSort::sorter() {
         if (index == 0)
             index++;
 
-        stats.addComparison();
+        stats.addComparisons();
         if (numbers[index] >= numbers[index - 1])
             index++;
         else {
-            stats.addSwap();
+            stats.addSwaps();
             std::swap(numbers[index], numbers[index - 1]);
             index--;
         }

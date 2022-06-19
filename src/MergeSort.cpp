@@ -11,19 +11,19 @@ void MergeSort::merge(const int l, const int m, const int r)
     for (int i = 0; i < n1; i++) {
         DO_PUT_CURSOR_AT(i);
         L[i] = numbers[l + i];
-        stats.addAssigment();
     }
     for (int j = 0; j < n2; j++) {
         DO_PUT_CURSOR_AT(j);
         R[j] = numbers[m + 1 + j];
-        stats.addAssigment();
     }
+
+    stats.addAssigments(n1 + n2);
 
     int i = 0, j = 0, k = l;
 
     while (i < n1 && j < n2) {
-        stats.addComparison();
-        stats.addAssigment();
+        stats.addComparisons();
+        stats.addAssigments();
 
         if (L[i] <= R[j]) {
             numbers[k] = L[i];
@@ -33,6 +33,7 @@ void MergeSort::merge(const int l, const int m, const int r)
             numbers[k] = R[j];
             j++;
         }
+
         DO_PUT_CURSOR_AT(k);
 
         k++;
@@ -43,7 +44,7 @@ void MergeSort::merge(const int l, const int m, const int r)
     while (i < n1) {
         numbers[k] = L[i];
         DO_PUT_CURSOR_AT(k);
-        stats.addAssigment();
+        stats.addAssigments();
         i++;
         k++;
 
@@ -53,7 +54,7 @@ void MergeSort::merge(const int l, const int m, const int r)
     while (j < n2) {
         numbers[k] = R[j];
         DO_PUT_CURSOR_AT(k);
-        stats.addAssigment();
+        stats.addAssigments();
         j++;
         k++;
 

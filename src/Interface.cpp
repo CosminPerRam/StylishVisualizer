@@ -207,7 +207,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	
 	ImGui::Separator();
 
-	const SortingAlgorithm::statistics& currentData = Manager::Sorter->getStatistics();
+	const SortingStatistics& currentData = Manager::Sorter->getStatistics();
 
 	if (ImGui::BeginTable("table", 6, ImGuiTableFlags_BordersInnerV)) {
 		ImGui::TableNextColumn();

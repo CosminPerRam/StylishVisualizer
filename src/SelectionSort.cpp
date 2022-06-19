@@ -9,7 +9,7 @@ void SelectionSort::sorter() {
     {
         int min_idx = i;
         for (int j = i + 1; j < n; j++) {
-            stats.addComparison();
+            stats.addComparisons();
             if (numbers[j] < numbers[min_idx]) {
                 min_idx = j;
                 DO_PUT_CURSOR_AT(j);
@@ -17,6 +17,7 @@ void SelectionSort::sorter() {
             }
         }
         
+        stats.addSwaps();
         std::swap(numbers[min_idx], numbers[i]);
         DO_PUT_CURSOR_AT(min_idx);
         DO_PROGRESSIVE_CHECKSTEP;

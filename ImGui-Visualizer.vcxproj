@@ -187,6 +187,7 @@
     <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\ShellSort.cpp" />
     <ClCompile Include="src\SortingAlgorithm.cpp" />
+    <ClCompile Include="src\SortingStatistics.cpp" />
     <ClCompile Include="src\StalinSort.cpp" />
     <ClCompile Include="src\Utilities.cpp" />
   </ItemGroup>
@@ -216,6 +217,7 @@
     <ClInclude Include="include\Settings.h" />
     <ClInclude Include="include\ShellSort.h" />
     <ClInclude Include="include\SortingAlgorithm.h" />
+    <ClInclude Include="include\SortingStatistics.h" />
     <ClInclude Include="include\StalinSort.h" />
     <ClInclude Include="include\Utilities.h" />
   </ItemGroup>
