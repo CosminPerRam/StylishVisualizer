@@ -14,16 +14,16 @@ class Manager
 private:
 	inline static bool m_isRunning = false, m_isPaused = false;
 
-	inline static int lastSelectedAlgorithm = 0;
+	inline static int lastSelectedAlgorithm = 3;
 
 	inline static sf::Clock visualClock;
 	
 public:
 	inline static SortingAlgorithm *Sorter = nullptr;
 
-	inline static const char* algorithmsNames[] = { "BubbleSort", "QuickSort", "ShellSort", "MergeSort", "RadixSort (LSD)", "RadixSort (MSD)", 
-		"CocktailSort", "StalinSort", "BogoSort", "CombSort", "InsertionSort", "SelectionSort", "GnomeSort", "HeapSort", "Bitonic Sort" };
-	inline static int selectedAlgorithm = 0;
+	inline static const char* algorithmsNames[] = { "BitonicSort", "BogoSort", "BubbleSort", "CocktailSort", "CombSort", "GnomeSort",
+		"HeapSort", "InsertionSort", "MergeSort", "QuickSort", "RadixSort (LSD)", "RadixSort (MSD)", "SelectionSort", "ShellSort", "StalinSort" };
+	inline static int selectedAlgorithm = 3;
 
 	inline static std::atomic<float> delayMs = 10.f;
 

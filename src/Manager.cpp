@@ -7,7 +7,7 @@
 #include "Audio.h"
 
 void Manager::initialize() {
-	Sorter = new BubbleSort();
+	Sorter = new CocktailSort();
 	Sorter->shuffle();
 }
 
@@ -85,35 +85,35 @@ void Manager::changedAlgorithm() {
 	delete Sorter;
 
 	if (selectedAlgorithm == 0)
-		Sorter = new BubbleSort();
-	else if (selectedAlgorithm == 1)
-		Sorter = new QuickSort();
-	else if (selectedAlgorithm == 2)
-		Sorter = new ShellSort();
-	else if (selectedAlgorithm == 3)
-		Sorter = new MergeSort();
-	else if (selectedAlgorithm == 4)
-		Sorter = new RadixSortLSD();
-	else if (selectedAlgorithm == 5)
-		Sorter = new RadixSortMSD();
-	else if (selectedAlgorithm == 6)
-		Sorter = new CocktailSort();
-	else if (selectedAlgorithm == 7)
-		Sorter = new StalinSort();
-	else if (selectedAlgorithm == 8)
-		Sorter = new BogoSort();
-	else if (selectedAlgorithm == 9)
-		Sorter = new CombSort();
-	else if (selectedAlgorithm == 10)
-		Sorter = new InsertionSort();
-	else if (selectedAlgorithm == 11)
-		Sorter = new SelectionSort();
-	else if (selectedAlgorithm == 12)
-		Sorter = new GnomeSort();
-	else if (selectedAlgorithm == 13)
-		Sorter = new HeapSort();
-	else if (selectedAlgorithm == 14)
 		Sorter = new BitonicSort();
+	else if (selectedAlgorithm == 1)
+		Sorter = new BogoSort();
+	else if (selectedAlgorithm == 2)
+		Sorter = new BubbleSort();
+	else if (selectedAlgorithm == 3)
+		Sorter = new CocktailSort();
+	else if (selectedAlgorithm == 4)
+		Sorter = new CombSort();
+	else if (selectedAlgorithm == 5)
+		Sorter = new GnomeSort();
+	else if (selectedAlgorithm == 6)
+		Sorter = new HeapSort();
+	else if (selectedAlgorithm == 7)
+		Sorter = new InsertionSort();
+	else if (selectedAlgorithm == 8)
+		Sorter = new MergeSort();
+	else if (selectedAlgorithm == 9)
+		Sorter = new QuickSort();
+	else if (selectedAlgorithm == 10)
+		Sorter = new RadixSortLSD();
+	else if (selectedAlgorithm == 11)
+		Sorter = new RadixSortMSD();
+	else if (selectedAlgorithm == 12)
+		Sorter = new SelectionSort();
+	else if (selectedAlgorithm == 13)
+		Sorter = new ShellSort();
+	else if (selectedAlgorithm == 14)
+		Sorter = new StalinSort();
 
 	lastSelectedAlgorithm = selectedAlgorithm;
 }
