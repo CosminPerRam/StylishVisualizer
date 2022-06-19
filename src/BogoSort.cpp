@@ -9,16 +9,16 @@
 void BogoSort::sorter() {
     DO_STARTED;
 
-    unsigned n = numbers.size();
+    const unsigned n = numbers.size();
     bool sorted = false;
 
     do {
         for (unsigned i = 0; i < n; i++) {
-            std::swap(numbers[i], numbers[Utilities::Random::getNumberInBetween(0, n)]);
-            ++stats.writes;
+            stats.addSwap();
+            std::swap(numbers[i], numbers[Utilities::Random::getNumberInBetween(0, n - 1)]);
         }
 
-        DO_PUT_CURSOR_AT(0);
+        DO_PUT_CURSOR_AT(Utilities::Random::getNumberInBetween(0, n - 1));
         DO_PROGRESSIVE_CHECKSTEP;
 
         sorted = true;
@@ -28,8 +28,6 @@ void BogoSort::sorter() {
                 sorted = false;
         }
     } while (!sorted);
-
-    DO_PUT_CURSOR_AT(n - 1);
 
     DO_FINISHED;
 }
