@@ -1,5 +1,5 @@
 
-#include "HeapSort.h"
+#include "SortingAlgorithms/HeapSort.h"
 
 void HeapSort::heapify(int n, int i)
 {

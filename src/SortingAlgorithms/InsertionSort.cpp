@@ -1,5 +1,5 @@
 
-#include "InsertionSort.h"
+#include "SortingAlgorithms/InsertionSort.h"
 
 void InsertionSort::sorter() {
     DO_STARTED;

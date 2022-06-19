@@ -1,5 +1,5 @@
 
-#include "ShellSort.h"
+#include "SortingAlgorithms/ShellSort.h"
 
 void ShellSort::sorter() {
     DO_STARTED;

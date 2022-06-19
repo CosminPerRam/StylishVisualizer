@@ -1,5 +1,5 @@
 
-#include "BitonicSort.h"
+#include "SortingAlgorithms/BitonicSort.h"
 
 void BitonicSort::bitonicMerge(int low, int cnt, int dir)
 {

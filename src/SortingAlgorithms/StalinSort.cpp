@@ -1,5 +1,5 @@
 
-#include "StalinSort.h"
+#include "SortingAlgorithms/StalinSort.h"
 
 #include "Settings.h"
 

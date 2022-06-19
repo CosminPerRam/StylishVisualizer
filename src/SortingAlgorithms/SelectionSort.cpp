@@ -1,5 +1,5 @@
 
-#include "SelectionSort.h"
+#include "SortingAlgorithms/SelectionSort.h"
 
 void SelectionSort::sorter() {
     DO_STARTED;

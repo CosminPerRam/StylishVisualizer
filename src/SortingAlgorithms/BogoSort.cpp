@@ -1,5 +1,5 @@
 
-#include "BogoSort.h"
+#include "SortingAlgorithms/BogoSort.h"
 
 #include <algorithm>
 

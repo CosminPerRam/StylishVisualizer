@@ -1,5 +1,5 @@
 
-#include "CocktailSort.h"
+#include "SortingAlgorithms/CocktailSort.h"
 
 void CocktailSort::sorter() {
     DO_STARTED;

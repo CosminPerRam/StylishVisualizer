@@ -1,5 +1,5 @@
 
-#include "MergeSort.h"
+#include "SortingAlgorithms/MergeSort.h"
 
 void MergeSort::merge(const int l, const int m, const int r)
 {

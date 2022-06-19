@@ -10,29 +10,29 @@ find_package(Threads REQUIRED)
 
 add_executable(sorting-visualizer
     src/Audio.cpp
-    src/BitonicSort.cpp
-    src/BogoSort.cpp
-    src/BubbleSort.cpp
-    src/CocktailSort.cpp
-    src/CombSort.cpp
-    src/GnomeSort.cpp
-    src/HeapSort.cpp
-    src/InsertionSort.cpp
     src/Interface.cpp
     src/main.cpp
     src/Manager.cpp
-    src/MergeSort.cpp
     src/Program.cpp
-    src/QuickSort.cpp
-    src/RadixSortLSD.cpp
-    src/RadixSortMSD.cpp
-    src/SelectionSort.cpp
     src/Settings.cpp
-    src/ShellSort.cpp
     src/SortingAlgorithm.cpp
     src/SortingStatistics.cpp
-    src/StalinSort.cpp
-    src/Utilities.cpp)
+    src/Utilities.cpp
+    src/SortingAlgorithms/BitonicSort.cpp
+    src/SortingAlgorithms/BogoSort.cpp
+    src/SortingAlgorithms/BubbleSort.cpp
+    src/SortingAlgorithms/CocktailSort.cpp
+    src/SortingAlgorithms/CombSort.cpp
+    src/SortingAlgorithms/GnomeSort.cpp
+    src/SortingAlgorithms/HeapSort.cpp
+    src/SortingAlgorithms/InsertionSort.cpp
+    src/SortingAlgorithms/MergeSort.cpp
+    src/SortingAlgorithms/QuickSort.cpp
+    src/SortingAlgorithms/RadixSortLSD.cpp
+    src/SortingAlgorithms/RadixSortMSD.cpp
+    src/SortingAlgorithms/SelectionSort.cpp
+    src/SortingAlgorithms/ShellSort.cpp
+    src/SortingAlgorithms/StalinSort.cpp)
 target_include_directories(sorting-visualizer PRIVATE include)
 target_link_libraries(sorting-visualizer PRIVATE sfml-audio sfml-graphics ImGui-SFML::ImGui-SFML ImPlot::ImPlot Threads::Threads)
 target_compile_features(sorting-visualizer PRIVATE cxx_std_17)

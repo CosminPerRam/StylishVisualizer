@@ -1,5 +1,5 @@
 
-#include "CombSort.h"
+#include "SortingAlgorithms/CombSort.h"
 
 void CombSort::sorter() {
     DO_STARTED;

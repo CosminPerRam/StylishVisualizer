@@ -1,5 +1,5 @@
 
-#include "GnomeSort.h"
+#include "SortingAlgorithms/GnomeSort.h"
 
 void GnomeSort::sorter() {
     DO_STARTED;
