@@ -1,16 +1,23 @@
 cmake_minimum_required(VERSION 3.16)
-project(blockudokuplusplus CXX)
+project(sorting-visualizer CXX)
 
+set(BUILD_SHARED_LIBS OFF)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
-find_package(SFML 2.5.1 REQUIRED COMPONENTS audio graphics)
-find_package(OpenGL REQUIRED)
+add_subdirectory(external)
+
 find_package(Threads REQUIRED)
 
-add_executable(blockudokuplusplus
+add_executable(sorting-visualizer
     src/Audio.cpp
+    src/BitonicSort.cpp
+    src/BogoSort.cpp
     src/BubbleSort.cpp
     src/CocktailSort.cpp
+    src/CombSort.cpp
+    src/GnomeSort.cpp
+    src/HeapSort.cpp
+    src/InsertionSort.cpp
     src/Interface.cpp
     src/main.cpp
     src/Manager.cpp
@@ -19,30 +26,13 @@ add_executable(blockudokuplusplus
     src/QuickSort.cpp
     src/RadixSortLSD.cpp
     src/RadixSortMSD.cpp
+    src/SelectionSort.cpp
+    src/Settings.cpp
     src/ShellSort.cpp
     src/SortingAlgorithm.cpp
-    src/Utilities.cpp
-    src/StalinSort.cpp
-    src/BogoSort.cpp
-    src/Settings.cpp
-    src/CombSort.cpp
-    src/InsertionSort.cpp
-    src/SelectionSort.cpp
-    src/GnomeSort.cpp
-    src/HeapSort.cpp
-    src/BitonicSort.cpp
     src/SortingStatistics.cpp
-    libraries/imgui/imgui.cpp
-    libraries/imgui/imgui_demo.cpp
-    libraries/imgui/imgui_draw.cpp
-    libraries/imgui/imgui_tables.cpp
-    libraries/imgui/imgui_widgets.cpp
-    libraries/imgui/imgui-SFML.cpp
-    libraries/implot/implot.cpp
-    libraries/implot/implot_demo.cpp
-    libraries/implot/implot_items.cpp)
-target_include_directories(blockudokuplusplus PRIVATE include libraries/imgui)
-target_include_directories(blockudokuplusplus PRIVATE include libraries/implot)
-target_link_libraries(blockudokuplusplus PRIVATE Threads::Threads)
-target_link_libraries(blockudokuplusplus PRIVATE sfml-audio sfml-graphics sfml-window ${OPENGL_LIBRARIES})
-target_compile_features(blockudokuplusplus PRIVATE cxx_std_17)
+    src/StalinSort.cpp
+    src/Utilities.cpp)
+target_include_directories(sorting-visualizer PRIVATE include)
+target_link_libraries(sorting-visualizer PRIVATE sfml-audio sfml-graphics ImGui-SFML::ImGui-SFML ImPlot::ImPlot Threads::Threads)
+target_compile_features(sorting-visualizer PRIVATE cxx_std_17)
