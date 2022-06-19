@@ -15,10 +15,12 @@ void BitonicSort::bitonicMerge(int low, int cnt, int dir)
                 std::swap(numbers[i], numbers[i + k]);
 
                 DO_PUT_CURSOR_AT(i + k);
-                DO_PROGRESSIVE_CHECKSTEP;
+                stats.addStep();
             }
             else
                 DO_PUT_CURSOR_AT(i);
+
+            DO_CHECKSTEP;
         }
 
         bitonicMerge(low, k, dir);
@@ -47,5 +49,5 @@ void BitonicSort::sorter() {
 }
 
 const char* BitonicSort::getDescription() {
-    return "aaa";
+    return "Bitonic sort is a comparison-based sorting algorithm that can be run in parallel. It focuses on converting a random sequence of numbers into a bitonic sequence, one that monotonically increases, then decreases. Not running paralleled.";
 }

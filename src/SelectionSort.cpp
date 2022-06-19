@@ -13,7 +13,6 @@ void SelectionSort::sorter() {
             if (numbers[j] < numbers[min_idx]) {
                 min_idx = j;
                 DO_PUT_CURSOR_AT(j);
-                DO_CHECKSTEP;
             }
         }
         

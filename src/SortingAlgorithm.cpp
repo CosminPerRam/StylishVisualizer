@@ -52,7 +52,7 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 		return stepState::PAUSED;
 	}
 	//else
-	stats.sortTimeMs += theClock.getElapsedTime().asSeconds() * 1000;
+	stats.sortTimeMs = stats.sortTimeMs + theClock.getElapsedTime().asSeconds() * 1000;
 
 	sf::sleep(sf::microseconds(Manager::delayMs * 1000));
 	theClock.restart();

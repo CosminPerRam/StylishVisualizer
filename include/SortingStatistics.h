@@ -1,11 +1,13 @@
 #pragma once
 
+#include <atomic>
+
 struct SortingStatistics
 {
-	float sortTimeMs = 0.f;
-	unsigned long long comparisons = 0, reads = 0, writes = 0, steps = 0;
+	std::atomic<float> sortTimeMs = 0.f;
+	std::atomic<unsigned long long> comparisons = 0, reads = 0, writes = 0, steps = 0;
 
-	unsigned cursorPosition = 0, cursorValue = 0;
+	std::atomic<unsigned> cursorPosition = 0, cursorValue = 0;
 
 	void reset();
 

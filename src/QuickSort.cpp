@@ -29,10 +29,11 @@ void QuickSort::sorter()
                 std::swap(numbers[i], numbers[j]);
 
                 stats.addSwaps();
-                DO_PROGRESSIVE_CHECKSTEP;
+                stats.addStep();
             }
 
             DO_PUT_CURSOR_AT(j);
+            DO_CHECKSTEP;
         }
         std::swap(numbers[i + 1], numbers[h]);
 

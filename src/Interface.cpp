@@ -75,12 +75,11 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::EndDisabled(); ImGui::SameLine();
 
 	static bool noDelay = false;
-	static float oldDelay = 0.f;
+	static float oldDelay = 0.f, delay = Manager::delayMs;
 
 	ImGui::BeginDisabled(noDelay);
 	ImGui::Text("Delay"); ImGui::SameLine();
 	ImGui::PushItemWidth(128);
-	float delay = Manager::delayMs;
 	if (ImGui::SliderFloat("##Delay", &delay, 1.f, 500.f, "%.2f ms", ImGuiSliderFlags_Logarithmic))
 		Manager::delayMs = delay;
 	ImGui::PopItemWidth(); 
@@ -211,23 +210,23 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	if (ImGui::BeginTable("table", 6, ImGuiTableFlags_BordersInnerV)) {
 		ImGui::TableNextColumn();
-		ImGui::Text("Comparisons: %llu", currentData.comparisons);
+		ImGui::Text("Comparisons: %llu", currentData.comparisons.load());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Reads: %llu", currentData.reads);
+		ImGui::Text("Reads: %llu", currentData.reads.load());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Writes: %llu", currentData.writes);
+		ImGui::Text("Writes: %llu", currentData.writes.load());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Steps: %llu", currentData.steps);
+		ImGui::Text("Steps: %llu", currentData.steps.load());
 
 		ImGui::TableNextColumn();
 		ImGui::Text("Visual time: %.2f s", Manager::visualTime.asSeconds());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Real time: %.f ms", currentData.sortTimeMs); ImGui::SameLine();
-		Custom::HelpMarker("(An approximation, in actual\nreal time use its faster)");
+		ImGui::Text("Real time: %.f ms", currentData.sortTimeMs.load()); ImGui::SameLine();
+		Custom::HelpMarker("(This is an approximation, in real use its faster)");
 
 		ImGui::EndTable();
 	}
@@ -262,15 +261,16 @@ void Interface::draw(sf::RenderWindow& window) {
 
 		if (Settings::PLOT_CURSOR_SHOW) {
 			ImPlot::PushStyleColor(ImPlotCol_Fill, { 255, 0, 0, 255 });
-			
+			unsigned cursorPos = currentData.cursorPosition, cursorVal = currentData.cursorValue;
+
 			if (Settings::PLOT_CURSOR_DOT) {
 				ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
 				ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, Settings::CURSOR_LINE_WIDTH);
-				ImPlot::PlotLine("##Cursor", &currentData.cursorPosition, &currentData.cursorValue, 1);
+				ImPlot::PlotLine("##Cursor", &cursorPos, &cursorVal, 1);
 				ImPlot::PopStyleVar();
 			}
 			else
-				ImPlot::PlotBars("##Cursor", &currentData.cursorPosition, &currentData.cursorValue, 1, Settings::CURSOR_LINE_WIDTH);
+				ImPlot::PlotBars("##Cursor", &cursorPos, &cursorVal, 1, Settings::CURSOR_LINE_WIDTH);
 
 			ImPlot::PopStyleColor();
 		}

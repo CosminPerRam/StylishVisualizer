@@ -39,7 +39,7 @@ void HeapSort::sorter() {
         std::swap(numbers[0], numbers[i]);
 
         DO_PUT_CURSOR_AT(i);
-        DO_CHECKSTEP;
+        DO_PROGRESSIVE_CHECKSTEP;
 
         heapify(i, 0);
     }

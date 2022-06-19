@@ -11,6 +11,8 @@ void CocktailSort::sorter() {
 
     while (swapped)
     {
+        DO_PROGRESSIVE_CHECKSTEP;
+
         swapped = false;
 
         for (int i = start; i < end; ++i)
@@ -21,9 +23,9 @@ void CocktailSort::sorter() {
                 std::swap(numbers[i], numbers[i + 1]);
                 stats.addSwaps();
                 swapped = true;
-
-                DO_PROGRESSIVE_CHECKSTEP;
             }
+
+            DO_CHECKSTEP;
         }
 
         if (!swapped)
@@ -41,9 +43,9 @@ void CocktailSort::sorter() {
                 std::swap(numbers[i], numbers[i + 1]);
                 stats.addSwaps();
                 swapped = true;
-
-                DO_PROGRESSIVE_CHECKSTEP;
             }
+
+            DO_CHECKSTEP;
         }
 
         ++start;

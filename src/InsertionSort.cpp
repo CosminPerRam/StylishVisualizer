@@ -17,11 +17,12 @@ void InsertionSort::sorter() {
             stats.addAssigments();
             numbers[j + 1] = numbers[j];
             DO_PUT_CURSOR_AT(j + 1);
-            DO_PROGRESSIVE_CHECKSTEP;
+            DO_CHECKSTEP;
             j = j - 1;
         }
         stats.addAssigments();
         numbers[j + 1] = key;
+        DO_PROGRESSIVE_CHECKSTEP;
     }
 
     DO_FINISHED;

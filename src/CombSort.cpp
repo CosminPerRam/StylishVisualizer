@@ -27,10 +27,12 @@ void CombSort::sorter() {
                 swapped = true;
 
                 DO_PUT_CURSOR_AT(i);
-                DO_PROGRESSIVE_CHECKSTEP;
+                stats.addStep();
             }
             else
                 DO_PUT_CURSOR_AT_WITH_BACKWARDS(i + 1);
+
+            DO_CHECKSTEP;
         }
     }
 

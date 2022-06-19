@@ -14,8 +14,10 @@ void BubbleSort::sorter() {
                 std::swap(numbers[j], numbers[j + 1]);
 
                 stats.addSwaps();
-                DO_PROGRESSIVE_CHECKSTEP;
+                stats.addStep();
             }
+
+            DO_CHECKSTEP;
         }
     }
 
