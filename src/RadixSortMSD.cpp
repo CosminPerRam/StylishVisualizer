@@ -19,6 +19,8 @@ short int getByte(unsigned int elem, unsigned int i) {
 }
 
 void RadixSortMSD::MSDRadixSort(int low, int high, int digit) {
+    DO_CHECKEXIT;
+
     std::vector<unsigned> counter(RADIX + 2);
 
     for (int i = low; i < high; ++i) {

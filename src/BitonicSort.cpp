@@ -3,6 +3,8 @@
 
 void BitonicSort::bitonicMerge(int low, int cnt, int dir)
 {
+    DO_CHECKEXIT;
+
     if (cnt > 1)
     {
         const int k = cnt / 2;

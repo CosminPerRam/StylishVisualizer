@@ -3,6 +3,8 @@
 
 void HeapSort::heapify(int n, int i)
 {
+    DO_CHECKEXIT;
+
     int largest = i;
     int l = 2 * i + 1, r = 2 * i + 2;
 

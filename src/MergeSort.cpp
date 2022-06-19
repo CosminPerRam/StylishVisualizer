@@ -3,6 +3,8 @@
 
 void MergeSort::merge(const int l, const int m, const int r)
 {
+    DO_CHECKEXIT;
+
     const int n1 = m - l + 1;
     const int n2 = r - m;
 

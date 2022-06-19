@@ -42,12 +42,10 @@ bool Manager::isPaused() {
 }
 
 void Manager::start() {
-	if (!m_isPaused) {
+	if (!m_isPaused)
 		visualTime = sf::Time::Zero;
-		Sorter->start();
-	}
-	else
-		Sorter->resume();
+
+	Sorter->start();
 
 	m_isRunning = true;
 	m_isPaused = false;

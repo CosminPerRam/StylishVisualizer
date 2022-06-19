@@ -66,14 +66,19 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 }
 
 void SortingAlgorithm::start() {
-	this->stop();
-	theThread = std::thread(&SortingAlgorithm::sorter, this);
+	if (m_pause)
+		this->resume();
+	else {
+		theThread = std::thread(&SortingAlgorithm::sorter, this);
+		theThread.detach();
+	}
 }
 
 void SortingAlgorithm::stop() {
 	m_exit = true;
+	m_pause = false;
 
-	if(theThread.joinable())
+	if (theThread.joinable())
 		theThread.join();
 }
 
@@ -84,6 +89,7 @@ void SortingAlgorithm::pause() {
 
 void SortingAlgorithm::resume() {
 	m_pause = false;
+	m_exit = false;
 	//wait???
 }
 

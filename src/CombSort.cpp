@@ -19,7 +19,6 @@ void CombSort::sorter() {
 
         for (int i = 0; i < n - gap; i++)
         {
-            DO_PUT_CURSOR_AT_WITH_BACKWARDS(i + 1);
             stats.addComparisons();
             if (numbers[i] > numbers[i + gap])
             {
@@ -27,8 +26,11 @@ void CombSort::sorter() {
                 std::swap(numbers[i], numbers[i + gap]);
                 swapped = true;
 
+                DO_PUT_CURSOR_AT(i);
                 DO_PROGRESSIVE_CHECKSTEP;
             }
+            else
+                DO_PUT_CURSOR_AT_WITH_BACKWARDS(i + 1);
         }
     }
 
