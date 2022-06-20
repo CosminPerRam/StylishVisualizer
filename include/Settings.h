@@ -35,7 +35,9 @@ struct Settings
 	inline static bool PLOT_SHOW_SCALE = true;
 
 	inline static bool PLOT_DO_AFTERCHECK = true;
-	inline static bool PLOT_SHUFFLE_ON_ALGO_CHANGE = false;
+	inline static bool PLOT_SHUFFLE_ON_ALGO_CHANGE = true;
+	inline static bool PLOT_SHUFFLE_ANIMATED = true;
+	inline static const unsigned PLOT_SINGULAR_LOOP_TIMEus = 2000000;
 
 	inline static const int PAUSE_SLEEPms = 8;
 };

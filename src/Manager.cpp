@@ -5,10 +5,13 @@
 
 #include "AllSorts.h"
 #include "Audio.h"
+#include "Settings.h"
 
 void Manager::initialize() {
 	Sorter = new CocktailSort();
-	Sorter->shuffle();
+
+	if(!Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE)
+		Sorter->shuffle();
 }
 
 void Manager::update(sf::RenderWindow& window, sf::Time diffTime) {
@@ -39,6 +42,11 @@ bool Manager::isRunning() {
 
 bool Manager::isPaused() {
 	return m_isPaused;
+}
+
+bool Manager::isShuffling() {
+	m_isShuffling = Sorter->isShuffling();
+	return m_isShuffling;
 }
 
 void Manager::start() {
@@ -72,6 +80,8 @@ void Manager::stop() {
 }
 
 void Manager::shuffle() {
+	visualTime = sf::Time::Zero;
+	m_isShuffling = true;
 	Sorter->shuffle();
 }
 

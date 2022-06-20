@@ -37,10 +37,11 @@ protected:
 
 	std::thread theThread;
 	enum class stepState { NONE, PAUSED, EXITED, STEP };
-	std::atomic<bool> m_pause = false, m_exit = false, m_isFinished = false, m_doStep = false;
+	std::atomic<bool> m_pause = false, m_exit = false, m_isFinished = false, m_doStep = false, m_shuffling = false;
 
 	virtual void sorter() = 0;
 
+	void animatedShuffle();
 	void doFinisherLoop();
 	void putCursorAt(unsigned position, int withOffset = 0);
 	void reset();
@@ -58,6 +59,7 @@ public:
 	void shuffle();
 
 	bool isFinished();
+	bool isShuffling();
 	const std::vector<unsigned>& getNumbers();
 	const SortingStatistics& getStatistics();
 	virtual const char* getDescription() = 0;

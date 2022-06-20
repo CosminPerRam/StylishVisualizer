@@ -53,12 +53,18 @@ void Interface::draw(sf::RenderWindow& window) {
 	bool isRunning = Manager::isRunning();
 	bool isPaused = Manager::isPaused();
 
+	static bool isShuffling = true;
+	if(isShuffling) //only update the shuffle state when it shuffles
+		isShuffling = Manager::isShuffling();
+
+	ImGui::BeginDisabled(isShuffling);
 	if (ImGui::Button(isRunning ? "Stop" : "Start", {48, 0})) {
 		if (isRunning)
 			Manager::stop();
 		else
 			Manager::start();
-	} ImGui::SameLine();
+	}
+	ImGui::EndDisabled(); ImGui::SameLine();
 
 	ImGui::BeginDisabled(!isRunning);
 	if (ImGui::Button(isPaused ? "Resume" : "Pause", {48, 0})) {
@@ -95,12 +101,13 @@ void Interface::draw(sf::RenderWindow& window) {
 	} ImGui::SameLine();
 	Custom::HelpMarker("For those extra-slow algorithms."); ImGui::SameLine();
 
-	ImGui::BeginDisabled(isRunning);
+	ImGui::BeginDisabled(isRunning|| isShuffling);
 	ImGui::PushItemWidth(128);
 	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	if (ImGui::Button("Shuffle", { 64, 0 })) {
+		isShuffling = true;
 		Manager::shuffle();
 		Settings::updateCursorLineWidth();
 	}
@@ -196,6 +203,8 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	if (ImGui::BeginPopup("OptionsPopup"))
 	{
+		ImGui::Checkbox("Animated shuffle", &Settings::PLOT_SHUFFLE_ANIMATED);
+		ImGui::SameLine(); Custom::HelpMarker("Beeps and boops each time you hit shuffle.\nNote that shuffling at over 2000 elements might make the delay not visible.");
 		ImGui::Checkbox("Shuffle on change", &Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE);
 		ImGui::SameLine(); Custom::HelpMarker("Shuffle the numbers when\nchanging the algorithm.");
 		ImGui::Checkbox("Reiterate when done", &Settings::PLOT_DO_AFTERCHECK);

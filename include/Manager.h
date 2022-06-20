@@ -12,7 +12,7 @@
 class Manager
 {
 private:
-	inline static bool m_isRunning = false, m_isPaused = false;
+	inline static bool m_isRunning = false, m_isPaused = false, m_isShuffling = false;
 
 	inline static int lastSelectedAlgorithm = 3;
 
@@ -35,6 +35,7 @@ public:
 
 	static bool isRunning();
 	static bool isPaused();
+	static bool isShuffling();
 
 	static void start();
 	static void step();
