@@ -4,8 +4,10 @@
 void InsertionSort::sorter() {
     DO_STARTED;
 
-    int n = numbers.size(), j;
+    const int n = int(numbers.size());
+    int j;
     unsigned key;
+    
     for (int i = 1; i < n; i++)
     {
         key = numbers[i];

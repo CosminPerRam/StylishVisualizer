@@ -56,7 +56,7 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	//else
 	stats.sortTimeMs = stats.sortTimeMs + theClock.getElapsedTime().asSeconds() * 1000;
 
-	sf::sleep(sf::microseconds(Manager::delayMs * 1000));
+	sf::sleep(sf::microseconds(sf::Int64(Manager::delayMs * 1000)));
 	theClock.restart();
 
 	if (m_doStep) {
@@ -118,7 +118,7 @@ const SortingStatistics& SortingAlgorithm::getStatistics() {
 }
 
 void SortingAlgorithm::animatedShuffle() {
-	const int oldSize = numbers.size();
+	const int oldSize = int(numbers.size());
 
 	sf::Time delayUs = sf::microseconds(Settings::PLOT_SINGULAR_LOOP_TIMEus / Settings::SHUFFLE_CURRENT_COUNT);
 
