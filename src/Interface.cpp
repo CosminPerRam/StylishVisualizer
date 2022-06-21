@@ -292,7 +292,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SFML::Render(window);
 }
 
-void Interface::pollEvent(sf::RenderWindow& window, sf::Event& theEvent) {
+void Interface::pollEvent(sf::Event& theEvent) {
 	ImGui::SFML::ProcessEvent(theEvent);
 }
 

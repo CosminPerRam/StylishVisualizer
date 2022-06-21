@@ -12,13 +12,13 @@
 
 #define DO_CHECKEXIT if (m_exit) \
 						return;
-#define DO_CHECKSTEP bool goContinue = false; \
+#define DO_CHECKSTEP do { bool goContinue = false; \
 					while (!goContinue) { \
 						DO_CHECKEXIT; \
 						stepState state = this->checkStep(); \
 						if (state == stepState::NONE || state == stepState::STEP) \
 							goContinue = true; \
-					}
+					} } while (false);
 #define DO_PROGRESSIVE_CHECKSTEP ++stats.steps; DO_CHECKSTEP;
 #define DO_STARTED this->reset();
 #define DO_FINISHED if(!m_exit) { this->doFinisherLoop(); m_isFinished = true; }
@@ -49,6 +49,7 @@ protected:
 
 public:
 	SortingAlgorithm();
+	virtual ~SortingAlgorithm() = default;
 
 	void start();
 	void stop();

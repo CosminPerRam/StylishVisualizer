@@ -118,39 +118,39 @@ const SortingStatistics& SortingAlgorithm::getStatistics() {
 }
 
 void SortingAlgorithm::animatedShuffle() {
-	const unsigned oldSize = numbers.size();
+	const int oldSize = numbers.size();
 
 	sf::Time delayUs = sf::microseconds(Settings::PLOT_SINGULAR_LOOP_TIMEus / Settings::SHUFFLE_CURRENT_COUNT);
 
 	if(oldSize > Settings::SHUFFLE_CURRENT_COUNT) {
 		delayUs = sf::microseconds(Settings::PLOT_SINGULAR_LOOP_TIMEus / oldSize);
 
-		for(unsigned i = oldSize; i > Settings::SHUFFLE_CURRENT_COUNT; i--) {
+		for(int i = oldSize; i > Settings::SHUFFLE_CURRENT_COUNT; i--) {
 			numbers.pop_back();
 			sf::sleep(delayUs);
 		}
 
-		for (unsigned i = Settings::SHUFFLE_CURRENT_COUNT; i > 0; i--) {
+		for (int i = Settings::SHUFFLE_CURRENT_COUNT; i > 0; i--) {
 			numbers[i - 1] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
 			putCursorAt(i - 1);
 			sf::sleep(delayUs);
 		}
 	}
 	else if(oldSize < Settings::SHUFFLE_CURRENT_COUNT) {
-		for(unsigned i = 0 ; i < oldSize; i++) {
+		for(int i = 0 ; i < oldSize; i++) {
 			numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
 			putCursorAt(i);
 			sf::sleep(delayUs);
 		}
 
-		for (unsigned i = oldSize; i < Settings::SHUFFLE_CURRENT_COUNT; i++) {
+		for (int i = oldSize; i < Settings::SHUFFLE_CURRENT_COUNT; i++) {
 			numbers.emplace_back(Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE));
 			putCursorAt(i);
 			sf::sleep(delayUs);
 		}
 	}
 	else {
-		for (unsigned i = 0; i < Settings::SHUFFLE_CURRENT_COUNT; i++) {
+		for (int i = 0; i < Settings::SHUFFLE_CURRENT_COUNT; i++) {
 			numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
 			putCursorAt(i);
 			sf::sleep(delayUs);

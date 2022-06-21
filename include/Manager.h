@@ -31,7 +31,7 @@ public:
 
 	static void initialize();
 
-	static void update(sf::RenderWindow& window, sf::Time diffTime);
+	static void update();
 
 	static bool isRunning();
 	static bool isPaused();

@@ -14,7 +14,7 @@ void Manager::initialize() {
 		Sorter->shuffle();
 }
 
-void Manager::update(sf::RenderWindow& window, sf::Time diffTime) {
+void Manager::update() {
 	bool sorterFinished = Sorter->isFinished();
 	if(sorterFinished)
 		m_isRunning = m_isPaused = false;
@@ -25,7 +25,7 @@ void Manager::update(sf::RenderWindow& window, sf::Time diffTime) {
 	if (!sorterFinished) {
 		auto& stats = Manager::Sorter->getStatistics();
 
-		static int oldVal = 0, oldPos = 0;
+		static unsigned oldVal = 0, oldPos = 0;
 		if (oldVal != stats.cursorValue || oldPos != stats.cursorPosition) {
 			oldVal = stats.cursorValue;
 			oldPos = stats.cursorPosition;
