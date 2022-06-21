@@ -4,7 +4,7 @@
 void ShellSort::sorter() {
     DO_STARTED;
 
-    int n = numbers.size();
+    const int n = int(numbers.size());
     for (int gap = n / 2; gap > 0; gap /= 2)
     {
         for (int i = gap; i < n; i += 1)

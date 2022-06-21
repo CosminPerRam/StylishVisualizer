@@ -9,7 +9,7 @@ add_subdirectory(external)
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    add_compile_options(/WX /W3 /permissive- /wd4267 /wd4244)
+    add_compile_options(/WX /W3 /permissive-)
 endif()
 
 find_package(Threads REQUIRED)

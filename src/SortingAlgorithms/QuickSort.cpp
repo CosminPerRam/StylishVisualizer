@@ -5,7 +5,7 @@ void QuickSort::sorter()
 {
     DO_STARTED;
 
-    int l = 0, h = numbers.size() - 1;
+    int l = 0, h = int(numbers.size()) - 1;
     std::vector<int> stack(numbers.size(), 0);
 
     int top = -1;

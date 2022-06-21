@@ -9,7 +9,7 @@
 void BogoSort::sorter() {
     DO_STARTED;
 
-    const unsigned n = numbers.size();
+    const unsigned n = unsigned(numbers.size());
     bool sorted = false;
 
     do {

@@ -4,7 +4,9 @@
 void GnomeSort::sorter() {
     DO_STARTED;
 
-    int n = numbers.size(), index = 0;
+    const int n = int(numbers.size());
+    int index = 0;
+    
     while (index < n) {
         if (index == 0)
             index++;

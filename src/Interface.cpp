@@ -244,7 +244,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
 	if (ImPlot::BeginPlot("##MainPlot", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
-		const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); int numbersSize = numbers.size();
+		const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); int numbersSize = int(numbers.size());
 
 		ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
 

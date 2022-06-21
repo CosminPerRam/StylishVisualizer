@@ -30,7 +30,7 @@ void HeapSort::heapify(int n, int i)
 void HeapSort::sorter() {
     DO_STARTED;
 
-    int n = numbers.size();
+    const int n = int(numbers.size());
     for (int i = n / 2 - 1; i >= 0; i--)
         heapify(n, i);
 
