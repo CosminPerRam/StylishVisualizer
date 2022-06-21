@@ -59,7 +59,7 @@ void RadixSortMSD::sorter() {
     DO_STARTED;
 
     tabAux.resize(numbers.size());
-    MSDRadixSort(0, numbers.size(), 0);
+    MSDRadixSort(0, int(numbers.size()), 0);
 
     DO_FINISHED;
 }

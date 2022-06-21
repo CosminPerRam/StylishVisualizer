@@ -4,7 +4,7 @@
 void SelectionSort::sorter() {
     DO_STARTED;
 
-    int n = numbers.size();
+    const int n = int(numbers.size());
     for (int i = 0; i < n - 1; i++)
     {
         int min_idx = i;

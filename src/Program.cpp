@@ -12,15 +12,15 @@ void Program::draw(sf::RenderWindow& window) {
 	Interface::draw(window);
 }
 
-void Program::pollEvent(sf::RenderWindow& window, sf::Event& theEvent) {
-	Interface::pollEvent(window, theEvent);
+void Program::pollEvent(sf::Event& theEvent) {
+	Interface::pollEvent(theEvent);
 }
 
 void Program::update(sf::RenderWindow& window) {
 	sf::Time diffTime = deltaClock.restart();
 
 	Interface::update(window, diffTime);
-	Manager::update(window, diffTime);
+	Manager::update();
 }
 
 int Program::start() {
@@ -41,7 +41,7 @@ int Program::start() {
 				return 0;
 			}
 
-			Program::pollEvent(window, theEvent);
+			Program::pollEvent(theEvent);
 		}
 
 		Program::update(window);

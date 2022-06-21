@@ -31,15 +31,15 @@ short SineWave(unsigned time, float freq, float amplitude) {
 	float tpc = 44100.f / freq;
 	float cycles = time / tpc;
 	float rad = TWOPI * cycles;
-	return sin(rad) * (32767 * amplitude);
+	return short(sin(rad) * (32767 * amplitude));
 }
 
 short SquareWave(unsigned time, float freq, float amplitude) {
-	int tpc = 44100 / freq; // ticks per cycle
+	int tpc = int(44100 / freq); // ticks per cycle
 	int cyclepart = time % tpc;
 	int halfcycle = tpc / 2;
 	if (cyclepart < halfcycle)
-		return 32767 * amplitude;
+		return short(32767 * amplitude);
 
 	return 0;
 }

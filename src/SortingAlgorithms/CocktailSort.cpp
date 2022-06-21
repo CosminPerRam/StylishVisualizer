@@ -4,7 +4,7 @@
 void CocktailSort::sorter() {
     DO_STARTED;
 
-    int n = numbers.size();
+    const int n = int(numbers.size());
     bool swapped = true;
     int start = 0;
     int end = n - 1;

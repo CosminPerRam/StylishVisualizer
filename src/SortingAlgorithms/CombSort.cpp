@@ -4,7 +4,8 @@
 void CombSort::sorter() {
     DO_STARTED;
 
-    int n = numbers.size(), gap = n;
+    const int n = int(numbers.size());
+    int gap = n;
 
     bool swapped = true;
 

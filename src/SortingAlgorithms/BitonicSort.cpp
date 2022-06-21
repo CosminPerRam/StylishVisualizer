@@ -43,7 +43,7 @@ void BitonicSort::bitonicSort(int low, int cnt, int dir)
 void BitonicSort::sorter() {
     DO_STARTED;
 
-    bitonicSort(0, numbers.size(), 1);
+    bitonicSort(0, int(numbers.size()), 1);
 
     DO_FINISHED;
 }

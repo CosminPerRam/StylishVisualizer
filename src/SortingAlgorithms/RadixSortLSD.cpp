@@ -8,7 +8,7 @@
 void RadixSortLSD::sorter() {
     DO_STARTED;
 
-    int maxDigits = 4, n = numbers.size();
+    const int maxDigits = 4, n = int(numbers.size());
     std::list<unsigned> pocket[10];
 
     for (int i = 0; i < maxDigits; i++) {

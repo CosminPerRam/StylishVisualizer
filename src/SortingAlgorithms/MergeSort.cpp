@@ -80,7 +80,7 @@ void MergeSort::mergeSort(int l, int r)
 void MergeSort::sorter() {
     DO_STARTED;
 
-    mergeSort(0, numbers.size() - 1);
+    mergeSort(0, int(numbers.size() - 1));
 
     DO_FINISHED;
 }
