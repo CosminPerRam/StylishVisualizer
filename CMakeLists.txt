@@ -4,6 +4,8 @@ project(sorting-visualizer CXX)
 set(BUILD_SHARED_LIBS OFF)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
+add_compile_definitions(ImDrawIdx=unsigned)
+
 add_subdirectory(external)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
