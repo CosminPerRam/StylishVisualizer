@@ -1,6 +1,12 @@
 
 #pragma once
 
+#ifdef _WIN32
+#define IF_PLATFORM_WINDOWS(x, o) x
+#else
+#define IF_PLATFORM_WINDOWS(X, o) o
+#endif
+
 namespace Utilities
 {
 	namespace Random

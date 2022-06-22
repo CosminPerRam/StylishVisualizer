@@ -9,9 +9,7 @@
 
 void Manager::initialize() {
 	Sorter = new CocktailSort();
-
-	if(!Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE)
-		Sorter->shuffle();
+	Manager::shuffle();
 }
 
 void Manager::update() {
@@ -45,7 +43,9 @@ bool Manager::isPaused() {
 }
 
 bool Manager::isShuffling() {
-	m_isShuffling = Sorter->isShuffling();
+	if(m_isShuffling)
+		m_isShuffling = Sorter->isShuffling();
+
 	return m_isShuffling;
 }
 
@@ -80,14 +80,26 @@ void Manager::stop() {
 }
 
 void Manager::shuffle() {
+	Manager::stopShuffling();
+
 	visualTime = sf::Time::Zero;
 	m_isShuffling = true;
 	Sorter->shuffle();
 }
 
+void Manager::stopShuffling() {
+	if(!m_isShuffling)
+		return;
+	
+	Sorter->stopShuffling();
+	m_isShuffling = false;
+}
+
 void Manager::changedAlgorithm() {
 	if (lastSelectedAlgorithm == selectedAlgorithm)
 		return;
+
+	Manager::stopShuffling();
 
 	Manager::stop();
 	delete Sorter;
@@ -122,6 +134,9 @@ void Manager::changedAlgorithm() {
 		Sorter = new ShellSort();
 	else if (selectedAlgorithm == 14)
 		Sorter = new StalinSort();
+
+	if(Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE)
+		Manager::shuffle();
 
 	lastSelectedAlgorithm = selectedAlgorithm;
 }

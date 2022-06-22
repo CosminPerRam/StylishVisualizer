@@ -10,13 +10,15 @@
 #include "Settings.h"
 #include "Utilities.h"
 
-void Interface::Custom::HelpMarker(const char* desc) {
+void Interface::Custom::HelpMarker(const char* firstLine, const char* secondLine) {
 	ImGui::TextDisabled("(?)");
 	if (ImGui::IsItemHovered())
 	{
 		ImGui::BeginTooltip();
 		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-		ImGui::TextUnformatted(desc);
+		ImGui::TextUnformatted(firstLine);
+		if (secondLine != nullptr)
+			ImGui::TextUnformatted(secondLine);
 		ImGui::PopTextWrapPos();
 		ImGui::EndTooltip();
 	}
@@ -52,19 +54,18 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	bool isRunning = Manager::isRunning();
 	bool isPaused = Manager::isPaused();
+	bool isShuffling = Manager::isShuffling();
 
-	static bool isShuffling = true;
-	if(isShuffling) //only update the shuffle state when it shuffles
-		isShuffling = Manager::isShuffling();
-
-	ImGui::BeginDisabled(isShuffling);
-	if (ImGui::Button(isRunning ? "Stop" : "Start", {48, 0})) {
+	if (ImGui::Button(isRunning || isShuffling ? "Stop" : "Start", {48, 0})) {
 		if (isRunning)
 			Manager::stop();
-		else
-			Manager::start();
-	}
-	ImGui::EndDisabled(); ImGui::SameLine();
+		else {
+			if (isShuffling)
+				Manager::stopShuffling();
+			else
+				Manager::start();
+		}
+	} ImGui::SameLine();
 
 	ImGui::BeginDisabled(!isRunning);
 	if (ImGui::Button(isPaused ? "Resume" : "Pause", {48, 0})) {
@@ -86,7 +87,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::BeginDisabled(noDelay);
 	ImGui::Text("Delay"); ImGui::SameLine();
 	ImGui::PushItemWidth(128);
-	if (ImGui::SliderFloat("##Delay", &delay, 1.f, 500.f, "%.2f ms", ImGuiSliderFlags_Logarithmic))
+	if (ImGui::SliderFloat("##Delay", &delay, Settings::PLOT_MIN_DELAY, Settings::PLOT_MAX_DELAY, "%.2f ms", ImGuiSliderFlags_Logarithmic))
 		Manager::delayMs = delay;
 	ImGui::PopItemWidth(); 
 	ImGui::EndDisabled(); ImGui::SameLine();
@@ -106,17 +107,14 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
-	if (ImGui::Button("Shuffle", { 64, 0 })) {
-		isShuffling = true;
+	if (ImGui::Button("Shuffle", { 64, 0 }))
 		Manager::shuffle();
-		Settings::updateCursorLineWidth();
-	}
 	ImGui::EndDisabled(); ImGui::SameLine();
 
 	ImGui::Checkbox("Audio", &Audio::enabled); ImGui::SameLine();
 	ImGui::BeginDisabled(!Audio::enabled);
 	ImGui::PushItemWidth(128);
-	if (ImGui::SliderFloat("Volume", &Audio::volume, 0, 100, "%.f"))
+	if (ImGui::SliderFloat("Volume", &Audio::volume, 0, 100, "%.f", ImGuiSliderFlags_NoInput))
 		Audio::volumeChanged();
 	ImGui::PopItemWidth(); ImGui::SameLine();
 
@@ -204,7 +202,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	if (ImGui::BeginPopup("OptionsPopup"))
 	{
 		ImGui::Checkbox("Animated shuffle", &Settings::PLOT_SHUFFLE_ANIMATED);
-		ImGui::SameLine(); Custom::HelpMarker("Beeps and boops each time you hit shuffle.\nNote that shuffling at over 2000 elements might make the delay not visible.");
+		ImGui::SameLine(); Custom::HelpMarker("Beeps and boops each time you hit shuffle.", IF_PLATFORM_WINDOWS("Shuffling at over 2000 elements makes the delay not visible.", nullptr));
 		ImGui::Checkbox("Shuffle on change", &Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE);
 		ImGui::SameLine(); Custom::HelpMarker("Shuffle the numbers when\nchanging the algorithm.");
 		ImGui::Checkbox("Reiterate when done", &Settings::PLOT_DO_AFTERCHECK);
@@ -244,7 +242,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
 	if (ImPlot::BeginPlot("##MainPlot", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
-		const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); int numbersSize = int(numbers.size());
+		const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); unsigned numbersSize = unsigned(numbers.size());
 
 		ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
 

@@ -5,8 +5,6 @@
 
 struct Settings
 {
-	static void initialize();
-
 	inline static const int SHUFFLE_MAX_VALUE = 8192;
 	inline static const int SHUFFLE_MAX_COUNT = 4096;
 
@@ -25,6 +23,9 @@ struct Settings
 	inline static float AUDIO_MIN_PITCH = 2.f;
 	inline static float AUDIO_MAX_PITCH = 4.f;
 	inline static int AUDIO_WAVE_TYPE = 0;
+
+	inline static const float PLOT_MIN_DELAY = IF_PLATFORM_WINDOWS(1.f, 0.01f);
+	inline static const float PLOT_MAX_DELAY = 500.f;
 
 	inline static bool PLOT_BARS = true;
 	inline static bool PLOT_LINES = false;

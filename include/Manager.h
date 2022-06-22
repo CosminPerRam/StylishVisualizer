@@ -42,6 +42,7 @@ public:
 	static void stop();
 	static void pause();
 	static void shuffle();
+	static void stopShuffling();
 
 	static void changedAlgorithm();
 };

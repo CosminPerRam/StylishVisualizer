@@ -8,7 +8,7 @@ class Interface
 private:
 	struct Custom
 	{
-		static void HelpMarker(const char* desc);
+		static void HelpMarker(const char* firstLine, const char* secondLine = nullptr);
 	};
 
 public:

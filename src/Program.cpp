@@ -29,7 +29,6 @@ int Program::start() {
 
 	Interface::initialize(window);
 	Manager::initialize();
-	Settings::initialize();
 	Audio::initialize();
 
 	while (window.isOpen()) {

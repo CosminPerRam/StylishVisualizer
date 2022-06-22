@@ -19,6 +19,8 @@
 						if (state == stepState::NONE || state == stepState::STEP) \
 							goContinue = true; \
 					} } while (false);
+#define DO_SHUFFLE_EXIT_CHECK if(m_stopShuffling) return;
+#define DO_SHUFFLE_UPDATE_CURSOR(i) Settings::updateCursorLineWidthDynamically(i);
 #define DO_PROGRESSIVE_CHECKSTEP ++stats.steps; DO_CHECKSTEP;
 #define DO_STARTED this->reset();
 #define DO_FINISHED if(!m_exit) { this->doFinisherLoop(); m_isFinished = true; }
@@ -37,7 +39,7 @@ protected:
 
 	std::thread theThread;
 	enum class stepState { NONE, PAUSED, EXITED, STEP };
-	std::atomic<bool> m_pause = false, m_exit = false, m_isFinished = false, m_doStep = false, m_shuffling = false;
+	std::atomic<bool> m_pause = false, m_exit = false, m_isFinished = false, m_doStep = false, m_shuffling = false, m_stopShuffling = false;
 
 	virtual void sorter() = 0;
 
@@ -48,7 +50,6 @@ protected:
 	stepState checkStep();
 
 public:
-	SortingAlgorithm();
 	virtual ~SortingAlgorithm() = default;
 
 	void start();
@@ -58,6 +59,7 @@ public:
 	bool doStep();
 
 	void shuffle();
+	void stopShuffling();
 
 	bool isFinished();
 	bool isShuffling();

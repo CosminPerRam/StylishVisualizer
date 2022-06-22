@@ -10,13 +10,6 @@
 #include "Settings.h"
 #include "Audio.h"
 
-#include <iostream>
-
-SortingAlgorithm::SortingAlgorithm() {
-	if(Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE)
-		this->shuffle();
-}
-
 void SortingAlgorithm::doFinisherLoop() {
 	if (!Settings::PLOT_DO_AFTERCHECK)
 		return;
@@ -71,8 +64,8 @@ void SortingAlgorithm::start() {
 	if (m_pause)
 		this->resume();
 	else {
+		this->stop();
 		theThread = std::thread(&SortingAlgorithm::sorter, this);
-		theThread.detach();
 	}
 }
 
@@ -128,12 +121,15 @@ void SortingAlgorithm::animatedShuffle() {
 		for(int i = oldSize; i > Settings::SHUFFLE_CURRENT_COUNT; i--) {
 			numbers.pop_back();
 			sf::sleep(delayUs);
+			DO_SHUFFLE_EXIT_CHECK;
 		}
 
+		Settings::updateCursorLineWidth();
 		for (int i = Settings::SHUFFLE_CURRENT_COUNT; i > 0; i--) {
 			numbers[i - 1] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
 			putCursorAt(i - 1);
 			sf::sleep(delayUs);
+			DO_SHUFFLE_EXIT_CHECK; DO_SHUFFLE_UPDATE_CURSOR(i - 1);
 		}
 	}
 	else if(oldSize < Settings::SHUFFLE_CURRENT_COUNT) {
@@ -141,12 +137,14 @@ void SortingAlgorithm::animatedShuffle() {
 			numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
 			putCursorAt(i);
 			sf::sleep(delayUs);
+			DO_SHUFFLE_EXIT_CHECK; DO_SHUFFLE_UPDATE_CURSOR(i);
 		}
 
 		for (int i = oldSize; i < Settings::SHUFFLE_CURRENT_COUNT; i++) {
 			numbers.emplace_back(Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE));
 			putCursorAt(i);
 			sf::sleep(delayUs);
+			DO_SHUFFLE_EXIT_CHECK; DO_SHUFFLE_UPDATE_CURSOR(i);
 		}
 	}
 	else {
@@ -154,6 +152,7 @@ void SortingAlgorithm::animatedShuffle() {
 			numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
 			putCursorAt(i);
 			sf::sleep(delayUs);
+			DO_SHUFFLE_EXIT_CHECK;
 		}
 	}
 
@@ -162,12 +161,11 @@ void SortingAlgorithm::animatedShuffle() {
 
 void SortingAlgorithm::shuffle() {
 	this->reset();
+	this->stopShuffling();
 	m_shuffling = true;
 
-	if(Settings::PLOT_SHUFFLE_ANIMATED) {
+	if(Settings::PLOT_SHUFFLE_ANIMATED)
 		theThread = std::thread(&SortingAlgorithm::animatedShuffle, this);
-		theThread.detach();
-	} 
 	else {
 		numbers.resize(Settings::SHUFFLE_CURRENT_COUNT);
 
@@ -176,4 +174,14 @@ void SortingAlgorithm::shuffle() {
 
 		m_shuffling = false;
 	}
+}
+
+void SortingAlgorithm::stopShuffling() {
+	m_stopShuffling = true;
+
+	if(theThread.joinable())
+		theThread.join();
+
+	m_stopShuffling = false;
+	m_shuffling = false;
 }
