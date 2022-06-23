@@ -25,4 +25,18 @@ namespace Utilities::Math {
 	float map(float x, float in_min, float in_max, float out_min, float out_max) {
 		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 	}
+
+	std::vector<std::pair<unsigned, unsigned>> multipliedPairs(unsigned n) {
+		std::vector<std::pair<unsigned, unsigned>> pairs;
+
+		unsigned rootN = (unsigned)sqrt(n);
+		for(unsigned i = 1; i <= rootN; i++) {
+			if(n % i != 0)
+				continue;
+
+			pairs.push_back({i, n / i});
+		}
+
+		return pairs;
+	}
 }

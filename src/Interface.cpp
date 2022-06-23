@@ -159,17 +159,56 @@ void Interface::draw(sf::RenderWindow& window) {
 				}
 			}
 
-			ImGui::Checkbox("Bars", &Settings::PLOT_BARS);
-			ImGui::Checkbox("Stems", &Settings::PLOT_STEMS);
-			ImGui::Checkbox("Lines", &Settings::PLOT_LINES);
-			ImGui::BeginDisabled(!Settings::PLOT_LINES);
-			ImGui::Checkbox("Filled lines", &Settings::PLOT_FILLED_LINES);
-			ImGui::EndDisabled();
-			ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW);
-			ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
-			ImGui::Checkbox("Dot cursor", &Settings::PLOT_CURSOR_DOT);
-			ImGui::EndDisabled();
 			ImGui::Checkbox("Show scale", &Settings::PLOT_SHOW_SCALE);
+
+			static const char* typeNames[] = {"Lines", "Heatmap"};
+			static int typeChoosed = 0;
+			ImGui::PushItemWidth(96);
+			if(ImGui::SliderInt("Type", &typeChoosed, 0, 1, typeNames[typeChoosed])) {
+				if(typeChoosed == 0)
+					Settings::PLOT_TYPE = Settings::PLOT_TYPES::LINES;
+				else if(typeChoosed == 1)
+					Settings::PLOT_TYPE = Settings::PLOT_TYPES::HEATMAP;
+			}
+			ImGui::PopItemWidth();
+
+			ImGui::Separator();
+
+			if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
+				static const std::pair<const char*, ImPlotColormap> colors[] = { {"Heat", ImPlotColormap_Hot}, {"Cool", ImPlotColormap_Cool}, {"Plasma", ImPlotColormap_Plasma},
+					{"Spectral", ImPlotColormap_Spectral}, {"Jet", ImPlotColormap_Jet} };
+				static int colorIndex = 0;
+
+				ImGui::PushItemWidth(80);
+				if(ImGui::BeginCombo("Colors", colors[colorIndex].first)) {
+					for(unsigned i = 0; i < IM_ARRAYSIZE(colors); i++) {
+						const bool is_selected = (colorIndex == i);
+						if(ImGui::Selectable(colors[i].first, is_selected)) {
+							colorIndex = i;
+							Settings::PLOT_HEATMAP_COLORS = colors[i].second;
+						}
+
+						if(is_selected)
+							ImGui::SetItemDefaultFocus();
+					}
+
+					ImGui::EndCombo();
+				}
+				ImGui::PopItemWidth();
+			}
+			else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
+				ImGui::Checkbox("Bars", &Settings::PLOT_BARS);
+				ImGui::Checkbox("Stems", &Settings::PLOT_STEMS);
+				ImGui::Checkbox("Lines", &Settings::PLOT_LINES);
+				ImGui::BeginDisabled(!Settings::PLOT_LINES);
+				ImGui::Checkbox("Filled lines", &Settings::PLOT_FILLED_LINES);
+				ImGui::EndDisabled();
+				ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW);
+				ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
+				//ImGui::ColorEdit4("Cursor color", &Settings::PLOT_CURSOR_COLOR.x, ImGuiColorEditFlags_NoInputs);
+				ImGui::Checkbox("Dot cursor", &Settings::PLOT_CURSOR_DOT);
+				ImGui::EndDisabled();
+			}
 
 			ImGui::EndPopup();
 		}
@@ -240,46 +279,57 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImGui::Separator();
 
+	const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); unsigned numbersSize = unsigned(numbers.size());
 	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
-	if (ImPlot::BeginPlot("##MainPlot", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
-		const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); unsigned numbersSize = unsigned(numbers.size());
-
+	if (ImPlot::BeginPlot("##MainPlotLines", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
 		ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
-
 		if (!Settings::PLOT_SHOW_SCALE)
 			axisFlags += ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
-
 		ImPlot::SetupAxes(NULL, NULL, axisFlags, axisFlags);
-		ImPlot::SetupAxesLimits(-0.5, numbersSize - 0.5, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
 
-		if(Settings::PLOT_BARS)
-			ImPlot::PlotBars("##NumbersBars", &numbers[0], numbersSize);
-		if(Settings::PLOT_LINES) {
-			ImPlot::PlotLine("##NumbersLines", &numbers[0], numbersSize);
+		if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
+			ImPlot::SetupAxesLimits(0, 1, 0, 1, ImPlotCond_Always);
 
-			if (Settings::PLOT_FILLED_LINES) {
-				ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.25f);
-				ImPlot::PlotShaded("##NumbersLinesFilled", &numbers[0], numbersSize);
-				ImPlot::PopStyleVar();
-			}
+			auto gridSize = Utilities::Math::multipliedPairs(numbersSize).back();
+
+			ImPlot::PushColormap(Settings::PLOT_HEATMAP_COLORS);
+			ImPlot::PlotHeatmap("##NumbersHeatmap", &numbers[0], gridSize.first, gridSize.second, 0, Settings::SHUFFLE_MAX_VALUE, NULL);
+			ImPlot::PopColormap();
 		}
-		if(Settings::PLOT_STEMS)
-			ImPlot::PlotStems("##NumbersStems", &numbers[0], numbersSize);
+		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
+			ImPlot::SetupAxesLimits(-0.5, numbersSize - 0.5, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
 
-		if (Settings::PLOT_CURSOR_SHOW) {
-			ImPlot::PushStyleColor(ImPlotCol_Fill, { 255, 0, 0, 255 });
-			unsigned cursorPos = currentData.cursorPosition, cursorVal = currentData.cursorValue;
+			if(Settings::PLOT_BARS)
+				ImPlot::PlotBars("##NumbersBars", &numbers[0], numbersSize);
+			if(Settings::PLOT_LINES) {
+				ImPlot::PlotLine("##NumbersLines", &numbers[0], numbersSize);
 
-			if (Settings::PLOT_CURSOR_DOT) {
-				ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
-				ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, Settings::CURSOR_LINE_WIDTH);
-				ImPlot::PlotLine("##Cursor", &cursorPos, &cursorVal, 1);
-				ImPlot::PopStyleVar();
+				if (Settings::PLOT_FILLED_LINES) {
+					ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.25f);
+					ImPlot::PlotShaded("##NumbersLinesFilled", &numbers[0], numbersSize);
+					ImPlot::PopStyleVar();
+				}
 			}
-			else
-				ImPlot::PlotBars("##Cursor", &cursorPos, &cursorVal, 1, Settings::CURSOR_LINE_WIDTH);
+			if(Settings::PLOT_STEMS)
+				ImPlot::PlotStems("##NumbersStems", &numbers[0], numbersSize);
 
-			ImPlot::PopStyleColor();
+			if (Settings::PLOT_CURSOR_SHOW) {
+				unsigned cursorPos = currentData.cursorPosition, cursorVal = currentData.cursorValue;
+
+				if (Settings::PLOT_CURSOR_DOT) {
+					ImPlot::PushStyleColor(ImPlotCol_MarkerFill, Settings::PLOT_CURSOR_COLOR);
+					ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
+					ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, Settings::CURSOR_LINE_WIDTH);
+					ImPlot::PlotLine("##Cursor", &cursorPos, &cursorVal, 1);
+					ImPlot::PopStyleVar();
+				}
+				else {
+					ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_CURSOR_COLOR);
+					ImPlot::PlotBars("##Cursor", &cursorPos, &cursorVal, 1, Settings::CURSOR_LINE_WIDTH);
+				}
+
+				ImPlot::PopStyleColor();
+			}
 		}
 
 		ImPlot::EndPlot();

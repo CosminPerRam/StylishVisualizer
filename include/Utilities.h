@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <vector>
+
 #ifdef _WIN32
 #define IF_PLATFORM_WINDOWS(x, o) x
 #else
@@ -18,5 +20,6 @@ namespace Utilities
 	{
 		int pow(int base, int power);
 		float map(float x, float in_min, float in_max, float out_min, float out_max);
+		std::vector<std::pair<unsigned, unsigned>> multipliedPairs(unsigned n);
 	}
 }
