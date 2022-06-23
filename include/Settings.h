@@ -7,8 +7,8 @@
 
 struct Settings
 {
-	inline static const int SHUFFLE_MAX_VALUE = 8192;
-	inline static const int SHUFFLE_MAX_COUNT = 4096;
+	inline static const int SHUFFLE_MAX_VALUE = 32768;
+	inline static const int SHUFFLE_MAX_COUNT = 16384;
 
 	inline static int SHUFFLE_CURRENT_COUNT = 128;
 
@@ -40,12 +40,12 @@ struct Settings
 	enum class BARS_TYPES { BARS, STEMS, BARS_AND_STEMS };
 	inline static BARS_TYPES PLOT_BARS_TYPE = BARS_TYPES::BARS;
 	inline static ImVec4 PLOT_BARS_COLOR = {0.2f, 0.41f, 0.69f, 1.f};
-	inline static ImVec4 PLOT_STEMS_COLOR = {0.2f, 0.41f, 0.69f, 1.f};
-	inline static ImVec4 PLOT_STEMS_LINE_COLOR ={0.2f, 0.41f, 0.69f, 1.f};
+	inline static ImVec4 PLOT_STEMS_COLOR = {0.2f, 0.1f, 0.69f, 1.f};
+	inline static ImVec4 PLOT_STEMS_LINE_COLOR ={0.4f, 0.1f, 0.69f, 1.f};
 
 	inline static bool PLOT_LINES_FILLED = false;
 	inline static ImVec4 PLOT_LINES_COLOR = {0.2f, 0.41f, 0.69f, 1.f};
-	inline static ImVec4 PLOT_LINES_FILLED_COLOR = {0.2f, 0.41f, 0.69f, 0.25f};
+	inline static ImVec4 PLOT_LINES_FILLED_COLOR = {0.2f, 0.1f, 0.69f, 0.25f};
 
 	inline static bool PLOT_CURSOR_SHOW = true;
 	inline static ImVec4 PLOT_CURSOR_COLOR = {1.f, 0.f, 0.f, 1.f};

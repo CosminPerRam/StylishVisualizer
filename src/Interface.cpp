@@ -33,6 +33,9 @@ void Interface::initialize(sf::RenderWindow& window) {
 	ImPlot::GetStyle().AntiAliasedLines = true;
 	ImGui::GetStyle().AntiAliasedFill = true;
 	ImGui::GetStyle().AntiAliasedLines = true;
+
+	static ImVec4 PlotCursorColormap[] = {{0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}; //will remove when ImPlot gets ColormapRemove feature
+	ImPlot::AddColormap("HeatmapCursorColormap", PlotCursorColormap, 2);
 }
 
 void Interface::shutdown() {
@@ -159,6 +162,11 @@ void Interface::draw(sf::RenderWindow& window) {
 				}
 			}
 
+			ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW); ImGui::SameLine();
+			ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP);
+			ImGui::ColorEdit4("Color##Cursor", &Settings::PLOT_CURSOR_COLOR.x, ImGuiColorEditFlags_NoInputs);
+			ImGui::EndDisabled();
+
 			ImGui::Checkbox("Show scale", &Settings::PLOT_SHOW_SCALE);
 
 			static const std::pair<const char*, Settings::PLOT_TYPES> typeNames[] = { {"Bars", Settings::PLOT_TYPES::BARS}, {"Lines", Settings::PLOT_TYPES::LINES}, 
@@ -223,11 +231,7 @@ void Interface::draw(sf::RenderWindow& window) {
 			ImGui::Separator();
 
 			if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
-				ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW);
 				ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
-
-				ImGui::ColorEdit4("Cursor color", &Settings::PLOT_CURSOR_COLOR.x, ImGuiColorEditFlags_NoInputs);
-
 				ImGui::PushItemWidth(80);
 				static int cursorIsMarker = 0;
 				static const char* cursorsNames[] = {"Bar", "Marker"};
@@ -344,6 +348,8 @@ void Interface::draw(sf::RenderWindow& window) {
 	}
 
 	if (ImPlot::BeginPlot("##MainPlot", {-1, plotSizeHeight}, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
+		static std::pair<unsigned, unsigned> gridSize;
+
 		if (!Settings::PLOT_SHOW_SCALE || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP)
 			axisFlags += ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
 			
@@ -357,7 +363,7 @@ void Interface::draw(sf::RenderWindow& window) {
 		if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 			ImPlot::SetupAxesLimits(0, 1, 0, 1, ImPlotCond_Always);
 
-			std::pair<unsigned, unsigned> gridSize = Settings::PLOT_HEATMAP_ONELINER ? std::make_pair(1u, numbersSize) : Utilities::Math::multipliedPairs(numbersSize).back();
+			gridSize = Settings::PLOT_HEATMAP_ONELINER ? std::make_pair(1u, numbersSize) : Utilities::Math::multipliedPairs(numbersSize).back();
 
 			ImPlot::PushColormap(Settings::PLOT_HEATMAP_COLORS);
 			ImPlot::PlotHeatmap("##NumbersHeatmap", &numbers[0], gridSize.first, gridSize.second, 0, Settings::SHUFFLE_MAX_VALUE, NULL);
@@ -389,10 +395,10 @@ void Interface::draw(sf::RenderWindow& window) {
 			}
 		}
 
-		if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
-			if (Settings::PLOT_CURSOR_SHOW) {
-				unsigned cursorPos = currentData.cursorPosition, cursorVal = currentData.cursorValue;
+		if(Settings::PLOT_CURSOR_SHOW) {
+			unsigned cursorPos = currentData.cursorPosition, cursorVal = currentData.cursorValue;
 
+			if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
 				if (Settings::PLOT_CURSOR_ISBAR) {
 					ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_CURSOR_COLOR);
 					ImPlot::PlotBars("##Cursor", &cursorPos, &cursorVal, 1, Settings::CURSOR_LINE_WIDTH);
@@ -406,6 +412,16 @@ void Interface::draw(sf::RenderWindow& window) {
 					ImPlot::PlotLine("##Cursor", &cursorPos, &cursorVal, 1);
 					ImPlot::PopStyleVar(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
 				}
+			}
+			else if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
+				static std::vector<unsigned> cursorMap(numbersSize, 0);
+				cursorMap[cursorPos] = 1;
+
+				ImPlot::PushColormap("HeatmapCursorColormap");
+				ImPlot::PlotHeatmap("##CursorHeatmap", &cursorMap[0], gridSize.first, gridSize.second, 0, 1, NULL);
+				ImPlot::PopColormap();
+
+				cursorMap[cursorPos] = 0;
 			}
 		}
 

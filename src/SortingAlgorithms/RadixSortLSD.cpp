@@ -4,26 +4,30 @@
 #include <list>
 
 #include "Utilities.h"
+#include "Settings.h"
 
 void RadixSortLSD::sorter() {
     DO_STARTED;
 
-    const int maxDigits = 4, n = int(numbers.size());
+    unsigned maxDigits = 0, n = unsigned(numbers.size());
+    for(unsigned maxValue = Settings::SHUFFLE_MAX_VALUE; maxValue != 0; maxValue /= 10)
+        ++maxDigits;
+
     std::list<unsigned> pocket[10];
 
-    for (int i = 0; i < maxDigits; i++) {
-        int m = Utilities::Math::pow(10, i + 1), p = m / 10;
+    for (unsigned i = 0; i < maxDigits; i++) {
+        unsigned m = Utilities::Math::pow(10, i + 1), p = m / 10;
 
-        for (int j = 0; j < n; j++) {
+        for (unsigned j = 0; j < n; j++) {
             DO_PUT_CURSOR_AT(j);
-            int temp = (int)numbers[j] % m;
-            int index = temp / p;
+            unsigned temp = numbers[j] % m;
+            unsigned index = temp / p;
             pocket[index].push_back(numbers[j]);
         }
         stats.addAssigments(n);
 
-        int count = 0;
-        for (int j = 0; j < 10; j++) {
+        unsigned count = 0;
+        for (unsigned j = 0; j < 10; j++) {
             while (!pocket[j].empty()) {
                 numbers[count] = *(pocket[j].begin());
                 DO_PUT_CURSOR_AT(count);
