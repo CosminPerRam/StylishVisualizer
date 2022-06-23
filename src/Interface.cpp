@@ -195,6 +195,9 @@ void Interface::draw(sf::RenderWindow& window) {
 					ImGui::EndCombo();
 				}
 				ImGui::PopItemWidth();
+
+				ImGui::Checkbox("One-liner", &Settings::PLOT_HEATMAP_ONELINER);
+				ImGui::SameLine(); Custom::HelpMarker("Display the heatmap with a height of 1.");
 			}
 			else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
 				ImGui::Checkbox("Bars", &Settings::PLOT_BARS);
@@ -313,17 +316,28 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::Separator();
 
 	const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); unsigned numbersSize = unsigned(numbers.size());
-	ImVec2 plotSize = { ImGui::GetWindowContentRegionMax().x, ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40 };
-	if (ImPlot::BeginPlot("##MainPlotLines", plotSize, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
-		ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
-		if (!Settings::PLOT_SHOW_SCALE)
+	float plotSizeHeight = ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40;
+
+	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
+	if(Settings::PLOT_SHOW_SCALE && Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
+		axisFlags += ImPlotAxisFlags_Invert;
+
+		ImPlot::PushColormap(Settings::PLOT_HEATMAP_COLORS);
+		ImPlot::ColormapScale("##ColormapScale", 0, Settings::SHUFFLE_MAX_VALUE, {0, plotSizeHeight});
+		ImPlot::PopColormap();
+		ImGui::SameLine();
+	}
+
+	if (ImPlot::BeginPlot("##MainPlot", {-1, plotSizeHeight}, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
+		if (!Settings::PLOT_SHOW_SCALE || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP)
 			axisFlags += ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
+			
 		ImPlot::SetupAxes(NULL, NULL, axisFlags, axisFlags);
 
 		if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 			ImPlot::SetupAxesLimits(0, 1, 0, 1, ImPlotCond_Always);
 
-			auto gridSize = Utilities::Math::multipliedPairs(numbersSize).back();
+			std::pair<unsigned, unsigned> gridSize = Settings::PLOT_HEATMAP_ONELINER ? std::make_pair(1u, numbersSize) : Utilities::Math::multipliedPairs(numbersSize).back();
 
 			ImPlot::PushColormap(Settings::PLOT_HEATMAP_COLORS);
 			ImPlot::PlotHeatmap("##NumbersHeatmap", &numbers[0], gridSize.first, gridSize.second, 0, Settings::SHUFFLE_MAX_VALUE, NULL);

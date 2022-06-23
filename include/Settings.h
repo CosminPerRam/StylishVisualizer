@@ -35,6 +35,7 @@ struct Settings
 	inline static bool PLOT_SHOW_SCALE = true;
 
 	inline static ImPlotColormap PLOT_HEATMAP_COLORS = ImPlotColormap_Hot;
+	inline static bool PLOT_HEATMAP_ONELINER = false;
 
 	inline static bool PLOT_BARS = true;
 	inline static bool PLOT_LINES = false;
