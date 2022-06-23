@@ -318,7 +318,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); unsigned numbersSize = unsigned(numbers.size());
 	float plotSizeHeight = ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40;
 
-	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
+	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_Lock;
 	if(Settings::PLOT_SHOW_SCALE && Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 		axisFlags += ImPlotAxisFlags_Invert;
 
@@ -333,6 +333,8 @@ void Interface::draw(sf::RenderWindow& window) {
 			axisFlags += ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
 			
 		ImPlot::SetupAxes(NULL, NULL, axisFlags, axisFlags);
+		ImPlot::SetupAxis(ImAxis_X1, NULL, ImPlotAxisFlags_Lock);
+		ImPlot::SetupAxis(ImAxis_Y1, NULL, ImPlotAxisFlags_Lock);
 
 		if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 			ImPlot::SetupAxesLimits(0, 1, 0, 1, ImPlotCond_Always);
