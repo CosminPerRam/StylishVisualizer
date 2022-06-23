@@ -29,18 +29,24 @@ struct Settings
 	inline static const float PLOT_MIN_DELAY = IF_PLATFORM_WINDOWS(1.f, 0.01f);
 	inline static const float PLOT_MAX_DELAY = 500.f;
 
-	enum class PLOT_TYPES { LINES, HEATMAP };
-	inline static PLOT_TYPES PLOT_TYPE = PLOT_TYPES::LINES;
+	enum class PLOT_TYPES { BARS, LINES, HEATMAP };
+	inline static PLOT_TYPES PLOT_TYPE = PLOT_TYPES::BARS;
 
 	inline static bool PLOT_SHOW_SCALE = true;
 
 	inline static ImPlotColormap PLOT_HEATMAP_COLORS = ImPlotColormap_Hot;
 	inline static bool PLOT_HEATMAP_ONELINER = false;
 
-	inline static bool PLOT_BARS = true;
-	inline static bool PLOT_LINES = false;
-	inline static bool PLOT_STEMS = false;
-	inline static bool PLOT_FILLED_LINES = false;
+	enum class BARS_TYPES { BARS, STEMS, BARS_AND_STEMS };
+	inline static BARS_TYPES PLOT_BARS_TYPE = BARS_TYPES::BARS;
+	inline static ImVec4 PLOT_BARS_COLOR = {0.2f, 0.41f, 0.69f, 1.f};
+	inline static ImVec4 PLOT_STEMS_COLOR = {0.2f, 0.41f, 0.69f, 1.f};
+	inline static ImVec4 PLOT_STEMS_LINE_COLOR ={0.2f, 0.41f, 0.69f, 1.f};
+
+	inline static bool PLOT_LINES_FILLED = false;
+	inline static ImVec4 PLOT_LINES_COLOR = {0.2f, 0.41f, 0.69f, 1.f};
+	inline static ImVec4 PLOT_LINES_FILLED_COLOR = {0.2f, 0.41f, 0.69f, 0.25f};
+
 	inline static bool PLOT_CURSOR_SHOW = true;
 	inline static ImVec4 PLOT_CURSOR_COLOR = {1.f, 0.f, 0.f, 1.f};
 	inline static bool PLOT_CURSOR_ISBAR = true;

@@ -161,15 +161,12 @@ void Interface::draw(sf::RenderWindow& window) {
 
 			ImGui::Checkbox("Show scale", &Settings::PLOT_SHOW_SCALE);
 
-			static const char* typeNames[] = {"Lines", "Heatmap"};
+			static const std::pair<const char*, Settings::PLOT_TYPES> typeNames[] = { {"Bars", Settings::PLOT_TYPES::BARS}, {"Lines", Settings::PLOT_TYPES::LINES}, 
+				{"Heatmap", Settings::PLOT_TYPES::HEATMAP} };
 			static int typeChoosed = 0;
 			ImGui::PushItemWidth(96);
-			if(ImGui::SliderInt("Type", &typeChoosed, 0, 1, typeNames[typeChoosed])) {
-				if(typeChoosed == 0)
-					Settings::PLOT_TYPE = Settings::PLOT_TYPES::LINES;
-				else if(typeChoosed == 1)
-					Settings::PLOT_TYPE = Settings::PLOT_TYPES::HEATMAP;
-			}
+			if (ImGui::SliderInt("Type", &typeChoosed, 0, 2, typeNames[typeChoosed].first))
+				Settings::PLOT_TYPE = typeNames[typeChoosed].second;
 			ImGui::PopItemWidth();
 
 			ImGui::Separator();
@@ -199,15 +196,33 @@ void Interface::draw(sf::RenderWindow& window) {
 				ImGui::Checkbox("One-liner", &Settings::PLOT_HEATMAP_ONELINER);
 				ImGui::SameLine(); Custom::HelpMarker("Display the heatmap with a height of 1.");
 			}
+			else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
+				ImGui::PushItemWidth(96);
+				static int barsTypeIndex = 0;
+				static const std::pair<const char*, Settings::BARS_TYPES> barsTypesNames[] = { {"Bars", Settings::BARS_TYPES::BARS}, {"Stems", Settings::BARS_TYPES::STEMS}, 
+					{"Bars + Stems", Settings::BARS_TYPES::BARS_AND_STEMS} };
+				if(ImGui::SliderInt("Style##Bars", &barsTypeIndex, 0, 2, barsTypesNames[barsTypeIndex].first))
+					Settings::PLOT_BARS_TYPE = barsTypesNames[barsTypeIndex].second;
+				ImGui::PopItemWidth();
+
+				if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS)
+					ImGui::ColorEdit4("Bars color", &Settings::PLOT_BARS_COLOR.x, ImGuiColorEditFlags_NoInputs);
+				if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::STEMS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
+					ImGui::ColorEdit4("Stems color", &Settings::PLOT_STEMS_COLOR.x, ImGuiColorEditFlags_NoInputs);
+					ImGui::ColorEdit4("Stems lines color", &Settings::PLOT_STEMS_LINE_COLOR.x, ImGuiColorEditFlags_NoInputs);
+				}
+			}
 			else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
-				ImGui::Checkbox("Bars", &Settings::PLOT_BARS);
-				ImGui::Checkbox("Stems", &Settings::PLOT_STEMS);
-				ImGui::Checkbox("Lines", &Settings::PLOT_LINES);
-
-				ImGui::BeginDisabled(!Settings::PLOT_LINES);
-				ImGui::Checkbox("Filled lines", &Settings::PLOT_FILLED_LINES);
+				ImGui::ColorEdit4("Line color", &Settings::PLOT_LINES_COLOR.x, ImGuiColorEditFlags_NoInputs);
+				ImGui::Checkbox("Filled lines", &Settings::PLOT_LINES_FILLED);
+				ImGui::BeginDisabled(!Settings::PLOT_LINES_FILLED);
+				ImGui::ColorEdit4("Filled lines color", &Settings::PLOT_LINES_FILLED_COLOR.x, ImGuiColorEditFlags_NoInputs);
 				ImGui::EndDisabled();
+			}
 
+			ImGui::Separator();
+
+			if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
 				ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW);
 				ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
 
@@ -318,7 +333,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); unsigned numbersSize = unsigned(numbers.size());
 	float plotSizeHeight = ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40;
 
-	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_Lock;
+	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
 	if(Settings::PLOT_SHOW_SCALE && Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 		axisFlags += ImPlotAxisFlags_Invert;
 
@@ -332,9 +347,12 @@ void Interface::draw(sf::RenderWindow& window) {
 		if (!Settings::PLOT_SHOW_SCALE || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP)
 			axisFlags += ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
 			
-		ImPlot::SetupAxes(NULL, NULL, axisFlags, axisFlags);
-		ImPlot::SetupAxis(ImAxis_X1, NULL, ImPlotAxisFlags_Lock);
-		ImPlot::SetupAxis(ImAxis_Y1, NULL, ImPlotAxisFlags_Lock);
+		ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_Lock, ImPlotAxisFlags_Lock);
+		ImPlot::SetupAxis(ImAxis_X1, NULL, axisFlags);
+		ImPlot::SetupAxis(ImAxis_Y1, NULL, axisFlags);
+
+		if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS)
+			ImPlot::SetupAxesLimits(-0.5, numbersSize - 0.5, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
 
 		if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 			ImPlot::SetupAxesLimits(0, 1, 0, 1, ImPlotCond_Always);
@@ -345,23 +363,33 @@ void Interface::draw(sf::RenderWindow& window) {
 			ImPlot::PlotHeatmap("##NumbersHeatmap", &numbers[0], gridSize.first, gridSize.second, 0, Settings::SHUFFLE_MAX_VALUE, NULL);
 			ImPlot::PopColormap();
 		}
-		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
-			ImPlot::SetupAxesLimits(-0.5, numbersSize - 0.5, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
-
-			if(Settings::PLOT_BARS)
+		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
+			if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
+				ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_BARS_COLOR);
 				ImPlot::PlotBars("##NumbersBars", &numbers[0], numbersSize);
-			if(Settings::PLOT_LINES) {
-				ImPlot::PlotLine("##NumbersLines", &numbers[0], numbersSize);
-
-				if (Settings::PLOT_FILLED_LINES) {
-					ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.25f);
-					ImPlot::PlotShaded("##NumbersLinesFilled", &numbers[0], numbersSize);
-					ImPlot::PopStyleVar();
-				}
+				ImPlot::PopStyleColor();
 			}
-			if(Settings::PLOT_STEMS)
+			if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::STEMS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
+				ImPlot::PushStyleColor(ImPlotCol_MarkerFill, Settings::PLOT_STEMS_COLOR);
+				ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, Settings::PLOT_STEMS_COLOR);
+				ImPlot::PushStyleColor(ImPlotCol_Line, Settings::PLOT_STEMS_LINE_COLOR);
 				ImPlot::PlotStems("##NumbersStems", &numbers[0], numbersSize);
+				ImPlot::PopStyleColor(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
+			}
+		}
+		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
+			ImPlot::PushStyleColor(ImPlotCol_Line, Settings::PLOT_LINES_COLOR);
+			ImPlot::PlotLine("##NumbersLines", &numbers[0], numbersSize);
+			ImPlot::PopStyleColor();
 
+			if (Settings::PLOT_LINES_FILLED) {
+				ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_LINES_FILLED_COLOR);
+				ImPlot::PlotShaded("##NumbersLinesFilled", &numbers[0], numbersSize);
+				ImPlot::PopStyleColor();
+			}
+		}
+
+		if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
 			if (Settings::PLOT_CURSOR_SHOW) {
 				unsigned cursorPos = currentData.cursorPosition, cursorVal = currentData.cursorValue;
 
@@ -376,9 +404,7 @@ void Interface::draw(sf::RenderWindow& window) {
 					ImPlot::SetNextMarkerStyle(Settings::PLOT_CURSOR_MARKER);
 					ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, Settings::CURSOR_LINE_WIDTH);
 					ImPlot::PlotLine("##Cursor", &cursorPos, &cursorVal, 1);
-					ImPlot::PopStyleVar();
-					ImPlot::PopStyleColor();
-					ImPlot::PopStyleColor();
+					ImPlot::PopStyleVar(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
 				}
 			}
 		}
