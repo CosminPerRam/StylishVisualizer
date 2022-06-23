@@ -181,7 +181,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 				ImGui::PushItemWidth(80);
 				if(ImGui::BeginCombo("Colors", colors[colorIndex].first)) {
-					for(unsigned i = 0; i < IM_ARRAYSIZE(colors); i++) {
+					for(int i = 0; i < IM_ARRAYSIZE(colors); i++) {
 						const bool is_selected = (colorIndex == i);
 						if(ImGui::Selectable(colors[i].first, is_selected)) {
 							colorIndex = i;
@@ -227,7 +227,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 					ImGui::PushItemWidth(80);
 					if(ImGui::BeginCombo("Cursor marker", markers[markerIndex].first)) {
-						for(unsigned i = 0; i < IM_ARRAYSIZE(markers); i++) {
+						for(int i = 0; i < IM_ARRAYSIZE(markers); i++) {
 							const bool is_selected = (markerIndex == i);
 							if(ImGui::Selectable(markers[i].first, is_selected)) {
 								markerIndex = i;
