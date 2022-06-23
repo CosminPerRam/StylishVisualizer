@@ -173,7 +173,7 @@ void Interface::draw(sf::RenderWindow& window) {
 				{"Heatmap", Settings::PLOT_TYPES::HEATMAP} };
 			static int typeChoosed = 0;
 			ImGui::PushItemWidth(96);
-			if (ImGui::SliderInt("Type", &typeChoosed, 0, 2, typeNames[typeChoosed].first))
+			if (ImGui::SliderInt("Plot type", &typeChoosed, 0, 2, typeNames[typeChoosed].first))
 				Settings::PLOT_TYPE = typeNames[typeChoosed].second;
 			ImGui::PopItemWidth();
 
@@ -414,7 +414,14 @@ void Interface::draw(sf::RenderWindow& window) {
 				}
 			}
 			else if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
+				static unsigned oldNumbersSize = numbersSize;
 				static std::vector<unsigned> cursorMap(numbersSize, 0);
+
+				if (numbersSize != oldNumbersSize) {
+					cursorMap.resize(numbersSize, 0);
+					oldNumbersSize = numbersSize;
+				}
+
 				cursorMap[cursorPos] = 1;
 
 				ImPlot::PushColormap("HeatmapCursorColormap");
