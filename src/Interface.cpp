@@ -200,13 +200,46 @@ void Interface::draw(sf::RenderWindow& window) {
 				ImGui::Checkbox("Bars", &Settings::PLOT_BARS);
 				ImGui::Checkbox("Stems", &Settings::PLOT_STEMS);
 				ImGui::Checkbox("Lines", &Settings::PLOT_LINES);
+
 				ImGui::BeginDisabled(!Settings::PLOT_LINES);
 				ImGui::Checkbox("Filled lines", &Settings::PLOT_FILLED_LINES);
 				ImGui::EndDisabled();
+
 				ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW);
 				ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
-				//ImGui::ColorEdit4("Cursor color", &Settings::PLOT_CURSOR_COLOR.x, ImGuiColorEditFlags_NoInputs);
-				ImGui::Checkbox("Dot cursor", &Settings::PLOT_CURSOR_DOT);
+
+				ImGui::ColorEdit4("Cursor color", &Settings::PLOT_CURSOR_COLOR.x, ImGuiColorEditFlags_NoInputs);
+
+				ImGui::PushItemWidth(80);
+				static int cursorIsMarker = 0;
+				static const char* cursorsNames[] = {"Bar", "Marker"};
+				if(ImGui::SliderInt("Cursor style", &cursorIsMarker, 0, 1, cursorsNames[cursorIsMarker]))
+					Settings::PLOT_CURSOR_ISBAR = (cursorIsMarker == 0);
+				ImGui::PopItemWidth();
+
+				if(!Settings::PLOT_CURSOR_ISBAR) {
+					static const std::pair<const char*, ImPlotMarker> markers[] = { {"Circle", ImPlotMarker_Circle}, {"Square", ImPlotMarker_Square}, {"Diamond", ImPlotMarker_Diamond},
+						{"Asterisk", ImPlotMarker_Asterisk}, {"Cross", ImPlotMarker_Cross} };
+					static int markerIndex = 0;
+
+					ImGui::PushItemWidth(80);
+					if(ImGui::BeginCombo("Cursor marker", markers[markerIndex].first)) {
+						for(unsigned i = 0; i < IM_ARRAYSIZE(markers); i++) {
+							const bool is_selected = (markerIndex == i);
+							if(ImGui::Selectable(markers[i].first, is_selected)) {
+								markerIndex = i;
+								Settings::PLOT_CURSOR_MARKER = markers[i].second;
+							}
+
+							if(is_selected)
+								ImGui::SetItemDefaultFocus();
+						}
+
+						ImGui::EndCombo();
+					}
+					ImGui::PopItemWidth();
+				}
+
 				ImGui::EndDisabled();
 			}
 
@@ -316,19 +349,21 @@ void Interface::draw(sf::RenderWindow& window) {
 			if (Settings::PLOT_CURSOR_SHOW) {
 				unsigned cursorPos = currentData.cursorPosition, cursorVal = currentData.cursorValue;
 
-				if (Settings::PLOT_CURSOR_DOT) {
+				if (Settings::PLOT_CURSOR_ISBAR) {
+					ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_CURSOR_COLOR);
+					ImPlot::PlotBars("##Cursor", &cursorPos, &cursorVal, 1, Settings::CURSOR_LINE_WIDTH);
+					ImPlot::PopStyleColor();
+				}
+				else {
 					ImPlot::PushStyleColor(ImPlotCol_MarkerFill, Settings::PLOT_CURSOR_COLOR);
-					ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
+					ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, Settings::PLOT_CURSOR_COLOR);
+					ImPlot::SetNextMarkerStyle(Settings::PLOT_CURSOR_MARKER);
 					ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, Settings::CURSOR_LINE_WIDTH);
 					ImPlot::PlotLine("##Cursor", &cursorPos, &cursorVal, 1);
 					ImPlot::PopStyleVar();
+					ImPlot::PopStyleColor();
+					ImPlot::PopStyleColor();
 				}
-				else {
-					ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_CURSOR_COLOR);
-					ImPlot::PlotBars("##Cursor", &cursorPos, &cursorVal, 1, Settings::CURSOR_LINE_WIDTH);
-				}
-
-				ImPlot::PopStyleColor();
 			}
 		}
 

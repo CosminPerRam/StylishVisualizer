@@ -32,8 +32,6 @@ struct Settings
 	enum class PLOT_TYPES { LINES, HEATMAP };
 	inline static PLOT_TYPES PLOT_TYPE = PLOT_TYPES::LINES;
 
-	inline static bool PLOT_CURSOR_SHOW = true;
-	inline static ImVec4 PLOT_CURSOR_COLOR = {1.f, 0.f, 0.f, 1.f};
 	inline static bool PLOT_SHOW_SCALE = true;
 
 	inline static ImPlotColormap PLOT_HEATMAP_COLORS = ImPlotColormap_Hot;
@@ -42,7 +40,10 @@ struct Settings
 	inline static bool PLOT_LINES = false;
 	inline static bool PLOT_STEMS = false;
 	inline static bool PLOT_FILLED_LINES = false;
-	inline static bool PLOT_CURSOR_DOT = false;
+	inline static bool PLOT_CURSOR_SHOW = true;
+	inline static ImVec4 PLOT_CURSOR_COLOR = {1.f, 0.f, 0.f, 1.f};
+	inline static bool PLOT_CURSOR_ISBAR = true;
+	inline static ImPlotMarker PLOT_CURSOR_MARKER = ImPlotMarker_Circle;
 
 	inline static bool PLOT_DO_AFTERCHECK = true;
 	inline static bool PLOT_SHUFFLE_ON_ALGO_CHANGE = true;
