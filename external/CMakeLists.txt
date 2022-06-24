@@ -10,7 +10,7 @@ FetchContent_MakeAvailable(SFML)
 
 FetchContent_Declare(ImGui
     GIT_REPOSITORY https://github.com/ocornut/imgui
-    GIT_TAG v1.87
+    GIT_TAG v1.88
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImGui)
 
@@ -25,7 +25,7 @@ FetchContent_MakeAvailable(ImGui-SFML)
 
 FetchContent_Declare(ImPlot
     GIT_REPOSITORY https://github.com/epezent/implot
-    GIT_TAG v0.13
+    GIT_TAG 63d5ed94b77acdf73201a00074bfd80467f50f0a
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImPlot)
 

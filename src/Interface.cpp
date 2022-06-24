@@ -30,7 +30,6 @@ void Interface::initialize(sf::RenderWindow& window) {
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
 
-	ImPlot::GetStyle().AntiAliasedLines = true;
 	ImGui::GetStyle().AntiAliasedFill = true;
 	ImGui::GetStyle().AntiAliasedLines = true;
 
@@ -379,8 +378,9 @@ void Interface::draw(sf::RenderWindow& window) {
 				ImPlot::PushStyleColor(ImPlotCol_MarkerFill, Settings::PLOT_STEMS_COLOR);
 				ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, Settings::PLOT_STEMS_COLOR);
 				ImPlot::PushStyleColor(ImPlotCol_Line, Settings::PLOT_STEMS_LINE_COLOR);
+				ImPlot::PushStyleVar(ImPlotStyleVar_Marker, ImPlotMarker_Circle);
 				ImPlot::PlotStems("##NumbersStems", &numbers[0], numbersSize);
-				ImPlot::PopStyleColor(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
+				ImPlot::PopStyleVar(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
 			}
 		}
 		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
@@ -417,18 +417,20 @@ void Interface::draw(sf::RenderWindow& window) {
 				static unsigned oldNumbersSize = numbersSize;
 				static std::vector<unsigned> cursorMap(numbersSize, 0);
 
-				if (numbersSize != oldNumbersSize) {
-					cursorMap.resize(numbersSize, 0);
-					oldNumbersSize = numbersSize;
+				if (cursorPos < numbersSize) { //when not animating
+					if (numbersSize != oldNumbersSize) {
+						cursorMap.resize(numbersSize, 0);
+						oldNumbersSize = numbersSize;
+					}
+
+					cursorMap[cursorPos] = 1;
+
+					ImPlot::PushColormap("HeatmapCursorColormap");
+					ImPlot::PlotHeatmap("##CursorHeatmap", &cursorMap[0], gridSize.first, gridSize.second, 0, 1, NULL);
+					ImPlot::PopColormap();
+
+					cursorMap[cursorPos] = 0;
 				}
-
-				cursorMap[cursorPos] = 1;
-
-				ImPlot::PushColormap("HeatmapCursorColormap");
-				ImPlot::PlotHeatmap("##CursorHeatmap", &cursorMap[0], gridSize.first, gridSize.second, 0, 1, NULL);
-				ImPlot::PopColormap();
-
-				cursorMap[cursorPos] = 0;
 			}
 		}
 
