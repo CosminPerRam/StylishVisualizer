@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(sorting-visualizer CXX)
 
+set(CMAKE_CXX_STANDARD 17)
 set(BUILD_SHARED_LIBS OFF)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
@@ -44,4 +45,3 @@ add_executable(sorting-visualizer
     src/SortingAlgorithms/StalinSort.cpp)
 target_include_directories(sorting-visualizer PRIVATE include)
 target_link_libraries(sorting-visualizer PRIVATE sfml-audio sfml-graphics ImGui-SFML::ImGui-SFML ImPlot::ImPlot Threads::Threads)
-target_compile_features(sorting-visualizer PRIVATE cxx_std_17)

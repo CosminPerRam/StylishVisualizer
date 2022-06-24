@@ -39,10 +39,11 @@ struct Settings
 
 	enum class BARS_TYPES { BARS, STEMS, BARS_AND_STEMS };
 	inline static BARS_TYPES PLOT_BARS_TYPE = BARS_TYPES::BARS;
+	inline static bool PLOT_BARS_NOGAP = false;
 	inline static ImVec4 PLOT_BARS_COLOR = {0.2f, 0.41f, 0.69f, 1.f};
+	inline static ImPlotMarker PLOT_STEMS_MARKER = ImPlotMarker_Circle;
 	inline static ImVec4 PLOT_STEMS_COLOR = {0.2f, 0.1f, 0.69f, 1.f};
 	inline static ImVec4 PLOT_STEMS_LINE_COLOR ={0.4f, 0.1f, 0.69f, 1.f};
-
 	inline static bool PLOT_LINES_FILLED = false;
 	inline static ImVec4 PLOT_LINES_COLOR = {0.2f, 0.41f, 0.69f, 1.f};
 	inline static ImVec4 PLOT_LINES_FILLED_COLOR = {0.2f, 0.1f, 0.69f, 0.25f};
@@ -51,6 +52,7 @@ struct Settings
 	inline static ImVec4 PLOT_CURSOR_COLOR = {1.f, 0.f, 0.f, 1.f};
 	inline static bool PLOT_CURSOR_ISBAR = true;
 	inline static ImPlotMarker PLOT_CURSOR_MARKER = ImPlotMarker_Circle;
+	inline static float PLOT_CURSOR_MARKER_SIZE = 4.f;
 
 	inline static bool PLOT_DO_AFTERCHECK = true;
 	inline static bool PLOT_SHUFFLE_ON_ALGO_CHANGE = true;

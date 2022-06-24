@@ -38,4 +38,3 @@ add_library(ImPlot
     "${imgui_SOURCE_DIR}/imgui_widgets.cpp")
 add_library(ImPlot::ImPlot ALIAS ImPlot)
 target_include_directories(ImPlot PUBLIC "${implot_SOURCE_DIR}" "${imgui_SOURCE_DIR}")
-target_compile_features(ImPlot PUBLIC cxx_std_11)

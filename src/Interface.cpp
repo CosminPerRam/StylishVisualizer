@@ -24,6 +24,26 @@ void Interface::Custom::HelpMarker(const char* firstLine, const char* secondLine
 	}
 }
 
+void Interface::Custom::ChooseStemMarker(const char* id, int &index, ImPlotMarker &marker)
+{
+	static const std::pair<const char *, ImPlotMarker> markers[] = {{"Circle", ImPlotMarker_Circle}, {"Square", ImPlotMarker_Square}, {"Diamond", ImPlotMarker_Diamond}, 
+		{"Asterisk", ImPlotMarker_Asterisk}, {"Cross", ImPlotMarker_Cross}};
+	if (ImGui::BeginCombo(id, markers[index].first)) {
+		for (int i = 0; i < IM_ARRAYSIZE(markers); i++) {
+			const bool is_selected = (index == i);
+			if (ImGui::Selectable(markers[i].first, is_selected)) {
+				index = i;
+				marker = markers[i].second;
+			}
+
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
+		}
+
+		ImGui::EndCombo();
+	}
+}
+
 void Interface::initialize(sf::RenderWindow& window) {
 	ImGui::SFML::Init(window);
 
@@ -125,6 +145,8 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	if (ImGui::BeginPopup("AudioOptions"))
 	{
+		ImGui::PushItemWidth(128);
+
 		static const char* waveNames[] = {"Sine", "Square"};
 		ImGui::SliderInt("Wave", &Settings::AUDIO_WAVE_TYPE, 0, 1, waveNames[Settings::AUDIO_WAVE_TYPE]);
 		ImGui::Text("Pitch");
@@ -136,6 +158,8 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImGui::Text("Frequency");
 		ImGui::SliderFloat("Min##Frequency", &Settings::AUDIO_MIN_FREQUENCY, 100.f, 1000.f);
 		ImGui::SliderFloat("Max##Frequency", &Settings::AUDIO_MAX_FREQUENCY, 100.f, 1000.f);
+
+		ImGui::PopItemWidth();
 
 		ImGui::EndPopup();
 	}
@@ -151,6 +175,8 @@ void Interface::draw(sf::RenderWindow& window) {
 
 		if (ImGui::BeginPopup("PlotStyling"))
 		{
+			ImGui::PushItemWidth(80);
+
 			static bool idxWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
 			if (idxWarning) {
 				ImGui::TextColored({1, 0, 0, 1}, "Warning! (hover over me)");
@@ -171,10 +197,8 @@ void Interface::draw(sf::RenderWindow& window) {
 			static const std::pair<const char*, Settings::PLOT_TYPES> typeNames[] = { {"Bars", Settings::PLOT_TYPES::BARS}, {"Lines", Settings::PLOT_TYPES::LINES}, 
 				{"Heatmap", Settings::PLOT_TYPES::HEATMAP} };
 			static int typeChoosed = 0;
-			ImGui::PushItemWidth(96);
 			if (ImGui::SliderInt("Plot type", &typeChoosed, 0, 2, typeNames[typeChoosed].first))
 				Settings::PLOT_TYPE = typeNames[typeChoosed].second;
-			ImGui::PopItemWidth();
 
 			ImGui::Separator();
 
@@ -183,7 +207,6 @@ void Interface::draw(sf::RenderWindow& window) {
 					{"Spectral", ImPlotColormap_Spectral}, {"Jet", ImPlotColormap_Jet} };
 				static int colorIndex = 0;
 
-				ImGui::PushItemWidth(80);
 				if(ImGui::BeginCombo("Colors", colors[colorIndex].first)) {
 					for(int i = 0; i < IM_ARRAYSIZE(colors); i++) {
 						const bool is_selected = (colorIndex == i);
@@ -198,24 +221,25 @@ void Interface::draw(sf::RenderWindow& window) {
 
 					ImGui::EndCombo();
 				}
-				ImGui::PopItemWidth();
 
 				ImGui::Checkbox("One-liner", &Settings::PLOT_HEATMAP_ONELINER);
 				ImGui::SameLine(); Custom::HelpMarker("Display the heatmap with a height of 1.");
 			}
 			else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
-				ImGui::PushItemWidth(96);
 				static int barsTypeIndex = 0;
 				static const std::pair<const char*, Settings::BARS_TYPES> barsTypesNames[] = { {"Bars", Settings::BARS_TYPES::BARS}, {"Stems", Settings::BARS_TYPES::STEMS}, 
-					{"Bars + Stems", Settings::BARS_TYPES::BARS_AND_STEMS} };
+					{"Bars+Stems", Settings::BARS_TYPES::BARS_AND_STEMS} };
 				if(ImGui::SliderInt("Style##Bars", &barsTypeIndex, 0, 2, barsTypesNames[barsTypeIndex].first))
 					Settings::PLOT_BARS_TYPE = barsTypesNames[barsTypeIndex].second;
-				ImGui::PopItemWidth();
 
-				if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS)
+				if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
+					ImGui::Checkbox("Bars no gap", &Settings::PLOT_BARS_NOGAP);
 					ImGui::ColorEdit4("Bars color", &Settings::PLOT_BARS_COLOR.x, ImGuiColorEditFlags_NoInputs);
+				}
 				if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::STEMS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
 					ImGui::ColorEdit4("Stems color", &Settings::PLOT_STEMS_COLOR.x, ImGuiColorEditFlags_NoInputs);
+					static int markerIndex = 0;
+					Custom::ChooseStemMarker("Marker##Stems", markerIndex, Settings::PLOT_STEMS_MARKER);
 					ImGui::ColorEdit4("Stems lines color", &Settings::PLOT_STEMS_LINE_COLOR.x, ImGuiColorEditFlags_NoInputs);
 				}
 			}
@@ -231,39 +255,21 @@ void Interface::draw(sf::RenderWindow& window) {
 
 			if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
 				ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
-				ImGui::PushItemWidth(80);
 				static int cursorIsMarker = 0;
 				static const char* cursorsNames[] = {"Bar", "Marker"};
-				if(ImGui::SliderInt("Cursor style", &cursorIsMarker, 0, 1, cursorsNames[cursorIsMarker]))
+				if(ImGui::SliderInt("Cursor##style", &cursorIsMarker, 0, 1, cursorsNames[cursorIsMarker]))
 					Settings::PLOT_CURSOR_ISBAR = (cursorIsMarker == 0);
-				ImGui::PopItemWidth();
 
 				if(!Settings::PLOT_CURSOR_ISBAR) {
-					static const std::pair<const char*, ImPlotMarker> markers[] = { {"Circle", ImPlotMarker_Circle}, {"Square", ImPlotMarker_Square}, {"Diamond", ImPlotMarker_Diamond},
-						{"Asterisk", ImPlotMarker_Asterisk}, {"Cross", ImPlotMarker_Cross} };
 					static int markerIndex = 0;
-
-					ImGui::PushItemWidth(80);
-					if(ImGui::BeginCombo("Cursor marker", markers[markerIndex].first)) {
-						for(int i = 0; i < IM_ARRAYSIZE(markers); i++) {
-							const bool is_selected = (markerIndex == i);
-							if(ImGui::Selectable(markers[i].first, is_selected)) {
-								markerIndex = i;
-								Settings::PLOT_CURSOR_MARKER = markers[i].second;
-							}
-
-							if(is_selected)
-								ImGui::SetItemDefaultFocus();
-						}
-
-						ImGui::EndCombo();
-					}
-					ImGui::PopItemWidth();
+					Custom::ChooseStemMarker("Marker##Cursor", markerIndex, Settings::PLOT_CURSOR_MARKER);
+					ImGui::SliderFloat("Size##Marker", &Settings::PLOT_CURSOR_MARKER_SIZE, 1.f, 8.f, "%.2f");
 				}
 
 				ImGui::EndDisabled();
 			}
 
+			ImGui::PopItemWidth();
 			ImGui::EndPopup();
 		}
 
@@ -371,16 +377,16 @@ void Interface::draw(sf::RenderWindow& window) {
 		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
 			if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
 				ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_BARS_COLOR);
-				ImPlot::PlotBars("##NumbersBars", &numbers[0], numbersSize);
+				ImPlot::PlotBars("##NumbersBars", &numbers[0], numbersSize, Settings::PLOT_BARS_NOGAP ? 1. : 0.67);
 				ImPlot::PopStyleColor();
 			}
 			if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::STEMS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
 				ImPlot::PushStyleColor(ImPlotCol_MarkerFill, Settings::PLOT_STEMS_COLOR);
 				ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, Settings::PLOT_STEMS_COLOR);
 				ImPlot::PushStyleColor(ImPlotCol_Line, Settings::PLOT_STEMS_LINE_COLOR);
-				ImPlot::PushStyleVar(ImPlotStyleVar_Marker, ImPlotMarker_Circle);
+				ImPlot::SetNextMarkerStyle(Settings::PLOT_STEMS_MARKER);
 				ImPlot::PlotStems("##NumbersStems", &numbers[0], numbersSize);
-				ImPlot::PopStyleVar(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
+				ImPlot::PopStyleColor(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
 			}
 		}
 		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
@@ -409,15 +415,16 @@ void Interface::draw(sf::RenderWindow& window) {
 					ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, Settings::PLOT_CURSOR_COLOR);
 					ImPlot::SetNextMarkerStyle(Settings::PLOT_CURSOR_MARKER);
 					ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, Settings::CURSOR_LINE_WIDTH);
+					ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, Settings::PLOT_CURSOR_MARKER_SIZE);
 					ImPlot::PlotLine("##Cursor", &cursorPos, &cursorVal, 1);
-					ImPlot::PopStyleVar(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
+					ImPlot::PopStyleVar(); ImPlot::PopStyleVar(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
 				}
 			}
 			else if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 				static unsigned oldNumbersSize = numbersSize;
 				static std::vector<unsigned> cursorMap(numbersSize, 0);
 
-				if (cursorPos < numbersSize) { //when not animating
+				if (cursorPos < numbersSize) { //to ensure the position doesnt get ahead
 					if (numbersSize != oldNumbersSize) {
 						cursorMap.resize(numbersSize, 0);
 						oldNumbersSize = numbersSize;
