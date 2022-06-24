@@ -21,7 +21,7 @@ void HeapSort::heapify(int n, int i)
         std::swap(numbers[i], numbers[largest]);
 
         DO_PUT_CURSOR_AT(i);
-        DO_PROGRESSIVE_CHECKSTEP;
+        DO_CHECKSTEP;
 
         heapify(n, largest);
     }
@@ -39,7 +39,7 @@ void HeapSort::sorter() {
         std::swap(numbers[0], numbers[i]);
 
         DO_PUT_CURSOR_AT(i);
-        DO_PROGRESSIVE_CHECKSTEP;
+        DO_CHECKSTEP;
 
         heapify(i, 0);
     }

@@ -26,7 +26,7 @@ void BogoSort::sorter() {
         }
 
         DO_PUT_CURSOR_AT(Utilities::Random::getNumberInBetween(0, n - 1));
-        DO_PROGRESSIVE_CHECKSTEP;
+        DO_CHECKSTEP;
     } while (!sorted);
 
     DO_FINISHED;

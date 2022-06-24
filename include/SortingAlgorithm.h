@@ -10,6 +10,8 @@
 
 #include "SortingStatistics.h"
 
+#define DO_STARTED this->reset();
+#define DO_FINISHED if(!m_exit) { this->doFinisherLoop(); m_isFinished = true; }
 #define DO_CHECKEXIT if (m_exit) \
 						return;
 #define DO_CHECKSTEP do { bool goContinue = false; \
@@ -19,11 +21,8 @@
 						if (state == stepState::NONE || state == stepState::STEP) \
 							goContinue = true; \
 					} } while (false);
-#define DO_SHUFFLE_EXIT_CHECK if(m_stopShuffling) return;
+#define DO_SHUFFLE_CHECKEXIT if(m_stopShuffling) return;
 #define DO_SHUFFLE_UPDATE_CURSOR(i) Settings::updateCursorLineWidthDynamically(i);
-#define DO_PROGRESSIVE_CHECKSTEP ++stats.steps; DO_CHECKSTEP;
-#define DO_STARTED this->reset();
-#define DO_FINISHED if(!m_exit) { this->doFinisherLoop(); m_isFinished = true; }
 #define DO_PUT_CURSOR_AT(position) this->putCursorAt(position);
 #define DO_PUT_CURSOR_AT_WITH_BACKWARDS(position) this->putCursorAt(position, -1);
 #define DO_PUT_CURSOR_AT_WITH_FORWARDS(position) this->putCursorAt(position, +1);

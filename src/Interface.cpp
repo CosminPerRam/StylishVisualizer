@@ -314,10 +314,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	const SortingStatistics& currentData = Manager::Sorter->getStatistics();
 
-	if (ImGui::BeginTable("table", 6, ImGuiTableFlags_BordersInnerV)) {
-		ImGui::TableNextColumn();
-		ImGui::Text("Comparisons: %llu", currentData.comparisons.load());
-
+	if (ImGui::BeginTable("table", 5, ImGuiTableFlags_BordersInnerV)) {
 		ImGui::TableNextColumn();
 		ImGui::Text("Reads: %llu", currentData.reads.load());
 
@@ -325,7 +322,7 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImGui::Text("Writes: %llu", currentData.writes.load());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Steps: %llu", currentData.steps.load());
+		ImGui::Text("Comparisons: %llu", currentData.comparisons.load());
 
 		ImGui::TableNextColumn();
 		ImGui::Text("Visual time: %.2f s", Manager::visualTime.asSeconds());
@@ -357,10 +354,8 @@ void Interface::draw(sf::RenderWindow& window) {
 
 		if (!Settings::PLOT_SHOW_SCALE || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP)
 			axisFlags += ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
-			
-		ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_Lock, ImPlotAxisFlags_Lock);
-		ImPlot::SetupAxis(ImAxis_X1, NULL, axisFlags);
-		ImPlot::SetupAxis(ImAxis_Y1, NULL, axisFlags);
+		
+		ImPlot::SetupAxes(NULL, NULL, axisFlags, axisFlags);
 
 		if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS)
 			ImPlot::SetupAxesLimits(-0.5, numbersSize - 0.5, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);

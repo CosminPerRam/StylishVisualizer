@@ -62,8 +62,6 @@ void MergeSort::merge(const int l, const int m, const int r)
 
         DO_CHECKSTEP;
     }
-
-    DO_PROGRESSIVE_CHECKSTEP;
 }
 
 void MergeSort::mergeSort(int l, int r)

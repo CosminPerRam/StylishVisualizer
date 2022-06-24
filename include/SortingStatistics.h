@@ -5,7 +5,7 @@
 struct SortingStatistics
 {
 	std::atomic<float> sortTimeMs = 0.f;
-	std::atomic<unsigned long long> comparisons = 0, reads = 0, writes = 0, steps = 0;
+	std::atomic<unsigned long long> comparisons = 0, reads = 0, writes = 0;
 
 	std::atomic<unsigned> cursorPosition = 0, cursorValue = 0;
 
@@ -17,6 +17,4 @@ struct SortingStatistics
 
 	void addReads(const unsigned count = 1u);
 	void addWrites(const unsigned count = 1u);
-
-	void addStep();
 };

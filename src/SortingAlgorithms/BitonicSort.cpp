@@ -15,7 +15,6 @@ void BitonicSort::bitonicMerge(int low, int cnt, int dir)
                 std::swap(numbers[i], numbers[i + k]);
 
                 DO_PUT_CURSOR_AT(i + k);
-                stats.addStep();
             }
             else
                 DO_PUT_CURSOR_AT(i);

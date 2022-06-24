@@ -28,7 +28,6 @@ void CombSort::sorter() {
                 swapped = true;
 
                 DO_PUT_CURSOR_AT(i);
-                stats.addStep();
             }
             else
                 DO_PUT_CURSOR_AT_WITH_BACKWARDS(i + 1);

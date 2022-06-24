@@ -35,7 +35,7 @@ void RadixSortLSD::sorter() {
                 pocket[j].erase(pocket[j].begin());
                 count++;
 
-                DO_PROGRESSIVE_CHECKSTEP;
+                DO_CHECKSTEP;
             }
         }
     }

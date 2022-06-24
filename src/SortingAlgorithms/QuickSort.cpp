@@ -29,7 +29,6 @@ void QuickSort::sorter()
                 std::swap(numbers[i], numbers[j]);
 
                 stats.addSwaps();
-                stats.addStep();
             }
 
             DO_PUT_CURSOR_AT(j);

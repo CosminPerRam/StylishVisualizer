@@ -52,7 +52,7 @@ void RadixSortMSD::MSDRadixSort(int low, int high, int digit) {
             MSDRadixSort(low + counter[r], low + counter[r + 1], digit + 1);
     }
 
-    DO_PROGRESSIVE_CHECKSTEP;
+    DO_CHECKSTEP;
 }
 
 void RadixSortMSD::sorter() {

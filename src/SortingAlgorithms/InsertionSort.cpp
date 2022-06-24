@@ -24,7 +24,7 @@ void InsertionSort::sorter() {
         }
         stats.addAssigments();
         numbers[j + 1] = key;
-        DO_PROGRESSIVE_CHECKSTEP;
+        DO_CHECKSTEP;
     }
 
     DO_FINISHED;

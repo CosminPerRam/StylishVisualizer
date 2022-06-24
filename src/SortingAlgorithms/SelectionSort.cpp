@@ -19,7 +19,7 @@ void SelectionSort::sorter() {
         stats.addSwaps();
         std::swap(numbers[min_idx], numbers[i]);
         DO_PUT_CURSOR_AT(min_idx);
-        DO_PROGRESSIVE_CHECKSTEP;
+        DO_CHECKSTEP;
     }
 
     DO_FINISHED;

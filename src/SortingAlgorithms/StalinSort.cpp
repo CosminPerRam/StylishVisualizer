@@ -17,7 +17,7 @@ void StalinSort::sorter() {
             Settings::updateCursorLineWidthDynamically(unsigned(numbers.size()));
         }
 
-        DO_PROGRESSIVE_CHECKSTEP;
+        DO_CHECKSTEP;
     }
 
     DO_FINISHED;

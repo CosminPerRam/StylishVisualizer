@@ -14,7 +14,6 @@ void BubbleSort::sorter() {
                 std::swap(numbers[j], numbers[j + 1]);
 
                 stats.addSwaps();
-                stats.addStep();
             }
 
             DO_CHECKSTEP;

@@ -21,7 +21,7 @@ void GnomeSort::sorter() {
         }
 
         DO_PUT_CURSOR_AT(index);
-        DO_PROGRESSIVE_CHECKSTEP;
+        DO_CHECKSTEP;
     }
 
     DO_FINISHED;

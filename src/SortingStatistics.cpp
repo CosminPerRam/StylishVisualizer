@@ -3,7 +3,7 @@
 
 void SortingStatistics::reset() {
 	sortTimeMs = 0.f;
-	comparisons = 0; reads = 0; writes = 0; steps = 0;
+	comparisons = 0; reads = 0; writes = 0;
 
 	cursorPosition = 0; cursorValue = 0;
 }
@@ -29,8 +29,4 @@ void SortingStatistics::addReads(const unsigned count) {
 
 void SortingStatistics::addWrites(const unsigned count) {
 	writes += count;
-}
-
-void SortingStatistics::addStep() {
-	++steps;
 }

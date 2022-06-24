@@ -11,7 +11,7 @@ void CocktailSort::sorter() {
 
     while (swapped)
     {
-        DO_PROGRESSIVE_CHECKSTEP;
+        DO_CHECKSTEP;
 
         swapped = false;
 

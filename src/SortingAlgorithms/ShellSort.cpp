@@ -20,7 +20,7 @@ void ShellSort::sorter() {
                 stats.addComparisons();
                 stats.addAssigments();
                 
-                DO_PROGRESSIVE_CHECKSTEP;
+                DO_CHECKSTEP;
             }
 
             numbers[j] = temp;
