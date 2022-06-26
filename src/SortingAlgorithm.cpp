@@ -16,17 +16,8 @@ void SortingAlgorithm::doFinisherLoop() {
 
 	sf::Time delayUs = sf::microseconds(Settings::PLOT_SINGULAR_LOOP_TIMEus / numbers.size());
 	for (unsigned i = 0; i < numbers.size(); i++) {
-		this->putCursorAt(i);
+		this->stats.putCursorAt(i);
 		sf::sleep(delayUs);
-	}
-}
-
-void SortingAlgorithm::putCursorAt(unsigned position, int withOffset) {
-	stats.cursorPosition = position;
-	
-	if(withOffset) {
-		if(stats.cursorPosition > 0 && withOffset > -1)
-			stats.cursorPosition -= withOffset;
 	}
 }
 
@@ -135,7 +126,7 @@ void SortingAlgorithm::animatedShuffle() {
 		Settings::updateCursorLineWidth();
 		for (int i = Settings::SHUFFLE_CURRENT_COUNT; i > 0; i--) {
 			numbers[i - 1] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
-			putCursorAt(i - 1);
+			stats.putCursorAt(i - 1);
 			sf::sleep(delayUs);
 			DO_SHUFFLE_CHECKEXIT; DO_SHUFFLE_UPDATE_CURSOR(i - 1);
 		}
@@ -143,14 +134,14 @@ void SortingAlgorithm::animatedShuffle() {
 	else if(oldSize < Settings::SHUFFLE_CURRENT_COUNT) {
 		for(int i = 0 ; i < oldSize; i++) {
 			numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
-			putCursorAt(i);
+			stats.putCursorAt(i);
 			sf::sleep(delayUs);
 			DO_SHUFFLE_CHECKEXIT; DO_SHUFFLE_UPDATE_CURSOR(i);
 		}
 
 		for (int i = oldSize; i < Settings::SHUFFLE_CURRENT_COUNT; i++) {
 			lockNumbers(); numbers.emplace_back(Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE)); unlockNumbers();
-			putCursorAt(i);
+			stats.putCursorAt(i);
 			sf::sleep(delayUs);
 			DO_SHUFFLE_CHECKEXIT; DO_SHUFFLE_UPDATE_CURSOR(i);
 		}
@@ -158,7 +149,7 @@ void SortingAlgorithm::animatedShuffle() {
 	else {
 		for (int i = 0; i < Settings::SHUFFLE_CURRENT_COUNT; i++) {
 			numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
-			putCursorAt(i);
+			stats.putCursorAt(i);
 			sf::sleep(delayUs);
 			DO_SHUFFLE_CHECKEXIT;
 		}

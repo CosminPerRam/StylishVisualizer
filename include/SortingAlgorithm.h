@@ -24,9 +24,9 @@
 					} } while (false);
 #define DO_SHUFFLE_CHECKEXIT if(m_stopShuffling) return;
 #define DO_SHUFFLE_UPDATE_CURSOR(i) Settings::updateCursorLineWidthDynamically(i);
-#define DO_PUT_CURSOR_AT(position) this->putCursorAt(position);
-#define DO_PUT_CURSOR_AT_WITH_BACKWARDS(position) this->putCursorAt(position, -1);
-#define DO_PUT_CURSOR_AT_WITH_FORWARDS(position) this->putCursorAt(position, +1);
+#define DO_PUT_CURSOR_AT(position) this->stats.putCursorAt(position);
+#define DO_PUT_CURSOR_AT_WITH_BACKWARDS(position) this->stats.putCursorAt(position, -1);
+#define DO_PUT_CURSOR_AT_WITH_FORWARDS(position) this->stats.putCursorAt(position, +1);
 
 class SortingAlgorithm
 {
@@ -46,7 +46,6 @@ protected:
 
 	void animatedShuffle();
 	void doFinisherLoop();
-	void putCursorAt(unsigned position, int withOffset = 0);
 	void reset();
 	stepState checkStep();
 

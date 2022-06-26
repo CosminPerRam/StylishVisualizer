@@ -8,6 +8,15 @@ void SortingStatistics::reset() {
 	cursorPosition = 0;
 }
 
+void SortingStatistics::putCursorAt(unsigned position, int withOffset) {
+	cursorPosition = position;
+	
+	if(withOffset) {
+		if(cursorPosition > 0 && withOffset > -1)
+			cursorPosition -= withOffset;
+	}
+}
+
 void SortingStatistics::addComparisons(const unsigned count) {
 	comparisons += count;
 	addReads(count * 2);

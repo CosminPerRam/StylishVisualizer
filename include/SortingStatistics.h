@@ -11,6 +11,8 @@ struct SortingStatistics
 
 	void reset();
 
+	void putCursorAt(unsigned position, int withOffset = 0);
+
 	void addComparisons(const unsigned count = 1u);
 	void addAssigments(const unsigned count = 1u);
 	void addSwaps(const unsigned count = 1u);
