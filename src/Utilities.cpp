@@ -3,7 +3,6 @@
 
 #include <random>
 #include <numeric>
-#include <execution>
 
 #include "Settings.h"
 
@@ -61,9 +60,9 @@ namespace Utilities::Math {
 			result.resize(dest_len);
 
 			for (unsigned j = 0; j < dest_len - 1; j++)
-				result[j] = unsigned(std::reduce(std::execution::par, source.begin() + j * downsamplingFactor, source.begin() + (j + 1) * downsamplingFactor) / downsamplingFactor);
+				result[j] = unsigned(std::accumulate(source.begin() + j * downsamplingFactor, source.begin() + (j + 1) * downsamplingFactor, 0u) / downsamplingFactor);
 			
-			result[dest_len - 1] = unsigned(std::reduce(source.cbegin() + (dest_len - 1) * downsamplingFactor, source.cend()) / downsamplingFactor);
+			result[dest_len - 1] = unsigned(std::accumulate(source.begin() + (dest_len - 1) * downsamplingFactor, source.end(), 0u) / downsamplingFactor);
 			if (result[dest_len - 1] > Settings::SHUFFLE_MAX_VALUE)
 				result[dest_len - 1] = Settings::SHUFFLE_MAX_VALUE;
 		}
