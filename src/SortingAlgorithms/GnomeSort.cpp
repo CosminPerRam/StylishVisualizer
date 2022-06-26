@@ -8,6 +8,8 @@ void GnomeSort::sorter() {
     int index = 0;
     
     while (index < n) {
+        DO_PUT_CURSOR_AT(index);
+
         if (index == 0)
             index++;
 
@@ -20,7 +22,6 @@ void GnomeSort::sorter() {
             index--;
         }
 
-        DO_PUT_CURSOR_AT(index);
         DO_CHECKSTEP;
     }
 

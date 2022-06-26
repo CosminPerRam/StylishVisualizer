@@ -7,7 +7,7 @@
 
 struct Settings
 {
-	inline static const int SHUFFLE_MAX_VALUE = 32768;
+	inline static const int SHUFFLE_MAX_VALUE = 65535;
 	inline static const int SHUFFLE_MIN_COUNT = 32;
 	inline static const int SHUFFLE_MAX_COUNT = 16384;
 

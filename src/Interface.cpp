@@ -183,125 +183,118 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	if (ImGui::BeginPopup("StylingPopup"))
 	{
-		if (ImGui::Button("Plot", { 64, 0 }))
-			ImGui::OpenPopup("PlotStyling");
+		ImGui::Text("Styling:");
+		if (ImGui::BeginTabBar("StyleBar")) {
+			if(ImGui::BeginTabItem("Plot")) {
+				ImGui::PushItemWidth(80);
 
-		if (ImGui::BeginPopup("PlotStyling"))
-		{
-			ImGui::PushItemWidth(80);
-
-			static bool idxWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
-			if (idxWarning) {
-				ImGui::TextColored({1, 0, 0, 1}, "Warning! (hover over me)");
-				if (ImGui::IsItemHovered()) {
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1, 0, 0, 1));
-					ImGui::SetTooltip("ImDrawIdx is 16-bits and ImGuiBackendFlags_RendererHasVtxOffset is false.\nHigh element counts might end up in a crash due to producing too many\nvertices, see the README for more informations.");
-					ImGui::PopStyleColor();
+				static bool idxWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
+				if (idxWarning) {
+					ImGui::TextColored({1, 0, 0, 1}, "Warning! (hover over me)");
+					if (ImGui::IsItemHovered()) {
+						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1, 0, 0, 1));
+						ImGui::SetTooltip("ImDrawIdx is 16-bits and ImGuiBackendFlags_RendererHasVtxOffset is false.\nHigh element counts might end up in a crash due to producing too many\nvertices, see the README for more informations.");
+						ImGui::PopStyleColor();
+					}
 				}
-			}
 
-			ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW); ImGui::SameLine();
-			ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP);
-			ImGui::ColorEdit4("Color##Cursor", &Settings::PLOT_CURSOR_COLOR.x, ImGuiColorEditFlags_NoInputs);
-			ImGui::EndDisabled();
+				ImGui::Checkbox("Cursor", &Settings::PLOT_CURSOR_SHOW); ImGui::SameLine();
+				ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP);
+				ImGui::ColorEdit4("Color##Cursor", &Settings::PLOT_CURSOR_COLOR.x, ImGuiColorEditFlags_NoInputs);
+				ImGui::EndDisabled();
 
-			ImGui::Checkbox("Show scale", &Settings::PLOT_SHOW_SCALE);
+				ImGui::Checkbox("Show scale", &Settings::PLOT_SHOW_SCALE);
 
-			static const std::pair<const char*, Settings::PLOT_TYPES> typeNames[] = { {"Bars", Settings::PLOT_TYPES::BARS}, {"Lines", Settings::PLOT_TYPES::LINES}, 
-				{"Heatmap", Settings::PLOT_TYPES::HEATMAP} };
-			static int typeChoosed = 0;
-			if (ImGui::SliderInt("Plot type", &typeChoosed, 0, 2, typeNames[typeChoosed].first))
-				Settings::PLOT_TYPE = typeNames[typeChoosed].second;
+				static const std::pair<const char*, Settings::PLOT_TYPES> typeNames[] = { {"Bars", Settings::PLOT_TYPES::BARS}, {"Lines", Settings::PLOT_TYPES::LINES}, 
+					{"Heatmap", Settings::PLOT_TYPES::HEATMAP} };
+				static int typeChoosed = 0;
+				if (ImGui::SliderInt("Plot type", &typeChoosed, 0, 2, typeNames[typeChoosed].first))
+					Settings::PLOT_TYPE = typeNames[typeChoosed].second;
 
-			ImGui::Separator();
+				ImGui::Separator();
 
-			if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
-				static const std::pair<const char*, ImPlotColormap> colors[] = { {"Heat", ImPlotColormap_Hot}, {"Cool", ImPlotColormap_Cool}, {"Plasma", ImPlotColormap_Plasma},
-					{"Spectral", ImPlotColormap_Spectral}, {"Jet", ImPlotColormap_Jet} };
-				static int colorIndex = 0;
+				if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
+					static const std::pair<const char*, ImPlotColormap> colors[] = { {"Heat", ImPlotColormap_Hot}, {"Cool", ImPlotColormap_Cool}, {"Plasma", ImPlotColormap_Plasma},
+						{"Spectral", ImPlotColormap_Spectral}, {"Jet", ImPlotColormap_Jet} };
+					static int colorIndex = 0;
 
-				if(ImGui::BeginCombo("Colors", colors[colorIndex].first)) {
-					for(int i = 0; i < IM_ARRAYSIZE(colors); i++) {
-						const bool is_selected = (colorIndex == i);
-						if(ImGui::Selectable(colors[i].first, is_selected)) {
-							colorIndex = i;
-							Settings::PLOT_HEATMAP_COLORS = colors[i].second;
+					if(ImGui::BeginCombo("Colors", colors[colorIndex].first)) {
+						for(int i = 0; i < IM_ARRAYSIZE(colors); i++) {
+							const bool is_selected = (colorIndex == i);
+							if(ImGui::Selectable(colors[i].first, is_selected)) {
+								colorIndex = i;
+								Settings::PLOT_HEATMAP_COLORS = colors[i].second;
+							}
+
+							if(is_selected)
+								ImGui::SetItemDefaultFocus();
 						}
 
-						if(is_selected)
-							ImGui::SetItemDefaultFocus();
+						ImGui::EndCombo();
 					}
 
-					ImGui::EndCombo();
+					ImGui::Checkbox("One-liner", &Settings::PLOT_HEATMAP_ONELINER);
+					ImGui::SameLine(); Custom::HelpMarker("Display the heatmap with a height of 1.");
+				}
+				else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
+					static int barsTypeIndex = 0;
+					static const std::pair<const char*, Settings::BARS_TYPES> barsTypesNames[] = { {"Bars", Settings::BARS_TYPES::BARS}, {"Stems", Settings::BARS_TYPES::STEMS}, 
+						{"Bars+Stems", Settings::BARS_TYPES::BARS_AND_STEMS} };
+					if(ImGui::SliderInt("Style##Bars", &barsTypeIndex, 0, 2, barsTypesNames[barsTypeIndex].first))
+						Settings::PLOT_BARS_TYPE = barsTypesNames[barsTypeIndex].second;
+
+					if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
+						ImGui::Checkbox("Bars no gap", &Settings::PLOT_BARS_NOGAP);
+						ImGui::ColorEdit4("Bars color", &Settings::PLOT_BARS_COLOR.x, ImGuiColorEditFlags_NoInputs);
+					}
+					if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::STEMS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
+						ImGui::ColorEdit4("Stems color", &Settings::PLOT_STEMS_COLOR.x, ImGuiColorEditFlags_NoInputs);
+						static int markerIndex = 0;
+						Custom::ChooseStemMarker("Marker##Stems", markerIndex, Settings::PLOT_STEMS_MARKER);
+						ImGui::ColorEdit4("Stems lines color", &Settings::PLOT_STEMS_LINE_COLOR.x, ImGuiColorEditFlags_NoInputs);
+					}
+				}
+				else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
+					ImGui::ColorEdit4("Line color", &Settings::PLOT_LINES_COLOR.x, ImGuiColorEditFlags_NoInputs);
+					ImGui::Checkbox("Filled lines", &Settings::PLOT_LINES_FILLED);
+					ImGui::BeginDisabled(!Settings::PLOT_LINES_FILLED);
+					ImGui::ColorEdit4("Filled lines color", &Settings::PLOT_LINES_FILLED_COLOR.x, ImGuiColorEditFlags_NoInputs);
+					ImGui::EndDisabled();
 				}
 
-				ImGui::Checkbox("One-liner", &Settings::PLOT_HEATMAP_ONELINER);
-				ImGui::SameLine(); Custom::HelpMarker("Display the heatmap with a height of 1.");
-			}
-			else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
-				static int barsTypeIndex = 0;
-				static const std::pair<const char*, Settings::BARS_TYPES> barsTypesNames[] = { {"Bars", Settings::BARS_TYPES::BARS}, {"Stems", Settings::BARS_TYPES::STEMS}, 
-					{"Bars+Stems", Settings::BARS_TYPES::BARS_AND_STEMS} };
-				if(ImGui::SliderInt("Style##Bars", &barsTypeIndex, 0, 2, barsTypesNames[barsTypeIndex].first))
-					Settings::PLOT_BARS_TYPE = barsTypesNames[barsTypeIndex].second;
+				ImGui::Separator();
 
-				if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
-					ImGui::Checkbox("Bars no gap", &Settings::PLOT_BARS_NOGAP);
-					ImGui::ColorEdit4("Bars color", &Settings::PLOT_BARS_COLOR.x, ImGuiColorEditFlags_NoInputs);
-				}
-				if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::STEMS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
-					ImGui::ColorEdit4("Stems color", &Settings::PLOT_STEMS_COLOR.x, ImGuiColorEditFlags_NoInputs);
-					static int markerIndex = 0;
-					Custom::ChooseStemMarker("Marker##Stems", markerIndex, Settings::PLOT_STEMS_MARKER);
-					ImGui::ColorEdit4("Stems lines color", &Settings::PLOT_STEMS_LINE_COLOR.x, ImGuiColorEditFlags_NoInputs);
-				}
-			}
-			else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
-				ImGui::ColorEdit4("Line color", &Settings::PLOT_LINES_COLOR.x, ImGuiColorEditFlags_NoInputs);
-				ImGui::Checkbox("Filled lines", &Settings::PLOT_LINES_FILLED);
-				ImGui::BeginDisabled(!Settings::PLOT_LINES_FILLED);
-				ImGui::ColorEdit4("Filled lines color", &Settings::PLOT_LINES_FILLED_COLOR.x, ImGuiColorEditFlags_NoInputs);
-				ImGui::EndDisabled();
-			}
+				if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
+					ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
+					static int cursorIsMarker = 0;
+					static const char* cursorsNames[] = {"Bar", "Marker"};
+					if(ImGui::SliderInt("Cursor##style", &cursorIsMarker, 0, 1, cursorsNames[cursorIsMarker]))
+						Settings::PLOT_CURSOR_ISBAR = (cursorIsMarker == 0);
 
-			ImGui::Separator();
+					if(!Settings::PLOT_CURSOR_ISBAR) {
+						static int markerIndex = 0;
+						Custom::ChooseStemMarker("Marker##Cursor", markerIndex, Settings::PLOT_CURSOR_MARKER);
+						ImGui::SliderFloat("Size##Marker", &Settings::PLOT_CURSOR_MARKER_SIZE, 1.f, 8.f, "%.2f");
+					}
 
-			if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
-				ImGui::BeginDisabled(!Settings::PLOT_CURSOR_SHOW);
-				static int cursorIsMarker = 0;
-				static const char* cursorsNames[] = {"Bar", "Marker"};
-				if(ImGui::SliderInt("Cursor##style", &cursorIsMarker, 0, 1, cursorsNames[cursorIsMarker]))
-					Settings::PLOT_CURSOR_ISBAR = (cursorIsMarker == 0);
-
-				if(!Settings::PLOT_CURSOR_ISBAR) {
-					static int markerIndex = 0;
-					Custom::ChooseStemMarker("Marker##Cursor", markerIndex, Settings::PLOT_CURSOR_MARKER);
-					ImGui::SliderFloat("Size##Marker", &Settings::PLOT_CURSOR_MARKER_SIZE, 1.f, 8.f, "%.2f");
+					ImGui::EndDisabled();
 				}
 
-				ImGui::EndDisabled();
+				ImGui::PopItemWidth();
+				ImGui::EndTabItem();
 			}
 
-			ImGui::PopItemWidth();
-			ImGui::EndPopup();
-		}
+			if (ImGui::BeginTabItem("ImGui")) {
+				ImGui::ShowStyleEditor();
+				ImGui::EndTabItem();
+			}
 
-		if (ImGui::Button("ImGui", { 64, 0 }))
-			ImGui::OpenPopup("ImGuiStyling");
+			if (ImGui::BeginTabItem("ImPlot")) {
+				ImPlot::ShowStyleEditor();
+				ImGui::EndTabItem();
+			}
 
-		if (ImGui::BeginPopup("ImGuiStyling"))
-		{
-			ImGui::ShowStyleEditor();
-			ImGui::EndPopup();
-		}
-
-		if (ImGui::Button("ImPlot", { 64, 0 }))
-			ImGui::OpenPopup("ImPlotStyling");
-
-		if (ImGui::BeginPopup("ImPlotStyling"))
-		{
-			ImPlot::ShowStyleEditor();
-			ImGui::EndPopup();
+			ImGui::EndTabBar();
 		}
 
 		ImGui::EndPopup();
