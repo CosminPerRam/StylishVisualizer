@@ -2,6 +2,7 @@
 #include "Program.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/ContextSettings.hpp>
 
 #include "Interface.h"
 #include "Manager.h"
@@ -24,7 +25,9 @@ void Program::update(sf::RenderWindow& window) {
 }
 
 int Program::start() {
-	sf::RenderWindow window(sf::VideoMode(1290, 720), "ImGui-Visualizer");
+	sf::ContextSettings contextSettings;
+	contextSettings.antialiasingLevel = 16;
+	sf::RenderWindow window(sf::VideoMode(1290, 720), "ImGui-Visualizer", sf::Style::Default, contextSettings);
 	window.setVerticalSyncEnabled(true);
 
 	Manager::initialize();

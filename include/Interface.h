@@ -25,6 +25,7 @@ private:
 	inline static SortingStatistics* sortingStatistics = nullptr;
 	inline static unsigned cursorPosition = 0, cursorValue = 0;
 
+	static void changedAntialiasing();
 	static void changedAlgorithm();
 	static void calculateDownsampledNumbers();
 

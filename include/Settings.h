@@ -65,4 +65,6 @@ struct Settings
 	enum class SAMPLING { NONE, X2, X4, X8, X16 };
 	inline static SAMPLING NUMBERS_DOWNSAMPLE = SAMPLING::NONE;
 	inline static bool CURSOR_DOWNSAMPLE_VALUE = true;
+
+	inline static bool ANTIALIASING = true;
 };

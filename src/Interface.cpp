@@ -44,6 +44,11 @@ void Interface::Custom::ChooseStemMarker(const char* id, int &index, ImPlotMarke
 	}
 }
 
+void Interface::changedAntialiasing() {
+	ImGui::GetStyle().AntiAliasedFill = !Settings::ANTIALIASING; 	//In imgui, setting antialiasing to false actually enables it, why?
+	ImGui::GetStyle().AntiAliasedLines = !Settings::ANTIALIASING;	//maybe a imgui-sfml problem?
+}
+
 void Interface::changedAlgorithm() {
 	sorterNumbers = Manager::Sorter->getNumbers();
 	sortingStatistics = Manager::Sorter->getStatistics();
@@ -55,8 +60,7 @@ void Interface::initialize(sf::RenderWindow& window) {
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
 
-	ImGui::GetStyle().AntiAliasedFill = true;
-	ImGui::GetStyle().AntiAliasedLines = true;
+	Interface::changedAntialiasing();
 
 	Interface::changedAlgorithm();
 
@@ -316,6 +320,10 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImGui::Checkbox("Reiterate when done", &Settings::PLOT_DO_AFTERCHECK);
 		ImGui::SameLine(); Custom::HelpMarker("Iterates the data one more time\nafter the algorithm finishes.");
 
+		if (ImGui::Checkbox("Antialiasing", &Settings::ANTIALIASING))
+			Interface::changedAntialiasing();
+		ImGui::SameLine(); Custom::HelpMarker("Antialiasing helps pixelated lines look more smooth.\nThis is most noticeable on the lines type plot.");
+
 		static int samplingIndex = 0;
 		static const std::pair<const char*, Settings::SAMPLING> samplingNames[] = { {"None", Settings::SAMPLING::NONE}, {"x2", Settings::SAMPLING::X2}, 
 			{"x4", Settings::SAMPLING::X4}, {"x8", Settings::SAMPLING::X8}, {"x16", Settings::SAMPLING::X16} };
@@ -382,9 +390,6 @@ void Interface::draw(sf::RenderWindow& window) {
 		
 		ImPlot::SetupAxes(NULL, NULL, axisFlags, axisFlags);
 
-		if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS)
-			ImPlot::SetupAxesLimits(-0.5, numbersSize - 0.5, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
-
 		if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 			ImPlot::SetupAxesLimits(0, 1, 0, 1, ImPlotCond_Always);
 
@@ -395,6 +400,8 @@ void Interface::draw(sf::RenderWindow& window) {
 			ImPlot::PopColormap();
 		}
 		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
+			ImPlot::SetupAxesLimits(-0.5, numbersSize - 0.5, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
+
 			if(Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS || Settings::PLOT_BARS_TYPE == Settings::BARS_TYPES::BARS_AND_STEMS) {
 				ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_BARS_COLOR);
 				ImPlot::PlotBars("##NumbersBars", &numbers[0], numbersSize, Settings::PLOT_BARS_NOGAP ? 1. : 0.67);
@@ -410,9 +417,12 @@ void Interface::draw(sf::RenderWindow& window) {
 			}
 		}
 		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
+			ImPlot::SetupAxesLimits(0, numbersSize - 1, 0, Settings::SHUFFLE_MAX_VALUE, ImPlotCond_Always);
+
+			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, 2.f);
 			ImPlot::PushStyleColor(ImPlotCol_Line, Settings::PLOT_LINES_COLOR);
 			ImPlot::PlotLine("##NumbersLines", &numbers[0], numbersSize);
-			ImPlot::PopStyleColor();
+			ImPlot::PopStyleColor(); ImPlot::PopStyleVar();
 
 			if (Settings::PLOT_LINES_FILLED) {
 				ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_LINES_FILLED_COLOR);
