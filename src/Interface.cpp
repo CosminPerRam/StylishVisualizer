@@ -44,6 +44,11 @@ void Interface::Custom::ChooseStemMarker(const char* id, int &index, ImPlotMarke
 	}
 }
 
+void Interface::changedAlgorithm() {
+	sorterNumbers = Manager::Sorter->getNumbers();
+	sortingStatistics = Manager::Sorter->getStatistics();
+}
+
 void Interface::initialize(sf::RenderWindow& window) {
 	ImGui::SFML::Init(window);
 
@@ -53,7 +58,9 @@ void Interface::initialize(sf::RenderWindow& window) {
 	ImGui::GetStyle().AntiAliasedFill = true;
 	ImGui::GetStyle().AntiAliasedLines = true;
 
-	static ImVec4 PlotCursorColormap[] = {{0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}; //will remove when ImPlot gets ColormapRemove feature
+	Interface::changedAlgorithm();
+
+	ImVec4 PlotCursorColormap[] = {{0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}; //will remove when ImPlot gets ColormapRemove feature
 	ImPlot::AddColormap("HeatmapCursorColormap", PlotCursorColormap, 2);
 }
 
@@ -69,8 +76,10 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::Begin("MainWindow", 0, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse);
 
 	ImGui::PushItemWidth(130);
-	if (ImGui::Combo("##Algorithm", &Manager::selectedAlgorithm, Manager::algorithmsNames, IM_ARRAYSIZE(Manager::algorithmsNames)))
+	if (ImGui::Combo("##Algorithm", &Manager::selectedAlgorithm, Manager::algorithmsNames, IM_ARRAYSIZE(Manager::algorithmsNames))) {
 		Manager::changedAlgorithm();
+		Interface::changedAlgorithm();
+	}
 	ImGui::PopItemWidth(); ImGui::SameLine();
 	Custom::HelpMarker(Manager::Sorter->getDescription()); ImGui::SameLine();
 
@@ -126,7 +135,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImGui::BeginDisabled(isRunning|| isShuffling);
 	ImGui::PushItemWidth(128);
-	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, 8, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
+	ImGui::SliderInt("##nOfElements", &Settings::SHUFFLE_CURRENT_COUNT, Settings::SHUFFLE_MIN_COUNT, Settings::SHUFFLE_MAX_COUNT, "%d elements", ImGuiSliderFlags_Logarithmic);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	if (ImGui::Button("Shuffle", { 64, 0 }))
@@ -182,7 +191,7 @@ void Interface::draw(sf::RenderWindow& window) {
 				ImGui::TextColored({1, 0, 0, 1}, "Warning! (hover over me)");
 				if (ImGui::IsItemHovered()) {
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1, 0, 0, 1));
-					ImGui::SetTooltip("ImDrawIdx is 16-bits and ImGuiBackendFlags_RendererHasVtxOffset is false.\nEnabling too many plot types at high element counts might end up in a crash\ndue to producing too many vertices, see the README for more informations.");
+					ImGui::SetTooltip("ImDrawIdx is 16-bits and ImGuiBackendFlags_RendererHasVtxOffset is false.\nHigh element counts might end up in a crash due to producing too many\nvertices, see the README for more informations.");
 					ImGui::PopStyleColor();
 				}
 			}
@@ -307,28 +316,42 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImGui::Checkbox("Reiterate when done", &Settings::PLOT_DO_AFTERCHECK);
 		ImGui::SameLine(); Custom::HelpMarker("Iterates the data one more time\nafter the algorithm finishes.");
 
+		static int samplingIndex = 0;
+		static const std::pair<const char*, Settings::SAMPLING> samplingNames[] = { {"None", Settings::SAMPLING::NONE}, {"x2", Settings::SAMPLING::X2}, 
+			{"x4", Settings::SAMPLING::X4}, {"x8", Settings::SAMPLING::X8}, {"x16", Settings::SAMPLING::X16} };
+		ImGui::PushItemWidth(80);
+		if(ImGui::SliderInt("N Downsample", &samplingIndex, 0, 4, samplingNames[samplingIndex].first)) {
+			Settings::NUMBERS_DOWNSAMPLE = samplingNames[samplingIndex].second;
+			downsamplingFactor = (unsigned)Utilities::Math::pow(2, static_cast<int>(Settings::NUMBERS_DOWNSAMPLE));
+			Interface::calculateDownsampledNumbers();
+		}
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); Custom::HelpMarker("Downsampling the numbers helps rendering performance on high element counts. Example: A factor of 16 on 16384 elements makes 1024 elements.");
+		ImGui::BeginDisabled(Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE);
+		ImGui::Checkbox("Cursor downsample value", &Settings::CURSOR_DOWNSAMPLE_VALUE);
+		ImGui::EndDisabled();
+		ImGui::SameLine(); Custom::HelpMarker("Display the cursor's value as the current value in the downsampled numbers or not.");
+
 		ImGui::EndPopup();
 	}
 	
 	ImGui::Separator();
 
-	const SortingStatistics& currentData = Manager::Sorter->getStatistics();
-
 	if (ImGui::BeginTable("table", 5, ImGuiTableFlags_BordersInnerV)) {
 		ImGui::TableNextColumn();
-		ImGui::Text("Reads: %llu", currentData.reads.load());
+		ImGui::Text("Reads: %llu", sortingStatistics->reads.load());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Writes: %llu", currentData.writes.load());
+		ImGui::Text("Writes: %llu", sortingStatistics->writes.load());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Comparisons: %llu", currentData.comparisons.load());
+		ImGui::Text("Comparisons: %llu", sortingStatistics->comparisons.load());
 
 		ImGui::TableNextColumn();
 		ImGui::Text("Visual time: %.2f s", Manager::visualTime.asSeconds());
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Real time: %.f ms", currentData.sortTimeMs.load()); ImGui::SameLine();
+		ImGui::Text("Real time: %.f ms", sortingStatistics->sortTimeMs.load()); ImGui::SameLine();
 		Custom::HelpMarker("(This is an approximation, in real use its faster)");
 
 		ImGui::EndTable();
@@ -336,7 +359,9 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	ImGui::Separator();
 
-	const std::vector<unsigned>& numbers = Manager::Sorter->getNumbers(); unsigned numbersSize = unsigned(numbers.size());
+	unsigned numbersSize = Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE ? unsigned(sorterNumbers->size()) : unsigned(downsampledNumbers.size());
+	const unsigned* numbers = Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE ? sorterNumbers->data() : downsampledNumbers.data();
+
 	float plotSizeHeight = ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40;
 
 	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
@@ -397,12 +422,10 @@ void Interface::draw(sf::RenderWindow& window) {
 		}
 
 		if(Settings::PLOT_CURSOR_SHOW) {
-			unsigned cursorPos = currentData.cursorPosition, cursorVal = currentData.cursorValue;
-
 			if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES || Settings::PLOT_TYPE == Settings::PLOT_TYPES::BARS) {
 				if (Settings::PLOT_CURSOR_ISBAR) {
 					ImPlot::PushStyleColor(ImPlotCol_Fill, Settings::PLOT_CURSOR_COLOR);
-					ImPlot::PlotBars("##Cursor", &cursorPos, &cursorVal, 1, Settings::CURSOR_LINE_WIDTH);
+					ImPlot::PlotBars("##Cursor", &cursorPosition, &cursorValue, 1, Settings::CURSOR_LINE_WIDTH);
 					ImPlot::PopStyleColor();
 				}
 				else {
@@ -411,7 +434,7 @@ void Interface::draw(sf::RenderWindow& window) {
 					ImPlot::SetNextMarkerStyle(Settings::PLOT_CURSOR_MARKER);
 					ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, Settings::CURSOR_LINE_WIDTH);
 					ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, Settings::PLOT_CURSOR_MARKER_SIZE);
-					ImPlot::PlotLine("##Cursor", &cursorPos, &cursorVal, 1);
+					ImPlot::PlotLine("##Cursor", &cursorPosition, &cursorValue, 1);
 					ImPlot::PopStyleVar(); ImPlot::PopStyleVar(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
 				}
 			}
@@ -419,20 +442,18 @@ void Interface::draw(sf::RenderWindow& window) {
 				static unsigned oldNumbersSize = numbersSize;
 				static std::vector<unsigned> cursorMap(numbersSize, 0);
 
-				if (cursorPos < numbersSize) { //to ensure the position doesnt get ahead
-					if (numbersSize != oldNumbersSize) {
-						cursorMap.resize(numbersSize, 0);
-						oldNumbersSize = numbersSize;
-					}
-
-					cursorMap[cursorPos] = 1;
-
-					ImPlot::PushColormap("HeatmapCursorColormap");
-					ImPlot::PlotHeatmap("##CursorHeatmap", &cursorMap[0], gridSize.first, gridSize.second, 0, 1, NULL);
-					ImPlot::PopColormap();
-
-					cursorMap[cursorPos] = 0;
+				if (numbersSize != oldNumbersSize) {
+					cursorMap.resize(numbersSize, 0);
+					oldNumbersSize = numbersSize;
 				}
+
+				cursorMap[cursorPosition] = 1;
+
+				ImPlot::PushColormap("HeatmapCursorColormap");
+				ImPlot::PlotHeatmap("##CursorHeatmap", &cursorMap[0], gridSize.first, gridSize.second, 0, 1, NULL);
+				ImPlot::PopColormap();
+
+				cursorMap[cursorPosition] = 0;
 			}
 		}
 
@@ -448,6 +469,38 @@ void Interface::pollEvent(sf::Event& theEvent) {
 	ImGui::SFML::ProcessEvent(theEvent);
 }
 
+void Interface::calculateDownsampledNumbers() {
+	if(Settings::NUMBERS_DOWNSAMPLE != Settings::SAMPLING::NONE) {
+		unsigned sorterNumbersSize = (unsigned)sorterNumbers->size();
+
+		Manager::Sorter->lockNumbers();
+		Utilities::Math::downsample(*sorterNumbers, downsampledNumbers, downsamplingFactor);
+		Manager::Sorter->unlockNumbers();
+
+		unsigned downsampledNumbersSize = unsigned(downsampledNumbers.size());
+
+		Settings::updateCursorLineWidthDynamically(downsampledNumbersSize);
+
+		if (downsamplingFactor <= downsampledNumbersSize)
+			cursorPosition = (unsigned)Utilities::Math::map((float)cursorPosition, 0.f, (float)sorterNumbersSize - 1, 0.f, (float)downsampledNumbersSize - 1);
+
+		if(Settings::CURSOR_DOWNSAMPLE_VALUE)
+			cursorValue = downsampledNumbers[cursorPosition];
+	}
+}
+
 void Interface::update(sf::RenderWindow& window, sf::Time diffTime) {
 	ImGui::SFML::Update(window, diffTime);
+
+	cursorPosition = sortingStatistics->cursorPosition; cursorValue = (*sorterNumbers)[cursorPosition];
+	Interface::calculateDownsampledNumbers();
+
+	if (Manager::isRunning() || Manager::isShuffling()) {
+		static unsigned oldVal = 0, oldPos = 0;
+		if (oldPos != cursorPosition || oldVal != cursorValue) {
+			oldPos = cursorPosition;
+			oldVal = cursorValue;
+			Audio::play(cursorValue);
+		}
+	}
 }

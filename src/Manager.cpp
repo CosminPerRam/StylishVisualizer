@@ -20,17 +20,6 @@ void Manager::update() {
 	if (m_isRunning && !m_isPaused)
 		visualTime += visualClock.restart();
 
-	if (!sorterFinished) {
-		auto& stats = Manager::Sorter->getStatistics();
-
-		static unsigned oldVal = 0, oldPos = 0;
-		if (oldVal != stats.cursorValue || oldPos != stats.cursorPosition) {
-			oldVal = stats.cursorValue;
-			oldPos = stats.cursorPosition;
-			Audio::play(oldVal);
-		}
-	}
-
 	visualClock.restart();
 }
 

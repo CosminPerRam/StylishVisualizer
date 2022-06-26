@@ -8,6 +8,7 @@
 struct Settings
 {
 	inline static const int SHUFFLE_MAX_VALUE = 32768;
+	inline static const int SHUFFLE_MIN_COUNT = 32;
 	inline static const int SHUFFLE_MAX_COUNT = 16384;
 
 	inline static int SHUFFLE_CURRENT_COUNT = 128;
@@ -60,4 +61,8 @@ struct Settings
 	inline static const unsigned PLOT_SINGULAR_LOOP_TIMEus = 2000000;
 
 	inline static const int PAUSE_SLEEPms = 8;
+
+	enum class SAMPLING { NONE, X2, X4, X8, X16 };
+	inline static SAMPLING NUMBERS_DOWNSAMPLE = SAMPLING::NONE;
+	inline static bool CURSOR_DOWNSAMPLE_VALUE = true;
 };

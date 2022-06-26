@@ -13,7 +13,6 @@ class Manager
 {
 private:
 	inline static bool m_isRunning = false, m_isPaused = false, m_isShuffling = false;
-
 	inline static int lastSelectedAlgorithm = 3;
 
 	inline static sf::Clock visualClock;

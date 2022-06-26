@@ -5,7 +5,7 @@ void SortingStatistics::reset() {
 	sortTimeMs = 0.f;
 	comparisons = 0; reads = 0; writes = 0;
 
-	cursorPosition = 0; cursorValue = 0;
+	cursorPosition = 0;
 }
 
 void SortingStatistics::addComparisons(const unsigned count) {

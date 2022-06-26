@@ -20,6 +20,9 @@ namespace Utilities
 	{
 		int pow(int base, int power);
 		float map(float x, float in_min, float in_max, float out_min, float out_max);
+
 		std::vector<std::pair<unsigned, unsigned>> multipliedPairs(unsigned n);
+
+		void downsample(const std::vector<unsigned>& source, std::vector<unsigned>& result, unsigned downsamplingFactor);
 	}
 }

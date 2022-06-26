@@ -2,6 +2,10 @@
 #include "Utilities.h"
 
 #include <random>
+#include <numeric>
+#include <execution>
+
+#include "Settings.h"
 
 namespace Utilities::Random {
 	int getNumberInBetween(int a, int b) {
@@ -38,5 +42,30 @@ namespace Utilities::Math {
 		}
 
 		return pairs;
+	}
+
+	void downsample(const std::vector<unsigned>& source, std::vector<unsigned>& result, unsigned downsamplingFactor)
+	{
+		unsigned src_len = unsigned(source.size());
+		if (downsamplingFactor >= src_len) { //not enough elements, fill the array with the remaining elements
+			result.resize(src_len);
+			for (unsigned i = 0; i != src_len; ++i)
+				result[i] = source[i];
+		}
+		else {
+			unsigned dest_len = (unsigned)std::ceil(src_len / downsamplingFactor);
+			if (downsamplingFactor > dest_len) {
+				dest_len = downsamplingFactor;
+				downsamplingFactor = (unsigned)std::ceil(src_len / downsamplingFactor);
+			}
+			result.resize(dest_len);
+
+			for (unsigned j = 0; j < dest_len - 1; j++)
+				result[j] = unsigned(std::reduce(std::execution::par, source.begin() + j * downsamplingFactor, source.begin() + (j + 1) * downsamplingFactor) / downsamplingFactor);
+			
+			result[dest_len - 1] = unsigned(std::reduce(source.cbegin() + (dest_len - 1) * downsamplingFactor, source.cend()) / downsamplingFactor);
+			if (result[dest_len - 1] > Settings::SHUFFLE_MAX_VALUE)
+				result[dest_len - 1] = Settings::SHUFFLE_MAX_VALUE;
+		}
 	}
 }

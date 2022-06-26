@@ -7,7 +7,7 @@ struct SortingStatistics
 	std::atomic<float> sortTimeMs = 0.f;
 	std::atomic<unsigned long long> comparisons = 0, reads = 0, writes = 0;
 
-	std::atomic<unsigned> cursorPosition = 0, cursorValue = 0;
+	std::atomic<unsigned> cursorPosition = 0;
 
 	void reset();
 

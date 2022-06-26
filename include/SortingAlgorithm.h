@@ -4,6 +4,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <mutex>
 
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
@@ -32,6 +33,7 @@ class SortingAlgorithm
 protected:
 	SortingStatistics stats;
 
+	inline static std::mutex numbersMutex;
 	inline static std::vector<unsigned> numbers;
 
 	sf::Clock theClock;
@@ -62,7 +64,11 @@ public:
 
 	bool isFinished();
 	bool isShuffling();
-	const std::vector<unsigned>& getNumbers();
-	const SortingStatistics& getStatistics();
+
+	std::vector<unsigned>* getNumbers();
+	void lockNumbers();
+	void unlockNumbers();
+	
+	SortingStatistics* getStatistics();
 	virtual const char* getDescription() = 0;
 };

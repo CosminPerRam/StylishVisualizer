@@ -31,9 +31,12 @@ Check the [releases](https://github.com/CosminPerRam/ImGui-Visualizer/releases) 
 
 ## Building the repository
 Windows/Linux/MacOS:  
-Every dependency is handled by the cmake script (THANKS [@ChrisTrasher](https://github.com/ChrisThrasher)).  
 ```
 cmake -B build
 cmake --build build --config Release
 ```
+*Note:* Every dependency is handled by cmake.  
 *Windows note:* After building, you need to copy `openal32.dll` (it's at `build\_deps\sfml-src\extlibs\bin\`) to the `sorting-visualizer.exe`'s directory.
+
+## Special thanks
+[@ChrisTrasher](https://github.com/ChrisThrasher) - for the cmake script, CI script and testing.

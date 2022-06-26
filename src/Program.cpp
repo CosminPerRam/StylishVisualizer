@@ -27,8 +27,8 @@ int Program::start() {
 	sf::RenderWindow window(sf::VideoMode(1290, 720), "ImGui-Visualizer");
 	window.setVerticalSyncEnabled(true);
 
-	Interface::initialize(window);
 	Manager::initialize();
+	Interface::initialize(window);
 	Audio::initialize();
 
 	while (window.isOpen()) {

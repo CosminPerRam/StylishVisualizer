@@ -23,11 +23,11 @@ void SortingAlgorithm::doFinisherLoop() {
 
 void SortingAlgorithm::putCursorAt(unsigned position, int withOffset) {
 	stats.cursorPosition = position;
-
-	if(withOffset)
-		stats.cursorValue = numbers[position + withOffset];
-	else
-		stats.cursorValue = numbers[position];
+	
+	if(withOffset) {
+		if(stats.cursorPosition > 0 && withOffset > -1)
+			stats.cursorPosition -= withOffset;
+	}
 }
 
 void SortingAlgorithm::reset() {
@@ -102,12 +102,20 @@ bool SortingAlgorithm::isShuffling() {
 	return m_shuffling; 
 }
 
-const std::vector<unsigned>& SortingAlgorithm::getNumbers() {
-	return numbers; 
+std::vector<unsigned>* SortingAlgorithm::getNumbers() {
+	return &numbers; 
 }
 
-const SortingStatistics& SortingAlgorithm::getStatistics() {
-	return stats; 
+void SortingAlgorithm::lockNumbers() {
+	numbersMutex.lock();
+}
+
+void SortingAlgorithm::unlockNumbers() {
+	numbersMutex.unlock();
+}
+
+SortingStatistics* SortingAlgorithm::getStatistics() {
+	return &stats; 
 }
 
 void SortingAlgorithm::animatedShuffle() {
@@ -119,7 +127,7 @@ void SortingAlgorithm::animatedShuffle() {
 		delayUs = sf::microseconds(Settings::PLOT_SINGULAR_LOOP_TIMEus / oldSize);
 
 		for(int i = oldSize; i > Settings::SHUFFLE_CURRENT_COUNT; i--) {
-			numbers.pop_back();
+			lockNumbers(); numbers.pop_back(); unlockNumbers();
 			sf::sleep(delayUs);
 			DO_SHUFFLE_CHECKEXIT;
 		}
@@ -141,7 +149,7 @@ void SortingAlgorithm::animatedShuffle() {
 		}
 
 		for (int i = oldSize; i < Settings::SHUFFLE_CURRENT_COUNT; i++) {
-			numbers.emplace_back(Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE));
+			lockNumbers(); numbers.emplace_back(Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE)); unlockNumbers();
 			putCursorAt(i);
 			sf::sleep(delayUs);
 			DO_SHUFFLE_CHECKEXIT; DO_SHUFFLE_UPDATE_CURSOR(i);
