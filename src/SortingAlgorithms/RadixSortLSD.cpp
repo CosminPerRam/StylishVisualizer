@@ -21,18 +21,19 @@ void RadixSortLSD::sorter() {
         for (unsigned j = 0; j < n; j++) {
             DO_PUT_CURSOR_AT(j);
             unsigned temp = numbers[j] % m;
-            unsigned index = temp / p;
-            pocket[index].push_back(numbers[j]);
+            pocket[temp / p].emplace_back(numbers[j]);
+            stats.addAssigments(2);
+
+            DO_CHECKSTEP;
         }
-        stats.addAssigments(n);
 
         unsigned count = 0;
         for (unsigned j = 0; j < 10; j++) {
             while (!pocket[j].empty()) {
-                numbers[count] = *(pocket[j].begin());
-                DO_PUT_CURSOR_AT(count);
+                numbers[count] = pocket[j].front();
                 stats.addAssigments();
-                pocket[j].erase(pocket[j].begin());
+                DO_PUT_CURSOR_AT(count);
+                pocket[j].pop_front();
                 count++;
 
                 DO_CHECKSTEP;

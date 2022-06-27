@@ -11,9 +11,10 @@ void InsertionSort::sorter() {
     for (int i = 1; i < n; i++)
     {
         key = numbers[i];
+        stats.addAssigments();
         j = i - 1;
 
-        stats.addReads(2);
+        stats.addComparisons();
         while (j >= 0 && numbers[j] > key)
         {
             stats.addAssigments();

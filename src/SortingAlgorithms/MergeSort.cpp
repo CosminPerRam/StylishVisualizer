@@ -10,14 +10,11 @@ void MergeSort::merge(const int l, const int m, const int r)
 
     std::vector<unsigned> L(n1), R(n2);
 
-    for (int i = 0; i < n1; i++) {
-        DO_PUT_CURSOR_AT(i);
+    for (int i = 0; i < n1; i++)
         L[i] = numbers[l + i];
-    }
-    for (int j = 0; j < n2; j++) {
-        DO_PUT_CURSOR_AT(j);
+
+    for (int j = 0; j < n2; j++)
         R[j] = numbers[m + 1 + j];
-    }
 
     stats.addAssigments(n1 + n2);
 
@@ -25,28 +22,20 @@ void MergeSort::merge(const int l, const int m, const int r)
 
     while (i < n1 && j < n2) {
         stats.addComparisons();
+        if (L[i] <= R[j])
+            numbers[k] = L[i++];
+        else
+            numbers[k] = R[j++];
         stats.addAssigments();
 
-        if (L[i] <= R[j]) {
-            numbers[k] = L[i];
-            i++;
-        }
-        else {
-            numbers[k] = R[j];
-            j++;
-        }
-
-        DO_PUT_CURSOR_AT(k);
-
-        k++;
-
+        DO_PUT_CURSOR_AT(k++);
         DO_CHECKSTEP;
     }
 
     while (i < n1) {
         numbers[k] = L[i];
-        DO_PUT_CURSOR_AT(k);
         stats.addAssigments();
+        DO_PUT_CURSOR_AT(k);
         i++;
         k++;
 
@@ -55,8 +44,8 @@ void MergeSort::merge(const int l, const int m, const int r)
 
     while (j < n2) {
         numbers[k] = R[j];
-        DO_PUT_CURSOR_AT(k);
         stats.addAssigments();
+        DO_PUT_CURSOR_AT(k);
         j++;
         k++;
 

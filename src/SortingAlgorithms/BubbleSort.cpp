@@ -7,9 +7,9 @@ void BubbleSort::sorter() {
     const int n = int(numbers.size());
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
-            stats.addComparisons();
             DO_PUT_CURSOR_AT_WITH_BACKWARDS(j + 1);
 
+            stats.addComparisons();
             if (numbers[j] > numbers[j + 1]) {
                 std::swap(numbers[j], numbers[j + 1]);
 

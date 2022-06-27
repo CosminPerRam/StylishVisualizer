@@ -14,6 +14,7 @@ void StalinSort::sorter() {
             i++;
         else {
             numbers.erase(numbers.begin() + i + 1);
+            stats.addReads();
             Settings::updateCursorLineWidthDynamically(unsigned(numbers.size()));
         }
 

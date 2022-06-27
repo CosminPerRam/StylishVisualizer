@@ -14,12 +14,10 @@ void ShellSort::sorter() {
 
             int j;
             for (j = i; j >= gap && numbers[j - gap] > temp; j -= gap) {
-                numbers[j] = numbers[j - gap];
-                DO_PUT_CURSOR_AT(j);
-
                 stats.addComparisons();
                 stats.addAssigments();
-                
+                numbers[j] = numbers[j - gap];
+                DO_PUT_CURSOR_AT(j);
                 DO_CHECKSTEP;
             }
 

@@ -8,14 +8,11 @@
 
 #define RADIX 256
 
-int digit_at(int x, int d)
-{
-    return (x / Utilities::Math::pow(10, d - 1)) % 10;
-}
-
 short int getByte(unsigned int elem, unsigned int i) {
-    if (sizeof(elem) > i) { return (elem >> ((3 - i) * 8) & (255)); }
-    else return -1;
+    if (sizeof(elem) > i) 
+        return (elem >> ((3 - i) * 8) & (255));
+    else 
+        return -1;
 }
 
 void RadixSortMSD::MSDRadixSort(int low, int high, int digit) {
@@ -27,18 +24,25 @@ void RadixSortMSD::MSDRadixSort(int low, int high, int digit) {
         counter[getByte(numbers[i], digit) + 2]++;
         DO_PUT_CURSOR_AT(i);
     }
-    if(high > low)
+    if(high > low) {
         stats.addReads(high - low);
+        stats.addAssigments(high - low);
+    }
 
     for (int r = 0; r < RADIX + 1; ++r)
         counter[r + 1] += counter[r];
+
+    stats.addReads(RADIX);
+    stats.addAssigments();
 
     for (int i = low; i < high; ++i) {
         tabAux[counter[getByte(numbers[i], digit) + 1]++] = numbers[i];
         DO_PUT_CURSOR_AT(i);
     }
-    if (high > low)
+    if (high > low) {
         stats.addReads((high - low) * 2);
+        stats.addAssigments(high - low);
+    }
 
     for (int i = low; i < high; ++i) {
         numbers[i] = tabAux[i - low];
@@ -48,8 +52,10 @@ void RadixSortMSD::MSDRadixSort(int low, int high, int digit) {
     }
 
     for (int r = 0; r < RADIX + 1; ++r) {
-        if (counter[r] < counter[r + 1])
+        if (counter[r] < counter[r + 1]) {
+            stats.addReads(2);
             MSDRadixSort(low + counter[r], low + counter[r + 1], digit + 1);
+        }
     }
 
     DO_CHECKSTEP;

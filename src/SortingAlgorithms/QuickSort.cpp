@@ -27,7 +27,6 @@ void QuickSort::sorter()
             if (numbers[j] <= x) {
                 i++;
                 std::swap(numbers[i], numbers[j]);
-
                 stats.addSwaps();
             }
 
@@ -35,7 +34,6 @@ void QuickSort::sorter()
             DO_CHECKSTEP;
         }
         std::swap(numbers[i + 1], numbers[h]);
-
         stats.addSwaps();
 
         const int p = i + 1;
