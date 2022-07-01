@@ -331,7 +331,7 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImGui::BeginDisabled(Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE);
 		ImGui::Checkbox("Cursor downsample value", &Settings::CURSOR_DOWNSAMPLE_VALUE);
 		ImGui::EndDisabled();
-		ImGui::SameLine(); Custom::HelpMarker("Display the cursor's value as the current value in the downsampled numbers or not.");
+		ImGui::SameLine(); Custom::HelpMarker("Display the cursor's value as the current value in the downsampled numbers.");
 
 		ImGui::EndPopup();
 	}
@@ -341,6 +341,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	if (ImGui::BeginTable("table", 5, ImGuiTableFlags_BordersInnerV)) {
 		ImGui::TableNextColumn();
 		ImGui::Text("Reads: %llu", sortingStatistics->reads.load());
+		ImGui::SameLine(); Custom::HelpMarker("Realistically the counts are higher.");
 
 		ImGui::TableNextColumn();
 		ImGui::Text("Writes: %llu", sortingStatistics->writes.load());
@@ -350,10 +351,11 @@ void Interface::draw(sf::RenderWindow& window) {
 
 		ImGui::TableNextColumn();
 		ImGui::Text("Visual time: %.2f s", Manager::visualTime.asSeconds());
+		ImGui::SameLine(); Custom::HelpMarker("Time since the visualization started.");
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Real time: %.f ms", sortingStatistics->sortTimeMs.load()); ImGui::SameLine();
-		Custom::HelpMarker("(This is an approximation, in real use its faster)");
+		ImGui::Text("Real time: %.f ms", sortingStatistics->sortTimeMs.load()); 
+		ImGui::SameLine(); Custom::HelpMarker("(This is an approximation, in real use its faster)");
 
 		ImGui::EndTable();
 	}

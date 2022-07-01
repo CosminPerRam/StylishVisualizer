@@ -48,5 +48,5 @@ void BitonicSort::sorter() {
 }
 
 const char* BitonicSort::getDescription() {
-    return "Bitonic sort is a comparison-based sorting algorithm that can be run in parallel. It focuses on converting a random sequence of numbers into a bitonic sequence, one that monotonically increases, then decreases. Not running paralleled.";
+    return "Bitonic sort is a comparison-based sorting algorithm that can be run in parallel. It focuses on converting a random sequence of numbers into a bitonic sequence, one that monotonically increases, then decreases.\nNote: the number of elements to sort must be a 2^n number.";
 }
