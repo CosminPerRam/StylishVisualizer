@@ -324,7 +324,6 @@ void Interface::draw(sf::RenderWindow& window) {
 		if(ImGui::SliderInt("N Downsample", &samplingIndex, 0, 4, samplingNames[samplingIndex].first)) {
 			Settings::NUMBERS_DOWNSAMPLE = samplingNames[samplingIndex].second;
 			downsamplingFactor = (unsigned)Utilities::Math::pow(2, static_cast<int>(Settings::NUMBERS_DOWNSAMPLE));
-			Interface::calculateDownsampledNumbers();
 		}
 		ImGui::PopItemWidth();
 		ImGui::SameLine(); Custom::HelpMarker("Downsampling the numbers helps rendering performance on high element counts. Example: A factor of 16 on 16384 elements makes 1024 elements.");
@@ -474,31 +473,27 @@ void Interface::pollEvent(sf::Event& theEvent) {
 	ImGui::SFML::ProcessEvent(theEvent);
 }
 
-void Interface::calculateDownsampledNumbers() {
-	if(Settings::NUMBERS_DOWNSAMPLE != Settings::SAMPLING::NONE) {
-		unsigned sorterNumbersSize = (unsigned)sorterNumbers->size();
+void Interface::update(sf::RenderWindow& window, sf::Time diffTime) {
+	ImGui::SFML::Update(window, diffTime);
 
+	unsigned sorterNumbersSize = (unsigned)sorterNumbers->size();
+
+	cursorPosition = sortingStatistics->cursorPosition;
+	if (Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE) {
+		if (cursorPosition >= sorterNumbersSize)
+			cursorPosition = sorterNumbersSize - 1;
+
+		cursorValue = (*sorterNumbers)[cursorPosition];
+	}
+	else {
 		Manager::Sorter->lockNumbers();
 		Utilities::Math::downsample(*sorterNumbers, downsampledNumbers, downsamplingFactor);
 		Manager::Sorter->unlockNumbers();
 
 		unsigned downsampledNumbersSize = unsigned(downsampledNumbers.size());
-
-		Settings::updateCursorLineWidthDynamically(downsampledNumbersSize);
-
-		if (downsamplingFactor <= downsampledNumbersSize)
-			cursorPosition = (unsigned)Utilities::Math::map((float)cursorPosition, 0.f, (float)sorterNumbersSize - 1, 0.f, (float)downsampledNumbersSize - 1);
-
-		if(Settings::CURSOR_DOWNSAMPLE_VALUE)
-			cursorValue = downsampledNumbers[cursorPosition];
+		cursorPosition = (unsigned)Utilities::Math::map((float)cursorPosition, 0.f, (float)sorterNumbersSize - 1, 0.f, (float)downsampledNumbersSize - 1);
+		cursorValue = downsampledNumbers[cursorPosition];
 	}
-}
-
-void Interface::update(sf::RenderWindow& window, sf::Time diffTime) {
-	ImGui::SFML::Update(window, diffTime);
-
-	cursorPosition = sortingStatistics->cursorPosition; cursorValue = (*sorterNumbers)[cursorPosition];
-	Interface::calculateDownsampledNumbers();
 
 	if (Manager::isRunning() || Manager::isShuffling()) {
 		static unsigned oldVal = 0, oldPos = 0;

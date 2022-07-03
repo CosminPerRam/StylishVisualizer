@@ -27,7 +27,6 @@ private:
 
 	static void changedAntialiasing();
 	static void changedAlgorithm();
-	static void calculateDownsampledNumbers();
 
 public:
 	static void initialize(sf::RenderWindow& window);

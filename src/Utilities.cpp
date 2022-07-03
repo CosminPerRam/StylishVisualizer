@@ -26,6 +26,11 @@ namespace Utilities::Math {
 	}
 
 	float map(float x, float in_min, float in_max, float out_min, float out_max) {
+		if (x > in_max)
+			return out_max;
+		else if (x < in_min)
+			return out_min;
+
 		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 	}
 
@@ -62,9 +67,8 @@ namespace Utilities::Math {
 			for (unsigned j = 0; j < dest_len - 1; j++)
 				result[j] = unsigned(std::accumulate(source.begin() + j * downsamplingFactor, source.begin() + (j + 1) * downsamplingFactor, 0u) / downsamplingFactor);
 			
-			result[dest_len - 1] = unsigned(std::accumulate(source.begin() + (dest_len - 1) * downsamplingFactor, source.end(), 0u) / downsamplingFactor);
-			if (result[dest_len - 1] > Settings::SHUFFLE_MAX_VALUE)
-				result[dest_len - 1] = Settings::SHUFFLE_MAX_VALUE;
+			unsigned dividingFactor = src_len - (dest_len - 1) * downsamplingFactor; //get the count of the remaining numbers
+			result[dest_len - 1] = unsigned(std::accumulate(source.begin() + (dest_len - 1) * downsamplingFactor, source.end(), 0u) / dividingFactor);
 		}
 	}
 }
