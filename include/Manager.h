@@ -20,8 +20,8 @@ private:
 public:
 	inline static SortingAlgorithm *Sorter = nullptr;
 
-	inline static const char* algorithmsNames[] = { "BitonicSort", "BogoSort", "BubbleSort", "CocktailSort", "CombSort", "GnomeSort",
-		"HeapSort", "InsertionSort", "MergeSort", "QuickSort", "RadixSort (LSD)", "RadixSort (MSD)", "SelectionSort", "ShellSort", "StalinSort" };
+	inline static const char* algorithmsNames[] = { "BitonicSort", "BogoSort", "BubbleSort", "CocktailSort", "CombSort", "GnomeSort", "HeapSort", "InsertionSort", 
+		"MergeSort", "PancakeSort", "QuickSort", "RadixSort (LSD)", "RadixSort (MSD)", "SelectionSort", "ShellSort", "StalinSort" };
 	inline static int selectedAlgorithm = 3;
 
 	inline static std::atomic<float> delayMs = 10.f;

@@ -18,7 +18,8 @@ Has the following sorting algorithms (15):
 [Selection Sort](https://en.wikipedia.org/wiki/Selection_sort),
 [Gnome Sort](https://en.wikipedia.org/wiki/Gnome_sort),
 [Heap Sort](https://www.geeksforgeeks.org/heap-sort),
-[Bitonic Sort](https://en.wikipedia.org/wiki/Bitonic_sorter)
+[Bitonic Sort](https://en.wikipedia.org/wiki/Bitonic_sorter),
+[Pancake Sort](https://en.wikipedia.org/wiki/Pancake_sorting)
 
 And you can:
 - Stop, pause and step through sorting

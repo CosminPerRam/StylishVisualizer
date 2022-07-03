@@ -491,6 +491,7 @@ void Interface::update(sf::RenderWindow& window, sf::Time diffTime) {
 		Manager::Sorter->unlockNumbers();
 
 		unsigned downsampledNumbersSize = unsigned(downsampledNumbers.size());
+		Settings::updateCursorLineWidthDynamically(downsampledNumbersSize - 1);
 		cursorPosition = (unsigned)Utilities::Math::map((float)cursorPosition, 0.f, (float)sorterNumbersSize - 1, 0.f, (float)downsampledNumbersSize - 1);
 		cursorValue = downsampledNumbers[cursorPosition];
 	}

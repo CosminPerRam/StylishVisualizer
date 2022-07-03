@@ -16,3 +16,4 @@
 #include "SortingAlgorithms/GnomeSort.h"
 #include "SortingAlgorithms/HeapSort.h"
 #include "SortingAlgorithms/BitonicSort.h"
+#include "SortingAlgorithms/PancakeSort.h"

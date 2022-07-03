@@ -14,6 +14,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     add_compile_options(/WX /W3 /permissive-)
+    add_compile_options(/MP)
 endif()
 
 find_package(Threads REQUIRED)
@@ -37,6 +38,7 @@ add_executable(sorting-visualizer
     src/SortingAlgorithms/HeapSort.cpp
     src/SortingAlgorithms/InsertionSort.cpp
     src/SortingAlgorithms/MergeSort.cpp
+    src/SortingAlgorithms/PancakeSort.cpp
     src/SortingAlgorithms/QuickSort.cpp
     src/SortingAlgorithms/RadixSortLSD.cpp
     src/SortingAlgorithms/RadixSortMSD.cpp

@@ -112,16 +112,18 @@ void Manager::changedAlgorithm() {
 	else if (selectedAlgorithm == 8)
 		Sorter = new MergeSort();
 	else if (selectedAlgorithm == 9)
+		Sorter = new PancakeSort();
+	else if (selectedAlgorithm == 8)
 		Sorter = new QuickSort();
-	else if (selectedAlgorithm == 10)
-		Sorter = new RadixSortLSD();
 	else if (selectedAlgorithm == 11)
-		Sorter = new RadixSortMSD();
+		Sorter = new RadixSortLSD();
 	else if (selectedAlgorithm == 12)
-		Sorter = new SelectionSort();
+		Sorter = new RadixSortMSD();
 	else if (selectedAlgorithm == 13)
-		Sorter = new ShellSort();
+		Sorter = new SelectionSort();
 	else if (selectedAlgorithm == 14)
+		Sorter = new ShellSort();
+	else if (selectedAlgorithm == 15)
 		Sorter = new StalinSort();
 
 	if(Settings::PLOT_SHUFFLE_ON_ALGO_CHANGE)

@@ -167,6 +167,7 @@ void SortingAlgorithm::shuffle() {
 		for (int i = 0; i < Settings::SHUFFLE_CURRENT_COUNT; i++)
 			numbers[i] = Utilities::Random::getNumberInBetween(0, Settings::SHUFFLE_MAX_VALUE);
 
+		DO_SHUFFLE_UPDATE_CURSOR(Settings::SHUFFLE_CURRENT_COUNT);
 		m_shuffling = false;
 	}
 }
