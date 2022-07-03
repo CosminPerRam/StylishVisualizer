@@ -113,7 +113,7 @@ void Manager::changedAlgorithm() {
 		Sorter = new MergeSort();
 	else if (selectedAlgorithm == 9)
 		Sorter = new PancakeSort();
-	else if (selectedAlgorithm == 8)
+	else if (selectedAlgorithm == 10)
 		Sorter = new QuickSort();
 	else if (selectedAlgorithm == 11)
 		Sorter = new RadixSortLSD();
