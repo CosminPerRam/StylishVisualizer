@@ -1,4 +1,4 @@
-# ImGui-Visualizer
+# StylishVisualizer
 This is a program which visualizes a bunch of [sorting algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm).  
 Made in C++17 using [SFML](https://github.com/SFML/SFML) 2.6.X, [ImGui](https://github.com/ocornut/imgui) 1.88 (+[imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 2.5) and [ImPlot](https://github.com/epezent/implot) 0.14, the code is cross platform!  
 See a video of the program in action [here](https://www.youtube.com/watch?v=IISj6aj4E6o).
@@ -28,7 +28,7 @@ And you can:
 - Change the plot or the ui's styling
 
 ## Precompiled binaries
-Check the [releases](https://github.com/CosminPerRam/ImGui-Visualizer/releases) page.
+Check the [releases](https://github.com/CosminPerRam/StylishVisualizer/releases) page.
 
 ## Building the repository
 Windows/Linux/MacOS:  
