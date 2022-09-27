@@ -366,7 +366,7 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	float plotSizeHeight = ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40;
 
-	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
+	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoSideSwitch | ImPlotAxisFlags_NoHighlight;
 	if(Settings::PLOT_SHOW_SCALE && Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 		axisFlags += ImPlotAxisFlags_Invert;
 
