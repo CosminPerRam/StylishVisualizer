@@ -366,12 +366,10 @@ void Interface::draw(sf::RenderWindow& window) {
 
 	float plotSizeHeight = ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40;
 
-	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines;
+	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoSideSwitch | ImPlotAxisFlags_NoHighlight;
 	if(Settings::PLOT_SHOW_SCALE && Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
-		axisFlags += ImPlotAxisFlags_Invert;
-
 		ImPlot::PushColormap(Settings::PLOT_HEATMAP_COLORS);
-		ImPlot::ColormapScale("##ColormapScale", 0, Settings::SHUFFLE_MAX_VALUE, {0, plotSizeHeight});
+		ImPlot::ColormapScale("##ColormapScale", Settings::SHUFFLE_MAX_VALUE, 0, {0, plotSizeHeight}, "%g", ImPlotColormapScaleFlags_Invert);
 		ImPlot::PopColormap();
 		ImGui::SameLine();
 	}

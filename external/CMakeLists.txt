@@ -25,7 +25,7 @@ FetchContent_MakeAvailable(ImGui-SFML)
 
 FetchContent_Declare(ImPlot
     GIT_REPOSITORY https://github.com/epezent/implot
-    GIT_TAG 63d5ed94b77acdf73201a00074bfd80467f50f0a
+    GIT_TAG v0.14
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImPlot)
 
