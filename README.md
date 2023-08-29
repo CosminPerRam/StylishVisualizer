@@ -1,10 +1,15 @@
 # StylishVisualizer
 This is a program which visualizes a bunch of [sorting algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm).  
-Made in C++17 using [SFML](https://github.com/SFML/SFML) 2.6.0, [ImGui](https://github.com/ocornut/imgui) 1.88 (+[imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 2.6) and [ImPlot](https://github.com/epezent/implot) 0.16, the code is cross platform!  
-See a video of the program in action [here](https://www.youtube.com/watch?v=IISj6aj4E6o) or a more fun one [here](https://www.youtube.com/watch?v=UJPxN8VMNUY).
+Made in C++17 using [SFML](https://github.com/SFML/SFML) 2.6.0, [ImGui](https://github.com/ocornut/imgui) 1.88 (+[imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 2.6) and [ImPlot](https://github.com/epezent/implot) 0.16, the code is completely cross platform (checkout the [releases](https://github.com/CosminPerRam/StylishVisualizer/releases) page)!  
+
+![Default Interface](.github/readme/interface_default.png)
+![Sorting ](.github/readme/sorters_variety.jpg)
+See a video of the (pretty much latest) version ([v1.1.0](https://github.com/CosminPerRam/StylishVisualizer/releases/tag/1.1.0)) [here](https://www.youtube.com/watch?v=UJPxN8VMNUY).
+
+Or do you want to see the older version ([v1.0.0](https://github.com/CosminPerRam/StylishVisualizer/releases/tag/1.0.0))? It's [here](https://www.youtube.com/watch?v=IISj6aj4E6o).
 
 ## Capabilities
-Has the following sorting algorithms (15):  
+Has the following sorting algorithms implemented out of the box (there are 15 of them):  
 [Bubble Sort](https://en.wikipedia.org/wiki/Bubble_sort),
 [Cocktail Sort](https://en.wikipedia.org/wiki/Cocktail_shaker_sort),
 [Merge Sort](https://en.wikipedia.org/wiki/Merge_sort),
@@ -22,13 +27,10 @@ Has the following sorting algorithms (15):
 [Pancake Sort](https://en.wikipedia.org/wiki/Pancake_sorting)
 
 And you can:
-- Stop, pause and step through sorting
-- Change the delay (or have none, *boo BubbleSort, boooo*)
-- Change the volume of the audio representation and tweak its effects
-- Change the plot or the ui's styling
-
-## Precompiled binaries
-Check the [releases](https://github.com/CosminPerRam/StylishVisualizer/releases) page.
+- Stop, pause and step through sorting.
+- Increase/decrease the delay time (or have none, *boo BubbleSort, boooo*).
+- Change the volume of the audio representation and tweak its effects.
+- Personalize the plot (with 3 types) or the ui's styling.
 
 ## Building the repository
 Windows/Linux/MacOS:  
