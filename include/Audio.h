@@ -14,7 +14,7 @@ private:
 
 public:
 	inline static bool enabled = true;
-	inline static float volume = 30;
+	inline static float volume = 10;
 
 	static void initialize();
 
