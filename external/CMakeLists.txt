@@ -4,7 +4,7 @@ Set(FETCHCONTENT_QUIET FALSE)
 
 FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.0
+    GIT_TAG 2.6.1
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(SFML)
 
