@@ -1,6 +1,6 @@
 # StylishVisualizer
 This is a program which visualizes a bunch of [sorting algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm).  
-Made in C++17 using [SFML](https://github.com/SFML/SFML) 2.6.0, [ImGui](https://github.com/ocornut/imgui) 1.88 (+[imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 2.6) and [ImPlot](https://github.com/epezent/implot) 0.16, the code is completely cross platform (checkout the [releases](https://github.com/CosminPerRam/StylishVisualizer/releases) page)!  
+Made in C++17 using [SFML](https://github.com/SFML/SFML) 2.6.1, [ImGui](https://github.com/ocornut/imgui) 1.88 (+[imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 2.6) and [ImPlot](https://github.com/epezent/implot) 0.16, the code is completely cross platform (checkout the [releases](https://github.com/CosminPerRam/StylishVisualizer/releases) page)!  
 
 ![Default Interface](.github/readme/interface_default.png)
 ![Sorting ](.github/readme/sorters_variety.jpg)
