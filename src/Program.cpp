@@ -13,8 +13,8 @@ void Program::draw(sf::RenderWindow& window) {
 	Interface::draw(window);
 }
 
-void Program::pollEvent(sf::Event& theEvent) {
-	Interface::pollEvent(theEvent);
+void Program::pollEvent(sf::RenderWindow& window, sf::Event& theEvent) {
+	Interface::pollEvent(window, theEvent);
 }
 
 void Program::update(sf::RenderWindow& window) {
@@ -26,8 +26,8 @@ void Program::update(sf::RenderWindow& window) {
 
 int Program::start() {
 	sf::ContextSettings contextSettings;
-	contextSettings.antialiasingLevel = 16;
-	sf::RenderWindow window(sf::VideoMode(1290, 720), "ImGui-Visualizer", sf::Style::Default, contextSettings);
+	contextSettings.antiAliasingLevel = 16;
+	sf::RenderWindow window(sf::VideoMode(sf::Vector2u(1290, 720)), "ImGui-Visualizer", sf::Style::Default, sf::State::Windowed, contextSettings);
 	window.setVerticalSyncEnabled(true);
 
 	Manager::initialize();
@@ -35,15 +35,17 @@ int Program::start() {
 	Audio::initialize();
 
 	while (window.isOpen()) {
-		sf::Event theEvent;
-		while (window.pollEvent(theEvent)) {
-			if (theEvent.type == sf::Event::Closed) {
-				Interface::shutdown();
-				window.close();
-				return 0;
-			}
+		while (const std::optional mightEvent = window.pollEvent()) {
+			if (mightEvent) {
+				sf::Event theEvent = mightEvent.value();
+				if (theEvent.is<sf::Event::Closed>()) {
+					Interface::shutdown();
+					window.close();
+					return 0;
+				}
 
-			Program::pollEvent(theEvent);
+				Program::pollEvent(window, theEvent);
+			}
 		}
 
 		Program::update(window);

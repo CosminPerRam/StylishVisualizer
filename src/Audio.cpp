@@ -9,7 +9,7 @@
 constexpr auto TWOPI = 6.283185307f;
 
 sf::Sound& Audio::sound() {
-	static sf::Sound theSound;
+	static sf::Sound theSound(Audio::buffer());
 	return theSound;
 }
 
@@ -60,7 +60,7 @@ void Audio::play(unsigned value) {
 	}
 
 	sound().stop();
-	buffer().loadFromSamples(&samples[0], 44100, 1, 44100);
+	bool might = buffer().loadFromSamples(&samples[0], 44100, 1, 44100, std::vector{sf::SoundChannel::FrontCenter});
 	sound().setPitch(pitch);
 	sound().play();
 }

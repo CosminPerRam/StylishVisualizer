@@ -55,7 +55,7 @@ void Interface::changedAlgorithm() {
 }
 
 void Interface::initialize(sf::RenderWindow& window) {
-	ImGui::SFML::Init(window);
+	bool might = ImGui::SFML::Init(window);
 
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
@@ -364,7 +364,7 @@ void Interface::draw(sf::RenderWindow& window) {
 	unsigned numbersSize = Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE ? unsigned(sorterNumbers->size()) : unsigned(downsampledNumbers.size());
 	const unsigned* numbers = Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE ? sorterNumbers->data() : downsampledNumbers.data();
 
-	float plotSizeHeight = ImGui::GetWindowContentRegionMax().y - ImGui::GetTextLineHeightWithSpacing() - 40;
+	float plotSizeHeight = ImGui::GetContentRegionAvail().y - ImGui::GetTextLineHeightWithSpacing() - 40;
 
 	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoSideSwitch | ImPlotAxisFlags_NoHighlight;
 	if(Settings::PLOT_SHOW_SCALE && Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
@@ -467,8 +467,8 @@ void Interface::draw(sf::RenderWindow& window) {
 	ImGui::SFML::Render(window);
 }
 
-void Interface::pollEvent(sf::Event& theEvent) {
-	ImGui::SFML::ProcessEvent(theEvent);
+void Interface::pollEvent(sf::RenderWindow& window, sf::Event& theEvent) {
+	ImGui::SFML::ProcessEvent(window, theEvent);
 }
 
 void Interface::update(sf::RenderWindow& window, sf::Time diffTime) {
