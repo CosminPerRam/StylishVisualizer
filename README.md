@@ -1,6 +1,6 @@
 # StylishVisualizer
 This is a program which visualizes a bunch of [sorting algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm).  
-Made in C++17 using [SFML](https://github.com/SFML/SFML) 2.6.1, [ImGui](https://github.com/ocornut/imgui) 1.88 (+[imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 2.6) and [ImPlot](https://github.com/epezent/implot) 0.16, the code is completely cross platform (checkout the [releases](https://github.com/CosminPerRam/StylishVisualizer/releases) page)!  
+Made in C++17 using [SFML](https://github.com/SFML/SFML) 3.0.0, [ImGui](https://github.com/ocornut/imgui) 1.91.1 (+[imgui-sfml](https://github.com/eliasdaler/imgui-sfml) 3.0) and [ImPlot](https://github.com/epezent/implot) (`master`), the code is completely cross platform!  
 
 ![Default Interface](.github/readme/interface_default.png)
 ![Sorting ](.github/readme/sorters_variety.jpg)
@@ -39,7 +39,7 @@ cmake -B build
 cmake --build build --config Release
 ```
 *Note:* Every dependency is handled by cmake.  
-*Windows note:* After building, you need to copy `openal32.dll` (it's at `build\_deps\sfml-src\extlibs\bin\`) to the `sorting-visualizer.exe`'s directory.
+*Linux note:* Additional system dependencies are needed for SFML, check [the docs](https://www.sfml-dev.org/tutorials/3.0/getting-started/build-from-source/#introduction) or the [github actions workflow file](.github/workflows/ci.yml).
 
 ## Special thanks
 [@ChrisTrasher](https://github.com/ChrisThrasher) - for the cmake script, CI script and testing.
