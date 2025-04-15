@@ -40,7 +40,7 @@ SortingAlgorithm::stepState SortingAlgorithm::checkStep() {
 	//else
 	stats.sortTimeMs = stats.sortTimeMs + theClock.getElapsedTime().asSeconds() * 1000;
 
-	sf::sleep(sf::microseconds(sf::Int64(Manager::delayMs * 1000)));
+	sf::sleep(sf::microseconds(std::int64_t(Manager::delayMs * 1000)));
 	theClock.restart();
 
 	if (m_doStep) {

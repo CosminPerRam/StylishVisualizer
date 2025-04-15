@@ -4,28 +4,27 @@ Set(FETCHCONTENT_QUIET FALSE)
 
 FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.1
+    GIT_TAG 3.0.0
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(SFML)
 
 FetchContent_Declare(ImGui
     GIT_REPOSITORY https://github.com/ocornut/imgui
-    GIT_TAG v1.88
+    GIT_TAG v1.91.1
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImGui)
 
 set(IMGUI_DIR "${imgui_SOURCE_DIR}")
 set(IMGUI_SFML_FIND_SFML OFF)
-set(IMGUI_SFML_IMGUI_DEMO ON)
 FetchContent_Declare(ImGui-SFML
     GIT_REPOSITORY https://github.com/eliasdaler/imgui-sfml
-    GIT_TAG v2.6
+    GIT_TAG v3.0
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImGui-SFML)
 
 FetchContent_Declare(ImPlot
     GIT_REPOSITORY https://github.com/epezent/implot
-    GIT_TAG v0.16
+    GIT_TAG 3da8bd34299965d3b0ab124df743fe3e076fa222
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImPlot)
 

@@ -9,7 +9,7 @@
 constexpr auto TWOPI = 6.283185307f;
 
 sf::Sound& Audio::sound() {
-	static sf::Sound theSound;
+	static sf::Sound theSound(Audio::buffer());
 	return theSound;
 }
 
@@ -59,8 +59,12 @@ void Audio::play(unsigned value) {
 			samples[i] = SquareWave(i, freq, amp);
 	}
 
+	static auto channelMap = std::vector<sf::SoundChannel>{
+		sf::SoundChannel::Mono,
+	};
+
 	sound().stop();
-	buffer().loadFromSamples(&samples[0], 44100, 1, 44100);
+	bool _might = buffer().loadFromSamples(samples, 44100, 1, 44100, channelMap);
 	sound().setPitch(pitch);
 	sound().play();
 }

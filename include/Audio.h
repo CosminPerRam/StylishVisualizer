@@ -10,7 +10,7 @@ private:
 	static sf::Sound& sound();
 	static sf::SoundBuffer& buffer();
 
-	inline static sf::Int16 samples[44100];
+	inline static std::int16_t samples[44100];
 
 public:
 	inline static bool enabled = true;
