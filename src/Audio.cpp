@@ -6,8 +6,6 @@
 #include "Utilities.h"
 #include "Settings.h"
 
-#include <iostream>
-
 constexpr auto TWOPI = 6.283185307f;
 
 sf::Sound& Audio::sound() {
