@@ -35,7 +35,7 @@ And you can:
 ## Building the repository
 Windows/Linux/MacOS:  
 ```
-cmake -B build
+cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release
 ```
 *Note:* Every dependency is handled by cmake.  
