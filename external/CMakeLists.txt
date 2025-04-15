@@ -10,7 +10,7 @@ FetchContent_MakeAvailable(SFML)
 
 FetchContent_Declare(ImGui
     GIT_REPOSITORY https://github.com/ocornut/imgui
-    GIT_TAG v1.91.1
+    GIT_TAG v1.91.9b
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImGui)
 

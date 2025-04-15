@@ -6,7 +6,6 @@ set(BUILD_SHARED_LIBS OFF)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 add_compile_definitions(ImDrawIdx=unsigned)
-add_compile_definitions(IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
 
 add_subdirectory(external)
 
