@@ -6,6 +6,8 @@
 #include "Utilities.h"
 #include "Settings.h"
 
+#include <iostream>
+
 constexpr auto TWOPI = 6.283185307f;
 
 sf::Sound& Audio::sound() {
@@ -59,8 +61,12 @@ void Audio::play(unsigned value) {
 			samples[i] = SquareWave(i, freq, amp);
 	}
 
+	static auto channelMap = std::vector<sf::SoundChannel>{
+		sf::SoundChannel::Mono,
+	};
+
 	sound().stop();
-	bool might = buffer().loadFromSamples(&samples[0], 44100, 1, 44100, std::vector{sf::SoundChannel::FrontCenter});
+	bool _might = buffer().loadFromSamples(samples, 44100, 1, 44100, channelMap);
 	sound().setPitch(pitch);
 	sound().play();
 }
