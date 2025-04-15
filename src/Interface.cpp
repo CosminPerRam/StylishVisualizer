@@ -55,7 +55,7 @@ void Interface::changedAlgorithm() {
 }
 
 void Interface::initialize(sf::RenderWindow& window) {
-	bool might = ImGui::SFML::Init(window);
+	bool _might = ImGui::SFML::Init(window);
 
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
