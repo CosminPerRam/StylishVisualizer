@@ -19,13 +19,13 @@ set(IMGUI_SFML_FIND_SFML OFF)
 set(IMGUI_SFML_IMGUI_DEMO ON)
 FetchContent_Declare(ImGui-SFML
     GIT_REPOSITORY https://github.com/eliasdaler/imgui-sfml
-    GIT_TAG 3eb1ece0fed8351e89e69d4f72cf762ac1c4f4cf
+    GIT_TAG v3.0
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImGui-SFML)
 
 FetchContent_Declare(ImPlot
     GIT_REPOSITORY https://github.com/epezent/implot
-    GIT_TAG f1b0792cd3e239f615d4f20b9647d37594de8c56
+    GIT_TAG 3da8bd34299965d3b0ab124df743fe3e076fa222
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImPlot)
 
