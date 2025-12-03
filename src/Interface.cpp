@@ -364,17 +364,15 @@ void Interface::draw(sf::RenderWindow& window) {
 	unsigned numbersSize = Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE ? unsigned(sorterNumbers->size()) : unsigned(downsampledNumbers.size());
 	const unsigned* numbers = Settings::NUMBERS_DOWNSAMPLE == Settings::SAMPLING::NONE ? sorterNumbers->data() : downsampledNumbers.data();
 
-	float plotSizeHeight = ImGui::GetContentRegionAvail().y - ImGui::GetTextLineHeightWithSpacing() - 40;
-
 	ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoSideSwitch | ImPlotAxisFlags_NoHighlight;
 	if(Settings::PLOT_SHOW_SCALE && Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP) {
 		ImPlot::PushColormap(Settings::PLOT_HEATMAP_COLORS);
-		ImPlot::ColormapScale("##ColormapScale", Settings::SHUFFLE_MAX_VALUE, 0, {0, plotSizeHeight}, "%g", ImPlotColormapScaleFlags_Invert);
+		ImPlot::ColormapScale("##ColormapScale", Settings::SHUFFLE_MAX_VALUE, 0, {0, -1}, "%g", ImPlotColormapScaleFlags_Invert);
 		ImPlot::PopColormap();
 		ImGui::SameLine();
 	}
 
-	if (ImPlot::BeginPlot("##MainPlot", {-1, plotSizeHeight}, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
+	if (ImPlot::BeginPlot("##MainPlot", {-1, -1}, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
 		static std::pair<unsigned, unsigned> gridSize;
 
 		if (!Settings::PLOT_SHOW_SCALE || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP)
