@@ -4,7 +4,7 @@ Set(FETCHCONTENT_QUIET FALSE)
 
 FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.0
+    GIT_TAG 3.0.2
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(SFML)
 
@@ -24,7 +24,7 @@ FetchContent_MakeAvailable(ImGui-SFML)
 
 FetchContent_Declare(ImPlot
     GIT_REPOSITORY https://github.com/epezent/implot
-    GIT_TAG 3da8bd34299965d3b0ab124df743fe3e076fa222
+    GIT_TAG v0.17
     GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(ImPlot)
 
