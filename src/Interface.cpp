@@ -1,8 +1,6 @@
 
 #include "Interface.h"
 
-#include <string>
-
 #include "imgui-SFML.h"
 #include "imgui.h"
 #include "implot.h"
@@ -418,26 +416,20 @@ void Interface::draw(sf::RenderWindow& window) {
 			ImPlot::SetupAxesLimits(0, 1, 0, 1, ImPlotCond_Always);
 
 			if(numbersSize > 0) {
-				// cache label strings so ImPlot receives stable pointers each frame
-				static std::vector<std::string> pieLabels;
-				static std::vector<const char*> pieLabelIds;
-				static unsigned pieLabelsInitialized = 0;
+				static std::vector<std::string> labels(numbersSize);
+				static std::vector<const char*> labelsIds;
 
-				if(pieLabels.size() != numbersSize) {
-					pieLabels.resize(numbersSize);
-					pieLabelIds.resize(numbersSize);
-					pieLabelsInitialized = 0;
+				if(labelsIds.size() != numbersSize) {
+					labels.resize(numbersSize);
+					labelsIds.resize(numbersSize);
+
+					for(unsigned i = 0; i < numbersSize; ++i) {
+						labels[i] = std::to_string(i);
+						labelsIds[i] = labels[i].c_str();
+					}
 				}
 
-				for(unsigned i = pieLabelsInitialized; i < numbersSize; ++i)
-					pieLabels[i] = std::to_string(i);
-
-				pieLabelsInitialized = numbersSize;
-
-				for(unsigned i = 0; i < numbersSize; ++i)
-					pieLabelIds[i] = pieLabels[i].c_str();
-
-				ImPlot::PlotPieChart(pieLabelIds.data(), &numbers[0], numbersSize, 0.5, 0.5, 0.48, "%.0f");
+				ImPlot::PlotPieChart(labelsIds.data(), &numbers[0], numbersSize, 0.5, 0.5, 0.48, "%.0f");
 			}
 		}
 		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
