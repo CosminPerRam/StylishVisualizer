@@ -63,8 +63,9 @@ void Audio::play(unsigned value) {
 		sf::SoundChannel::Mono,
 	};
 
-	sound().stop();
-	bool _might = buffer().loadFromSamples(samples, 44100, 1, 44100, channelMap);
-	sound().setPitch(pitch);
-	sound().play();
+	if (buffer().loadFromSamples(samples, 44100, 1, 44100, channelMap)) {
+		sound().stop();
+		sound().setPitch(pitch);
+		sound().play();
+	}
 }

@@ -55,17 +55,19 @@ void Interface::changedAlgorithm() {
 }
 
 void Interface::initialize(sf::RenderWindow& window) {
-	bool _might = ImGui::SFML::Init(window);
+	if (ImGui::SFML::Init(window)) {
+		ImGui::CreateContext();
+		ImPlot::CreateContext();
 
-	ImGui::CreateContext();
-	ImPlot::CreateContext();
+		Interface::changedAntialiasing();
 
-	Interface::changedAntialiasing();
+		Interface::changedAlgorithm();
 
-	Interface::changedAlgorithm();
-
-	ImVec4 PlotCursorColormap[] = {{0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}; //will remove when ImPlot gets ColormapRemove feature
-	ImPlot::AddColormap("HeatmapCursorColormap", PlotCursorColormap, 2);
+		ImVec4 PlotCursorColormap[] = {{0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}; //will remove when ImPlot gets ColormapRemove feature
+		ImPlot::AddColormap("HeatmapCursorColormap", PlotCursorColormap, 2);
+	} else {
+		Interface::shutdown();
+	}
 }
 
 void Interface::shutdown() {
