@@ -30,7 +30,7 @@ struct Settings
 	inline static const float PLOT_MIN_DELAY = IF_PLATFORM_WINDOWS(1.f, 0.01f);
 	inline static const float PLOT_MAX_DELAY = 500.f;
 
-	enum class PLOT_TYPES { BARS, LINES, HEATMAP };
+	enum class PLOT_TYPES { BARS, LINES, HEATMAP, PIE };
 	inline static PLOT_TYPES PLOT_TYPE = PLOT_TYPES::BARS;
 
 	inline static bool PLOT_SHOW_SCALE = true;
