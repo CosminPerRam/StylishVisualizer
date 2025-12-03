@@ -1,6 +1,8 @@
 
 #include "Interface.h"
 
+#include <string>
+
 #include "imgui-SFML.h"
 #include "imgui.h"
 #include "implot.h"
@@ -206,9 +208,9 @@ void Interface::draw(sf::RenderWindow& window) {
 				ImGui::Checkbox("Show scale", &Settings::PLOT_SHOW_SCALE);
 
 				static const std::pair<const char*, Settings::PLOT_TYPES> typeNames[] = { {"Bars", Settings::PLOT_TYPES::BARS}, {"Lines", Settings::PLOT_TYPES::LINES}, 
-					{"Heatmap", Settings::PLOT_TYPES::HEATMAP} };
+					{"Heatmap", Settings::PLOT_TYPES::HEATMAP}, {"Pie", Settings::PLOT_TYPES::PIE} };
 				static int typeChoosed = 0;
-				if (ImGui::SliderInt("Plot type", &typeChoosed, 0, 2, typeNames[typeChoosed].first))
+				if (ImGui::SliderInt("Plot type", &typeChoosed, 0, 3, typeNames[typeChoosed].first))
 					Settings::PLOT_TYPE = typeNames[typeChoosed].second;
 
 				ImGui::Separator();
@@ -374,7 +376,11 @@ void Interface::draw(sf::RenderWindow& window) {
 		ImGui::SameLine();
 	}
 
-	if (ImPlot::BeginPlot("##MainPlot", {-1, plotSizeHeight}, ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText)) {
+	ImPlotFlags plotFlags = ImPlotFlags_NoMenus | ImPlotFlags_NoMouseText;
+	if (Settings::PLOT_TYPE == Settings::PLOT_TYPES::PIE)
+		plotFlags |= ImPlotFlags_NoLegend;
+	
+	if (ImPlot::BeginPlot("##MainPlot", {-1, plotSizeHeight}, plotFlags)) {
 		static std::pair<unsigned, unsigned> gridSize;
 
 		if (!Settings::PLOT_SHOW_SCALE || Settings::PLOT_TYPE == Settings::PLOT_TYPES::HEATMAP)
@@ -406,6 +412,32 @@ void Interface::draw(sf::RenderWindow& window) {
 				ImPlot::SetNextMarkerStyle(Settings::PLOT_STEMS_MARKER);
 				ImPlot::PlotStems("##NumbersStems", &numbers[0], numbersSize);
 				ImPlot::PopStyleColor(); ImPlot::PopStyleColor(); ImPlot::PopStyleColor();
+			}
+		}
+		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::PIE) {
+			ImPlot::SetupAxesLimits(0, 1, 0, 1, ImPlotCond_Always);
+
+			if(numbersSize > 0) {
+				// cache label strings so ImPlot receives stable pointers each frame
+				static std::vector<std::string> pieLabels;
+				static std::vector<const char*> pieLabelIds;
+				static unsigned pieLabelsInitialized = 0;
+
+				if(pieLabels.size() != numbersSize) {
+					pieLabels.resize(numbersSize);
+					pieLabelIds.resize(numbersSize);
+					pieLabelsInitialized = 0;
+				}
+
+				for(unsigned i = pieLabelsInitialized; i < numbersSize; ++i)
+					pieLabels[i] = std::to_string(i);
+
+				pieLabelsInitialized = numbersSize;
+
+				for(unsigned i = 0; i < numbersSize; ++i)
+					pieLabelIds[i] = pieLabels[i].c_str();
+
+				ImPlot::PlotPieChart(pieLabelIds.data(), &numbers[0], numbersSize, 0.5, 0.5, 0.48, "%.0f");
 			}
 		}
 		else if(Settings::PLOT_TYPE == Settings::PLOT_TYPES::LINES) {
