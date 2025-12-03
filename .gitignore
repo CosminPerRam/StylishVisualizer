@@ -1,1 +1,6 @@
+
+# artifacts
 build
+
+# IDEs
+.idea/
